@@ -1,0 +1,11 @@
+
+particles
+
+water
+
+lights + shader
+for shader. set tex coords to 1.0f - texcoords
+if I do that I need to swap it for the heightmap texture loading
+
+quaternions / proper camera controls.
+

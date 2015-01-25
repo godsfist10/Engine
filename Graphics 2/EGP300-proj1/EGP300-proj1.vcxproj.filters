@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Project">
+      <UniqueIdentifier>{fe2818c6-491b-4684-9381-c1471e7f198a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Camera">
+      <UniqueIdentifier>{416bb66d-fab6-41aa-b9c0-75914f41fc2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game">
+      <UniqueIdentifier>{d7acfd24-e71c-4415-9ec8-33d4bdda4f9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\Resources">
+      <UniqueIdentifier>{a7a6b41d-99ab-49df-9127-77c03f2187f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\SceneObjects">
+      <UniqueIdentifier>{8d85301c-097f-49da-a2dd-976c7f6427fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\SceneObjects\Objects">
+      <UniqueIdentifier>{71e9083c-262d-4dca-b00b-ff042e037b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\SceneObjects\Effects">
+      <UniqueIdentifier>{3722768a-4ea1-4aa5-b374-6c9bc168c548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MathUtils">
+      <UniqueIdentifier>{b6d2a478-d3da-461a-8d95-d10e65ab579a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Project\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Project\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Heightmap.cpp">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEffect.cpp">
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3D.cpp">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Project\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Project\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Heightmap.h">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle_3D.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffect.h">
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\MathUtils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WaterFragShader.fp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="WaterVertShader.vp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
