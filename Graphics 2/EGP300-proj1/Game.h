@@ -42,6 +42,9 @@ public:
 	void endGame();
 	void setUpWorld(int argNum, char* args[]);
 	void update();
+	void PausedUpdate();
+	void UnpausedUpdate();
+	void FixedUpdate();
 	void render();
 	
 	void ResetCamera();
@@ -89,6 +92,8 @@ protected:
 	Heightmap* m_heightmap2;
 	Heightmap* m_waterMap;
 
+	bool mouseFree;
+	bool Paused;
 	bool fog;
 	bool wireframe;
 #pragma endregion

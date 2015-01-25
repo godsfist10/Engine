@@ -95,6 +95,7 @@ protected:
 	bool m_Moving;
 	
 	vec3 m_CurrentMoveSpeed;
+	float m_ManualMoveSpeed;
 	float m_MaxMoveSpeed;
 	float m_Acceleration;
 	

@@ -28,6 +28,9 @@ void Game::hookResize(int newWidth, int newHeight)
 
 void Game::hookMouseMoved(int x, int y)
 {
+	if (mouseFree)
+		return;
+
 	if (x == width / 2 && y == height / 2)
 		return;
 
@@ -45,6 +48,9 @@ void Game::hookMouseMoved(int x, int y)
 
 void Game::hookMousePassive(int x, int y)
 {
+	if (mouseFree)
+		return;
+
 	if (x == width / 2 && y == height / 2)
 		return;
 
@@ -60,38 +66,59 @@ void Game::render()
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
 
-	mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
+	//mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
 	
 }
 
 void Game::update()
 {
-	mpCamera->update();
-	mpTerrainManager->update(mpCamera);
+	if (Paused)
+		PausedUpdate();
+	else
+		UnpausedUpdate();
 
+	FixedUpdate();
+}
+
+void Game::PausedUpdate()
+{
+	
+}
+
+void Game::UnpausedUpdate()
+{
+	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
+	mpResourceManager->updateObjects(mpCamera->getPos());
+
+	//waterShaderManager->update();
+}
+
+void Game::FixedUpdate()
+{
+	mpCamera->update();
+
+	/*
 	if(m_cloudSkybox->getIsPrefab() && mpCamera->getPos().y >= mpResourceManager->getObject("water")->getPos().y)
 	{
-		//cout << "switch to cloud box\n";
-		m_cloudSkybox->setIsPrefab(false);
-		m_underWaterSkybox->setIsPrefab(true);
+	//cout << "switch to cloud box\n";
+	m_cloudSkybox->setIsPrefab(false);
+	m_underWaterSkybox->setIsPrefab(true);
 	}
 	else if(m_underWaterSkybox->getIsPrefab() && mpCamera->getPos().y < mpResourceManager->getObject("water")->getPos().y)
 	{
-		//cout << "switch to water box\n";
-		m_cloudSkybox->setIsPrefab(true);
-		m_underWaterSkybox->setIsPrefab(false);
+	//cout << "switch to water box\n";
+	m_cloudSkybox->setIsPrefab(true);
+	m_underWaterSkybox->setIsPrefab(false);
 	}
-	
+
 	m_underWaterSkybox->setPos(mpCamera->getPos());
 	m_cloudSkybox->setPos(mpCamera->getPos());
-	
-	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
+	*/
 
-	mpResourceManager->updateObjects(mpCamera->getPos());
-
-	waterShaderManager->update();
+	mpTerrainManager->update(mpCamera);
 }
+
 
 void Game::start(int argNum, char* args[])
 {
@@ -99,6 +126,8 @@ void Game::start(int argNum, char* args[])
 	m_CameraLookSpeed = .2f;
 	wireframe = false;
 	fog = false;
+	mouseFree = false;
+	Paused = false;
 
 	mpCamera = new Camera();
 	mpResourceManager = new ResourceManager();
@@ -113,8 +142,6 @@ void Game::start(int argNum, char* args[])
 	
 	
 	/*GLfloat fogColor[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-
-
 	glFogi (GL_FOG_MODE, GL_LINEAR );
 	glFogfv (GL_FOG_COLOR, fogColor);
 	glFogf (GL_FOG_DENSITY, .02f);
@@ -154,19 +181,37 @@ void Game::setUpWorld(int argNum, char* args[])
 	}
 	else
 	{
-		waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
+
+#pragma region standardPrefabSetup
+
+		/*
+		mpResourceManager->LoadFile("Assets/StandardObjects/Cube/Cube.obj");
+		mpResourceManager->LoadFile("Assets/StandardObjects/Sphere/Shpere.obj");
+		mpResourceManager->LoadFile("Assets/StandardObjects/Torus/Torus.obj");
+
+		Object* cube = mpResourceManager->addNewObject("cube", mpResourceManager->getObject("Assets/Cube/Cube")->getModelMap());
+		Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
+		Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
+		*/
+
+#pragma endregion standardPrefabSetup
+
+#pragma region WaterWorldSetup
+
+		//waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
 
 		mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
+			//m_cloudSkybox->setIsPrefab(true);
 
-		m_cloudSkybox = new Skybox("Assets/Skybox/cloudBox.jpg", mpResourceManager, 3000,"cloudSkybox");
-		m_cloudSkybox->setIsPrefab(true);
-		m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager,3000, "underwaterSkybox" );
+		//m_cloudSkybox = new Skybox("Assets/Skybox/cloudBox.jpg", mpResourceManager, 3000,"cloudSkybox");
+		//m_cloudSkybox->setIsPrefab(true);
+		//m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager,3000, "underwaterSkybox" );
 
 		//mpTerrainManager->addNewRepeatableTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", vec3(-terrainSize * .5f, -150, -terrainSize * .5f), terrainSize, 200, terrainTriDensity);
 		//terrain repeater possibly bunk
 
-		mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true );
-		mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
+		//mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true );
+		//mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
 
 
 		/*m_heightmap = new Heightmap(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, terrainSize, 200, terrainTriDensity, "heightMap");
@@ -175,13 +220,15 @@ void Game::setUpWorld(int argNum, char* args[])
 		m_heightmap2 = new Heightmap(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, terrainSize, 200, terrainTriDensity, "heightMap2");
 		m_heightmap2->setPos(vec3(-terrainSize * .5f, -150, -terrainSize * .5f - terrainSize + m_heightmap2->getOffset().x));
 		*/
-		m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
-		m_waterMap->setPos(vec3(-waterTerrainSize * .5f  , 150, -waterTerrainSize * .5f));
-		m_waterMap->setIsPrefab(true);
+		//m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
+		//m_waterMap->setPos(vec3(-waterTerrainSize * .5f  , 150, -waterTerrainSize * .5f));
+		//m_waterMap->setIsPrefab(true);
 	
 		Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 		fishy->Translate(5,5,5);
-		
+
+#pragma endregion WaterWorldSetup
+
 	}
 
 	ResetCamera();
@@ -269,6 +316,14 @@ void Game::hookKey(unsigned char key, int x, int y)
 	if(key == 9)
 	{
 		mpCamera->FlyMode(!mpCamera->FlyMode());
+	}
+	if (key == 'p' || key == 'P')
+	{
+		Paused = !Paused;
+	}
+	if (key == 'l' || key == 'L')
+	{
+		mouseFree = !mouseFree;
 	}
 	if(key == 'g' || key == 'G')
 	{

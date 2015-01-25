@@ -9,6 +9,7 @@ Camera::Camera(void)
 	m_Moving = true;
 	m_FlyMode = false;
 	m_MaxMoveSpeed = 5.0f;
+	m_ManualMoveSpeed = 6.0f;
 	m_Acceleration = .7f;
 	m_CurrentMoveSpeed = vec3(0.0f, 0.0f, 0.0f);
 	vec3 cameraPos = m_Pos; 
@@ -173,9 +174,9 @@ void Camera::command(vec3 commandDir)
 	}
 	else
 	{
-		translateForward(commandDir.x * 6.0f);
-		translateRight(commandDir.z * 6.0f);
-		translateUp(commandDir.y * 6.0f);
+		translateForward(commandDir.x * m_ManualMoveSpeed);
+		translateRight(commandDir.z * m_ManualMoveSpeed);
+		translateUp(commandDir.y * m_ManualMoveSpeed);
 	}
 }
 

@@ -1,18 +1,11 @@
-//======================================================================
-//File: Matrix.cpp
-//Author: Matt Struble
-//Purpose: Vector storage and operations
-//======================================================================
 #include "Matrix.h"
 #include "Vector3D.h"
 
-//======================================================================
 Matrix::Matrix()
 : Matrix(2, true)
 {
 }
 
-//--------------------------------------------------------------------------------
 Matrix::Matrix(const Matrix& rhs)
 {
 	m_NumRows = rhs.GetNumRows();
@@ -25,7 +18,6 @@ Matrix::Matrix(const Matrix& rhs)
 	}
 }
 
-//--------------------------------------------------------------------------------
 Matrix::Matrix(int length, bool identiy)
 : Matrix(length, length)
 {
@@ -38,7 +30,6 @@ Matrix::Matrix(int length, bool identiy)
 	}
 }
 
-//--------------------------------------------------------------------------------
 Matrix::Matrix(int rows, int columns)
 {
 	initalizeMatrix(rows, columns);
@@ -49,7 +40,6 @@ Matrix::Matrix(int rows, int columns)
 	}
 }
 
-//--------------------------------------------------------------------------------
 Matrix::Matrix(int rows, int columns, float* matrixValues)
 {
 	initalizeMatrix(rows, columns);
@@ -60,14 +50,12 @@ Matrix::Matrix(int rows, int columns, float* matrixValues)
 	}
 }
 
-//--------------------------------------------------------------------------------
 Matrix::~Matrix()
 {
 	delete[] mp_Matrix;
 	mp_Matrix = nullptr;
 }
 
-//--------------------------------------------------------------------------------
 void Matrix::initalizeMatrix(int rows, int columns)
 {
 	m_NumRows = rows;
@@ -76,19 +64,16 @@ void Matrix::initalizeMatrix(int rows, int columns)
 	mp_Matrix = new float[m_Size];
 }
 
-//--------------------------------------------------------------------------------
 void Matrix::Set(int row, int column, float value)
 {
 	mp_Matrix[row * m_NumColumns + column] = value;
 }
 
-//--------------------------------------------------------------------------------
 float Matrix::Get(const int& row, const int& column) const
 {
 	return mp_Matrix[row * m_NumColumns + column];
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::CombinedMatrix(const Matrix& rhs, bool add) const
 {
 	Matrix returnedMatrix = Matrix(m_NumRows, m_NumColumns);
@@ -105,7 +90,6 @@ Matrix Matrix::CombinedMatrix(const Matrix& rhs, bool add) const
 	return returnedMatrix;
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::Transpose() const
 {
 	Matrix tranposed = Matrix(m_NumColumns, m_NumRows);
@@ -123,9 +107,7 @@ Matrix Matrix::Transpose() const
 	return tranposed;
 }
 
-//--------------------------------------------------------------------------------
 // http://easy-learn-c-language.blogspot.com/2013/02/numerical-methods-inverse-of-nxn-matrix.html
-//--------------------------------------------------------------------------------
 Matrix Matrix::Inverse() const
 {
 	if (m_NumColumns != m_NumRows)
@@ -193,9 +175,7 @@ Matrix Matrix::Inverse() const
 	return inverted;
 }
 
-//--------------------------------------------------------------------------------
 // http://easy-learn-c-language.blogspot.com/2013/02/numerical-methods-determinant-of-nxn.html
-//--------------------------------------------------------------------------------
 float Matrix::Determinant() const
 {
 	if (m_NumRows != m_NumColumns)
@@ -231,7 +211,6 @@ float Matrix::Determinant() const
 	return det;
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::Identity(int r, int c)
 {
 	Matrix identity = Matrix(r, c);
@@ -254,7 +233,6 @@ Matrix Matrix::Identity(int r, int c)
 	return identity;
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::operator+(const Matrix& rhs) const
 {
 	if (!SameSize(rhs))
@@ -265,7 +243,6 @@ Matrix Matrix::operator+(const Matrix& rhs) const
 	return CombinedMatrix(rhs, true);
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::operator-(const Matrix& rhs) const
 {
 	if (!SameSize(rhs))
@@ -276,7 +253,6 @@ Matrix Matrix::operator-(const Matrix& rhs) const
 	return CombinedMatrix(rhs, false);
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::operator*(const Matrix& rhs) const
 {
 	if (m_NumColumns != rhs.GetNumRows())
@@ -302,7 +278,6 @@ Matrix Matrix::operator*(const Matrix& rhs) const
 	return returnMatrix;
 }
 
-//--------------------------------------------------------------------------------
 Matrix Matrix::operator*(const float& rhs) const
 {
 	float* tempArray = new float[m_Size];
@@ -315,20 +290,6 @@ Matrix Matrix::operator*(const float& rhs) const
 	return Matrix(m_NumRows, m_NumColumns, tempArray);
 }
 
-//--------------------------------------------------------------------------------
-Matrix Matrix::operator*(const Vector3D& rhs) const
-{
-	float* tempArray = new float[3];
-	tempArray[0] = rhs.X;
-	tempArray[1] = rhs.Y;
-	tempArray[2] = rhs.Z;
-
-	Matrix vectorMatrix = Matrix(3, 1, tempArray);
-
-	return (*this * vectorMatrix);
-}
-
-//--------------------------------------------------------------------------------
 Matrix& Matrix::operator=(const Matrix& rhs)
 {
 	m_NumRows = rhs.GetNumRows();
@@ -343,37 +304,26 @@ Matrix& Matrix::operator=(const Matrix& rhs)
 	return *this;
 }
 
-//--------------------------------------------------------------------------------
 Matrix& Matrix::operator*=(const Matrix& rhs)
 {
 	return (*this = *this * rhs);
 }
 
-//--------------------------------------------------------------------------------
 Matrix& Matrix::operator*=(const float& rhs)
 {
 	return (*this = *this * rhs);
 }
 
-//--------------------------------------------------------------------------------
-Matrix& Matrix::operator*=(const Vector3D& rhs)
-{
-	return (*this = *this * rhs);
-}
-
-//--------------------------------------------------------------------------------
 Matrix& Matrix::operator+=(const Matrix& rhs)
 {
 	return (*this = *this + rhs);
 }
 
-//--------------------------------------------------------------------------------
 Matrix& Matrix::operator-=(const Matrix& rhs)
 {
 	return (*this = *this - rhs);
 }
 
-//--------------------------------------------------------------------------------
 bool Matrix::operator==(const Matrix& rhs) const
 {
 	if (!SameSize(rhs))
@@ -395,10 +345,7 @@ bool Matrix::operator==(const Matrix& rhs) const
 	return true;
 }
 
-//--------------------------------------------------------------------------------
 bool Matrix::operator!=(const Matrix& rhs) const
 {
 	return !(*this == rhs);
 }
-
-//======================================================================

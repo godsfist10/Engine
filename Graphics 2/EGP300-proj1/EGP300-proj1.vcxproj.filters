@@ -34,7 +34,7 @@
     <Filter Include="Project\Game\SceneObjects\Effects">
       <UniqueIdentifier>{3722768a-4ea1-4aa5-b374-6c9bc168c548}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MathUtils">
+    <Filter Include="Project\MathUtils">
       <UniqueIdentifier>{b6d2a478-d3da-461a-8d95-d10e65ab579a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -60,9 +60,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Project\Game\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Skybox.cpp">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClCompile>
@@ -75,17 +72,20 @@
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Vector2D.cpp">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
     </ClCompile>
     <ClCompile Include="Vector3D.cpp">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainManager.cpp">
+      <Filter>Project\Game\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Project\Game\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +107,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Project\Game\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Skybox.h">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
@@ -125,17 +122,20 @@
     <ClInclude Include="ParticleEffect.h">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
     </ClInclude>
     <ClInclude Include="Vector3D.h">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
-      <Filter>Header Files\MathUtils</Filter>
+      <Filter>Project\MathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainManager.h">
+      <Filter>Project\Game\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,13 +1,5 @@
-//======================================================================
-//File: Matrix.cpp
-//Author: Matt Struble
-//Purpose: Matrix storage and operations
-//======================================================================
 #ifndef MATRIX_H
 #define MATRIX_H
-//======================================================================
-class Vector3D;
-//======================================================================
 
 class Matrix
 {
@@ -26,11 +18,9 @@ public:
 	Matrix operator-(const Matrix&) const;
 	Matrix operator*(const Matrix&) const;
 	Matrix operator*(const float&) const;
-	Matrix operator*(const Vector3D&) const;
 	Matrix& operator=(const Matrix&);
 	Matrix& operator*=(const Matrix&);
 	Matrix& operator*=(const float&);
-	Matrix& operator*=(const Vector3D&);
 	Matrix& operator+=(const Matrix&);
 	Matrix& operator-=(const Matrix&);
 	bool operator==(const Matrix&) const;
@@ -58,4 +48,3 @@ private:
 	int m_Size;
 };
 #endif
-//======================================================================
