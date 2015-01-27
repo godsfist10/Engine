@@ -93,8 +93,11 @@
     <ClCompile Include="PhysicsObject.cpp">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystemManager.cpp">
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="Particle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +156,10 @@
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemManager.h">
+      <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

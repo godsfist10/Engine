@@ -11,6 +11,7 @@
 #include "Object.h"
 #include "BillboardedTexture.h"
 #include "PhysicsObject.h"
+#include "Particle.h"
 
 #include <fstream>
 #include <iostream>
@@ -66,6 +67,9 @@ public:
 	inline void addBillboardToMap(const string& key, BillboardedTexture* billboard) { m_BillboardsMap.add(key, billboard); addBillboardToDrawOrder(billboard); }
 	inline void addBillboardToDrawOrder(BillboardedTexture* billboard) { BillBoardDrawOrder.add(billboard); }
 	
+	inline void removeObjectFromMap( const string& key) { hasObject(key) ? m_ObjectsMap.removeKey(key) : nullptr;}
+	inline void removeBillboardFromMap( const string& key) { hasBillboard(key) ? m_BillboardsMap.removeKey(key) : nullptr;}
+
 	inline Model* getModel(const string& key ) { return (hasModel(key) ? m_ModelsMap[key] : nullptr);}
 	inline Material* getMaterial( const string& key ) { return (hasMaterial(key) ? m_MaterialsMap[key] : nullptr); }
 	inline Texture* getTexture( const string& key ) { return (hasTexture(key) ? m_TexturesMap[key] : nullptr); }
@@ -77,6 +81,7 @@ public:
 	Material* addNewMaterial(const string& key );
 	Object* addNewObject( const string& ObjectName, const Map<string, Model*> &modelsMap );
 	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
+	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
 
 
 private:

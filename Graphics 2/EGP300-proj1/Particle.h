@@ -10,12 +10,12 @@ class Particle : public PhysicsObject
 {
 public:
 	Particle();
-	Particle(float life);
+	Particle(const Map<string, Model*> &modelsMap, const float& life);
 	~Particle();
 	
 	virtual void update();
-	virtual void onSpawn();
-	virtual void onDeath();
+
+	bool killMe;
 
 protected:
 

@@ -90,7 +90,7 @@ void Game::UnpausedUpdate()
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
 	mpResourceManager->updateObjects(mpCamera->getPos());
-
+	PhyshyFriends->update();
 	waterShaderManager->update();
 }
 
@@ -246,6 +246,9 @@ void Game::setUpWorld(int argNum, char* args[])
 		physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 		physhy->modifyVelocity(vec3(0, 0, 0));
 		physhy->modifyAcceleration(vec3(0, 0, .005));
+
+		ParticleEffect* PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5,0,0), 100, 300, vec3(1,0,0));
+		PhyshyFriends->startEffect("Assets/Fish");
 
 #pragma endregion WaterWorldSetup
 

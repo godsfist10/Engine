@@ -21,6 +21,7 @@
 #include "Heightmap.h"
 #include "TerrainManager.h"
 #include "BillboardedTexture.h"
+#include "ParticleEffect.h"
 #include "ShaderManager.h"
 #include <vector>
 #include <map>
@@ -94,6 +95,7 @@ protected:
 	Heightmap* m_waterMap;
 
 	PhysicsObject* physhy;
+	ParticleEffect* PhyshyFriends;
 
 	bool mouseFree;
 	bool Paused;

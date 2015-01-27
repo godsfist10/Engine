@@ -755,6 +755,12 @@ PhysicsObject* ResourceManager::addNewPhysicsObject(const string& ObjectName, co
 	return tempObject;
 }
 
+Particle* ResourceManager::addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap, const float& lifespan)
+{
+	Particle* tempObject = new Particle(modelsMap, lifespan);
+	m_ObjectsMap.add(particleName, tempObject);
+	return tempObject;
+}
 
 void ResourceManager::updateObjects(vec3 cameraPos)
 {
@@ -824,3 +830,4 @@ void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& Projecti
 
 	getObject(objectName)->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
 }
+

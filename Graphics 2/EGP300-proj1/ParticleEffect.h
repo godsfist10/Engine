@@ -2,17 +2,21 @@
 
 #include "ResourceManager.h"
 
+using namespace std;
+
 class ParticleEffect
 {
 public:
 	ParticleEffect(void);
+	ParticleEffect(ResourceManager* resourceManager, const string& name, vec3 pos, const float& lifespan, const float& spawnFrequency , vec3 startVel = vec3(0,0,0), vec3 startAcc = vec3(0,0,0));
 	~ParticleEffect(void);
-	void loadEffect(const string& particleFilename, const string& particleSystemName, bool shouldUpdate);
+	void cleanup();
+	void loadEffect(const string& particleFilename, const string& particleEffectName);
+	void startEffect(const string& modelPrefabKey);
 	void burst(const int& burstAmount);
-	void update();
-
-	bool Updated() const { return updated; }
-	void Updated(bool val) { updated = val; }
+	
+	virtual void update();
+	virtual void onDeathBehavior(Particle* dyingParticle);
 
 	float ParticleLifeSpan() const { return particleLifeSpan; }
 	void ParticleLifeSpan(float val) { particleLifeSpan = val; }
@@ -25,16 +29,18 @@ public:
 
 protected:
 
-	Map<string, PhysicsObject*> particleMap;
+	Particle* createParticle();
+	Particle* createParticle(const string& key);
 
-	bool updated;
-	float particleLifeSpan, randomizeMultiplier, spawnSpeed;
-	
-	
-	vec3 m_velocity, m_pos;
-	
+	Map<string, Particle*> particleMap;
+	Map<string, Model*> prefabModel;
+	ResourceManager* mpResourceManager;
 
-
+	//Map<string, BillboardedPhysicsObject*> billboardedParticleMap;
+	string EffectName;
+	float particleLifeSpan, randomizeMultiplier, spawnSpeed, spawnTimer;
+	int totalParticleCount;
+	vec3 particleStartvelocity, particleStartAcceleration, m_pos;
 
 };
 
