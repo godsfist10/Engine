@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "Object.h"
 #include "BillboardedTexture.h"
+#include "PhysicsObject.h"
 
 #include <fstream>
 #include <iostream>
@@ -20,6 +21,7 @@
 #include <Arc/StringFunctions.h>
 
 class BillboardedTexture;
+class PhysicsObject;
 
 using namespace std;
 using namespace Arc;
@@ -44,7 +46,7 @@ public:
 	inline bool hasObject( const string& key ) { return m_ObjectsMap.containsKey(key); }
 	inline bool hasTexture( const string& key) { return m_TexturesMap.containsKey(key); }
 	inline bool hasBillboard(const string& key) { return m_BillboardsMap.containsKey(key); }
-
+	
 	inline Map<string, Model*> getModelsMap() const { return m_ModelsMap; }
 	inline Map<string, Material*> getMaterialsMap() const { return m_MaterialsMap; }
 	inline Map<string , Object*> getObjectsMap() const { return m_ObjectsMap; }
@@ -56,24 +58,26 @@ public:
 	inline void addTexturesToMap( Map<string, Texture*>& texturesToAdd) { m_TexturesMap.insert(texturesToAdd.itBegin(), texturesToAdd.itEnd()); }
 	inline void addObjectsToMap( Map<string, Object*>&objects) { m_ObjectsMap.insert(objects.itBegin(), objects.itEnd()); }
 	inline void addBillboardsToMap(Map<string, BillboardedTexture*>&billboards) { m_BillboardsMap.insert(billboards.itBegin(), billboards.itEnd()); } //if this is used I need to add them to draw order
-
+	
 	inline void addModelToMap( const string& key, Model* model) { m_ModelsMap.add(key, model); }
 	inline void addMaterialToMap( const string& key, Material* material) { m_MaterialsMap.add(key, material); }
 	inline void addObjectToMap( const string& key, Object* object) { m_ObjectsMap.add(key, object); }
 	inline void addTextureToMap( const string& key, Texture* texture) { m_TexturesMap.add(key, texture); }
 	inline void addBillboardToMap(const string& key, BillboardedTexture* billboard) { m_BillboardsMap.add(key, billboard); addBillboardToDrawOrder(billboard); }
 	inline void addBillboardToDrawOrder(BillboardedTexture* billboard) { BillBoardDrawOrder.add(billboard); }
-
+	
 	inline Model* getModel(const string& key ) { return (hasModel(key) ? m_ModelsMap[key] : nullptr);}
 	inline Material* getMaterial( const string& key ) { return (hasMaterial(key) ? m_MaterialsMap[key] : nullptr); }
 	inline Texture* getTexture( const string& key ) { return (hasTexture(key) ? m_TexturesMap[key] : nullptr); }
 	inline Object* getObject( const string& key ) { return (hasObject(key) ? m_ObjectsMap[key] : nullptr); }
 	inline BillboardedTexture* getBillboard(const string& key) { return (hasBillboard(key) ? m_BillboardsMap[key] : nullptr); }
-
+	
 	Model* addNewModel(const string& key );
 	Object* addNewObject( const string& key );
 	Material* addNewMaterial(const string& key );
 	Object* addNewObject( const string& ObjectName, const Map<string, Model*> &modelsMap );
+	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
+
 
 private:
 

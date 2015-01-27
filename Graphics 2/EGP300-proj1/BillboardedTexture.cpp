@@ -59,9 +59,9 @@ void BillboardedTexture::loadBillboard(ResourceManager* resourceManager, const s
 	float halfTextureHeight = pSurface-> h * .5f;
 
 	vec3 textureBoxVerts[4] = {
-		vec3(1.0f * halfTextureWidth, 1.0f * halfTextureHeight, 0.0f), 
-		vec3(1.0f * halfTextureWidth, 1.0f * halfTextureHeight, 0.0f),
-		vec3(1.0f * halfTextureWidth, 1.0f * halfTextureHeight, 0.0f),
+		vec3(-1.0f * halfTextureWidth, -1.0f * halfTextureHeight, 0.0f), 
+		vec3(-1.0f * halfTextureWidth, 1.0f * halfTextureHeight, 0.0f),
+		vec3(1.0f * halfTextureWidth, -1.0f * halfTextureHeight, 0.0f),
 		vec3(1.0f * halfTextureWidth, 1.0f * halfTextureHeight, 0.0f)
 	};
 

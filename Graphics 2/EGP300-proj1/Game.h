@@ -93,6 +93,8 @@ protected:
 	Heightmap* m_heightmap2;
 	Heightmap* m_waterMap;
 
+	PhysicsObject* physhy;
+
 	bool mouseFree;
 	bool Paused;
 	bool fog;

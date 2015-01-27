@@ -748,6 +748,14 @@ Object* ResourceManager::addNewObject(const string& ObjectName, const Map<string
 	return tempObject;
 }
 
+PhysicsObject* ResourceManager::addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap)
+{
+	PhysicsObject* tempObject = new PhysicsObject(modelsMap);
+	m_ObjectsMap.add(ObjectName, tempObject);
+	return tempObject;
+}
+
+
 void ResourceManager::updateObjects(vec3 cameraPos)
 {
 	for( auto it = m_ObjectsMap.itBegin(); it != m_ObjectsMap.itEnd(); ++it)

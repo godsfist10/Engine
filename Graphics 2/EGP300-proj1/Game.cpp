@@ -66,7 +66,7 @@ void Game::render()
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
 
-	//mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
+	mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
 	
 }
@@ -227,19 +227,25 @@ void Game::setUpWorld(int argNum, char* args[])
 		BillboardedTexture* billboard = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud1");
 		billboard->setPos(vec3(300, 400, 300));
 		billboard->setScale(vec3(.6f, .6f, .6f));
-		
+
+
 		BillboardedTexture* grass = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass");
-		grass->setPos(vec3(0, 0, 0));
-		//grass->setScale(vec3(.25f, .25f, .25f));
+		grass->setPos(vec3(270, -100, 270));
+		grass->setScale(vec3(.25f, .25f, .25f));
 
 		BillboardedTexture* grass2 = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass2");
 		grass2->setPos(vec3(270, -100, 270));
 		grass2->setScale(vec3(.25f, .25f, .25f));
+
 		grass2->setRotation(vec3(0, PI / 2.3f, 0));
+
 
 		Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 		fishy->Translate(5, 5, 5);
 
+		physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
+		physhy->modifyVelocity(vec3(0, 0, 0));
+		physhy->modifyAcceleration(vec3(0, 0, .005));
 
 #pragma endregion WaterWorldSetup
 
@@ -248,8 +254,6 @@ void Game::setUpWorld(int argNum, char* args[])
 	}
 
 	ResetCamera();
-
-	
 }
 
 /*Controls:

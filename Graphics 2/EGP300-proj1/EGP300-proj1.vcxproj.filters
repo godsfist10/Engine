@@ -90,6 +90,12 @@
     <ClCompile Include="BillboardedTexture.cpp">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -142,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="BillboardedTexture.h">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
