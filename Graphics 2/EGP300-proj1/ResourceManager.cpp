@@ -159,6 +159,14 @@ void ResourceManager::cleanup()
 	}
 	m_ObjectsMap.clear();
 
+	BillBoardDrawOrder.clear();
+	for (auto it = m_BillboardsMap.itBegin(); it != m_BillboardsMap.itEnd(); ++it)
+	{
+		BillboardedTexture* pBillboard = it->second;
+		delete pBillboard;
+
+	}
+	m_BillboardsMap.clear();
 
 }
 
@@ -435,6 +443,283 @@ void ResourceManager::LoadFile(const string& filename)
 
 }
 
+void ResourceManager::LoadFile(const string& filename, const string& key)
+{
+	if (this->hasObject(key))
+	{
+		cout << "Key: " + key + "already in use in object map\n";
+		return;
+	}
+
+	string FileDirectory = Arc_Dirname(filename);
+
+	Map<string, Model*> returnMap;
+
+	ifstream file(filename);
+
+	if (!file)
+	{
+		cout << "File: " + filename + " not loaded because it does not exist\n";
+		return; // Shit broke
+
+	}
+	Model* currentModel = nullptr;
+
+	// Stores all of them
+	vector<vec3> verts;
+	vector<vec3> norms;
+	vector<vec2> texCoords;
+
+	// Stores the copies for each of the groups (tris, quads)
+	vector<vec3> triVerts;
+	vector<vec3> quadVerts;
+
+	vector<vec3> triNorms;
+	vector<vec3> quadNorms;
+
+	vector<vec4> triColors;
+	vector<vec4> quadColors;
+
+	vector<vec2> triTexCoords;
+	vector<vec2> quadTexCoords;
+
+	int triVertTotal = 0;
+	int quadVertTotal = 0;
+
+	bool oneMoreTime = true;
+
+	string line;
+	while (!file.eof() || oneMoreTime)
+	{
+		getline(file, line);
+
+		if (file.eof() && oneMoreTime)
+		{
+			oneMoreTime = false;
+			line = "o ";
+		}
+
+		if (line.length() == 0 || line[0] == '#')
+			continue;
+
+		size_t spacePos = line.find(' ');
+		if (spacePos == string::npos)
+			continue;
+
+		string cmd;
+		cmd.assign(line, 0, spacePos);
+
+		string data;
+		data.assign(line, spacePos + 1, line.size() - spacePos);
+
+		stringstream ss(data);
+
+		if (cmd == "v")
+		{
+			static vec3 vert;
+
+			ss >> vert.x >> vert.y >> vert.z;
+
+			verts.push_back(vert);
+		}
+		else if (cmd == "vt")
+		{
+			static vec2 coord;
+
+			ss >> coord.x >> coord.y;
+
+			texCoords.push_back(coord);
+		}
+		else if (cmd == "vn")
+		{
+			static vec3 norm;
+
+			ss >> norm.x >> norm.y >> norm.z;
+
+			norms.push_back(norm);
+		}
+		else if (cmd == "f")
+		{
+			int vertInds[4] = { -1, -1, -1, -1 };
+			int normInds[4] = { -1, -1, -1, -1 };
+			int texInds[4] = { -1, -1, -1, -1 };
+
+			string piece;
+			int count = 0;
+			for (int i = 0; getline(ss, piece, ' '); ++i)
+			{
+				if (piece.size() == 0)
+				{
+					--i;
+					continue;
+				}
+
+				count++;
+
+				bool vertAndNorm = (piece.find("//") != string::npos);
+
+				for (unsigned int j = 0; j < piece.size(); ++j)
+				{
+					if (piece[j] == '/')
+						piece[j] = ' ';
+				}
+
+				stringstream ssPiece(piece);
+				if (vertAndNorm)
+				{
+					ssPiece >> vertInds[i];
+					ssPiece >> normInds[i];
+				}
+				else
+				{
+					ssPiece >> vertInds[i];
+					ssPiece >> texInds[i];
+					ssPiece >> normInds[i];
+				}
+			}
+
+			if (count == 3) // Tri
+			{
+				triVertTotal += 3;
+
+				if (vertInds[0] != -1 && vertInds[1] != -1 && vertInds[2] != -1)
+				{
+					triVerts.push_back(verts[vertInds[0] - 1]);
+					triVerts.push_back(verts[vertInds[1] - 1]);
+					triVerts.push_back(verts[vertInds[2] - 1]);
+				}
+
+				if (normInds[0] != -1 && normInds[1] != -1 && normInds[2] != -1)
+				{
+					triNorms.push_back(norms[normInds[0] - 1]);
+					triNorms.push_back(norms[normInds[1] - 1]);
+					triNorms.push_back(norms[normInds[2] - 1]);
+				}
+
+				if (texInds[0] != -1 && texInds[1] != -1 && texInds[2] != -1)
+				{
+					triTexCoords.push_back(vec2(texCoords[texInds[0] - 1].x, 1.0f - texCoords[texInds[0] - 1].y));
+					triTexCoords.push_back(vec2(texCoords[texInds[1] - 1].x, 1.0f - texCoords[texInds[1] - 1].y));
+					triTexCoords.push_back(vec2(texCoords[texInds[2] - 1].x, 1.0f - texCoords[texInds[2] - 1].y));
+				}
+			}
+			else if (count == 4) // Quad
+			{
+				quadVertTotal += 4;
+
+				if (vertInds[0] != -1 && vertInds[1] != -1 && vertInds[2] != -1 && vertInds[3] != -1)
+				{
+					quadVerts.push_back(verts[vertInds[0] - 1]);
+					quadVerts.push_back(verts[vertInds[1] - 1]);
+					quadVerts.push_back(verts[vertInds[2] - 1]);
+					quadVerts.push_back(verts[vertInds[3] - 1]);
+				}
+
+				if (normInds[0] != -1 && normInds[1] != -1 && normInds[2] != -1 && normInds[3] != -1)
+				{
+					quadNorms.push_back(norms[normInds[0] - 1]);
+					quadNorms.push_back(norms[normInds[1] - 1]);
+					quadNorms.push_back(norms[normInds[2] - 1]);
+					quadNorms.push_back(norms[normInds[3] - 1]);
+				}
+
+				if (texInds[0] != -1 && texInds[1] != -1 && texInds[2] != -1 && texInds[3] != -1)
+				{
+					quadTexCoords.push_back(vec2(texCoords[texInds[0] - 1].x, 1.0f - texCoords[texInds[0] - 1].y));
+					quadTexCoords.push_back(vec2(texCoords[texInds[1] - 1].x, 1.0f - texCoords[texInds[1] - 1].y));
+					quadTexCoords.push_back(vec2(texCoords[texInds[2] - 1].x, 1.0f - texCoords[texInds[2] - 1].y));
+					quadTexCoords.push_back(vec2(texCoords[texInds[3] - 1].x, 1.0f - texCoords[texInds[3] - 1].y));
+				}
+			}
+		}
+		else if (cmd == "o" || cmd == "g")
+		{
+			// We're already working on a model
+			if (currentModel != nullptr)
+			{
+				GLBatch* tris = new GLBatch();
+				GLBatch* quads = new GLBatch();
+
+				triColors.resize(triVertTotal, vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				quadColors.resize(quadVertTotal, vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+				tris->Begin(GL_TRIANGLES, triVertTotal, 1);
+
+				if (triVerts.size() > 0)
+					tris->CopyVertexData3f((GLfloat*)&triVerts[0]);
+
+				if (triNorms.size() > 0)
+					tris->CopyNormalDataf((GLfloat*)&triNorms[0]);
+
+				if (triColors.size() > 0)
+					tris->CopyColorData4f((GLfloat*)&triColors[0]);
+
+
+				if (triTexCoords.size() > 0)
+					tris->CopyTexCoordData2f((GLfloat*)&triTexCoords[0], 0);
+
+				tris->End();
+
+
+				quads->Begin(GL_TRIANGLES, quadVertTotal, 1);
+
+				if (quadVerts.size() > 0)
+					quads->CopyVertexData3f((GLfloat*)&quadVerts[0]);
+
+				if (quadNorms.size() > 0)
+					quads->CopyNormalDataf((GLfloat*)&quadNorms[0]);
+
+				if (quadColors.size() > 0)
+					quads->CopyColorData4f((GLfloat*)&quadColors[0]);
+
+				if (quadTexCoords.size() > 0)
+					quads->CopyTexCoordData2f((GLfloat*)&quadTexCoords[0], 0);
+
+				quads->End();
+
+				currentModel->addBatch(tris);
+				currentModel->addBatch(quads);
+
+				triVertTotal = 0;
+				quadVertTotal = 0;
+
+				triVerts.clear();
+				triNorms.clear();
+				triColors.clear();
+				triTexCoords.clear();
+
+				quadVerts.clear();
+				quadNorms.clear();
+				quadColors.clear();
+				quadTexCoords.clear();
+
+			}
+
+			if (data.size() != 0)
+			{
+				currentModel = new Model();
+				returnMap.add(data, currentModel);
+			}
+
+		}
+		else if (cmd == "mtllib")
+		{
+			loadMTLFile(FileDirectory + "/" + data);
+		}
+		else if (cmd == "usemtl")
+		{
+			currentModel->setMaterial(getMaterial(data));
+		}
+	}
+
+	file.close();
+	addModelsToMap(returnMap);
+	Object* newObject = new Object(returnMap);
+	newObject->setIsPrefab(true);
+	m_ObjectsMap.add(key, newObject);
+
+}
+
 Material* ResourceManager::addNewMaterial(const string& key)
 {
 	Material* tempMat = new Material();
@@ -470,6 +755,36 @@ void ResourceManager::updateObjects(vec3 cameraPos)
 		Object* pObject = it->second;
 		pObject->update();
 	}
+
+	for (auto it = m_BillboardsMap.itBegin(); it != m_BillboardsMap.itEnd(); ++it)
+	{
+		BillboardedTexture* pBillboard = it->second;
+		pBillboard->update(cameraPos);
+	}
+
+	if (m_BillboardsMap.getSize() != BillBoardDrawOrder.getSize())
+	{
+		cout << "Resource Manager:  billboard draw order vector not the same size as billboard map\n";
+	}
+
+	//furthest first
+	if (BillBoardDrawOrder.getSize() > 0)
+	{
+		float dist;
+		for (unsigned int i = 1; i < BillBoardDrawOrder.getSize(); ++i)
+		{
+			dist = getXZDistance(cameraPos, BillBoardDrawOrder[i - 1]->getPos());
+			if (getXZDistance(cameraPos, BillBoardDrawOrder[i]->getPos()) > dist)
+			{
+				BillboardedTexture* temp = BillBoardDrawOrder[i];
+
+				BillBoardDrawOrder.removeAt(i);
+				BillBoardDrawOrder.insertAt(temp, i - 1);
+
+				i -= 1;
+			}
+		}
+	}
 }
 
 void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager)
@@ -478,6 +793,11 @@ void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& Proj
 	{
 		Object* pObject = it->second;
 		pObject->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
+	}
+
+	for (unsigned int i = 0; i < BillBoardDrawOrder.getSize(); ++i)
+	{
+		BillBoardDrawOrder[i]->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
 	}
 }
 

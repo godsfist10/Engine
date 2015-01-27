@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BillboardedTexture.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Heightmap.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BillboardedTexture.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Heightmap.h" />

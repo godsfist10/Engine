@@ -20,6 +20,7 @@
 #include "Skybox.h"
 #include "Heightmap.h"
 #include "TerrainManager.h"
+#include "BillboardedTexture.h"
 #include "ShaderManager.h"
 #include <vector>
 #include <map>
@@ -96,6 +97,8 @@ protected:
 	bool Paused;
 	bool fog;
 	bool wireframe;
+	bool fullscreen;
+	vec4 fullScreen_Saves;
 #pragma endregion
 
 };

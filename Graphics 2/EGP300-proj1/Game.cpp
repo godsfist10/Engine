@@ -91,14 +91,14 @@ void Game::UnpausedUpdate()
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
 	mpResourceManager->updateObjects(mpCamera->getPos());
 
-	//waterShaderManager->update();
+	waterShaderManager->update();
 }
 
 void Game::FixedUpdate()
 {
 	mpCamera->update();
 
-	/*
+	
 	if(m_cloudSkybox->getIsPrefab() && mpCamera->getPos().y >= mpResourceManager->getObject("water")->getPos().y)
 	{
 	//cout << "switch to cloud box\n";
@@ -114,7 +114,7 @@ void Game::FixedUpdate()
 
 	m_underWaterSkybox->setPos(mpCamera->getPos());
 	m_cloudSkybox->setPos(mpCamera->getPos());
-	*/
+	
 
 	mpTerrainManager->update(mpCamera);
 }
@@ -128,6 +128,7 @@ void Game::start(int argNum, char* args[])
 	fog = false;
 	mouseFree = false;
 	Paused = false;
+	fullscreen = false;
 
 	mpCamera = new Camera();
 	mpResourceManager = new ResourceManager();
@@ -184,56 +185,82 @@ void Game::setUpWorld(int argNum, char* args[])
 
 #pragma region standardPrefabSetup
 
-		/*
-		mpResourceManager->LoadFile("Assets/StandardObjects/Cube/Cube.obj");
-		mpResourceManager->LoadFile("Assets/StandardObjects/Sphere/Shpere.obj");
-		mpResourceManager->LoadFile("Assets/StandardObjects/Torus/Torus.obj");
 
-		Object* cube = mpResourceManager->addNewObject("cube", mpResourceManager->getObject("Assets/Cube/Cube")->getModelMap());
-		Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
-		Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
-		*/
+		//mpResourceManager->LoadFile("Assets/StandardObjects/Cube/Cube.obj", "CubeTest");
+		//mpResourceManager->LoadFile("Assets/StandardObjects/Sphere/Sphere.obj");
+		//mpResourceManager->LoadFile("Assets/StandardObjects/Torus/Torus.obj");
+
+		//Object* cube = mpResourceManager->addNewObject("cube", mpResourceManager->getObject("CubeTest")->getModelMap());
+		//cube->setIsPrefab(true);
+		//Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
+		//Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
+
 
 #pragma endregion standardPrefabSetup
 
 #pragma region WaterWorldSetup
 
-		//waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
+		waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
 
 		mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
-			//m_cloudSkybox->setIsPrefab(true);
 
-		//m_cloudSkybox = new Skybox("Assets/Skybox/cloudBox.jpg", mpResourceManager, 3000,"cloudSkybox");
-		//m_cloudSkybox->setIsPrefab(true);
-		//m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager,3000, "underwaterSkybox" );
+		m_cloudSkybox = new Skybox("Assets/Skybox/cloudBox.jpg", mpResourceManager, 3000, "cloudSkybox");
+		m_cloudSkybox->setIsPrefab(true);
+		m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager, 3000, "underwaterSkybox");
 
-		//mpTerrainManager->addNewRepeatableTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", vec3(-terrainSize * .5f, -150, -terrainSize * .5f), terrainSize, 200, terrainTriDensity);
-		//terrain repeater possibly bunk
-
-		//mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true );
-		//mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
-
-
-		/*m_heightmap = new Heightmap(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, terrainSize, 200, terrainTriDensity, "heightMap");
-		m_heightmap->setPos(vec3(-terrainSize * .5f, -150, -terrainSize * .5f));
-
-		m_heightmap2 = new Heightmap(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, terrainSize, 200, terrainTriDensity, "heightMap2");
-		m_heightmap2->setPos(vec3(-terrainSize * .5f, -150, -terrainSize * .5f - terrainSize + m_heightmap2->getOffset().x));
-		*/
-		//m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
-		//m_waterMap->setPos(vec3(-waterTerrainSize * .5f  , 150, -waterTerrainSize * .5f));
+		mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true);
+		mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
+		
+		
+		m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
+		m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
 		//m_waterMap->setIsPrefab(true);
-	
+		
+		BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
+		billboard1->setPos(vec3(-400, 400, -200));
+		billboard1->setScale(vec3(.6f, .6f, .6f));
+
+		BillboardedTexture* billboard2 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud3");
+		billboard2->setPos(vec3(0, 400, 0));
+		billboard2->setScale(vec3(.6f, .6f, .6f));
+
+		BillboardedTexture* billboard = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud1");
+		billboard->setPos(vec3(300, 400, 300));
+		billboard->setScale(vec3(.6f, .6f, .6f));
+		
+		BillboardedTexture* grass = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass");
+		grass->setPos(vec3(0, 0, 0));
+		//grass->setScale(vec3(.25f, .25f, .25f));
+
+		BillboardedTexture* grass2 = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass2");
+		grass2->setPos(vec3(270, -100, 270));
+		grass2->setScale(vec3(.25f, .25f, .25f));
+		grass2->setRotation(vec3(0, PI / 2.3f, 0));
+
 		Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-		fishy->Translate(5,5,5);
+		fishy->Translate(5, 5, 5);
+
 
 #pragma endregion WaterWorldSetup
 
+		//Object* cuby = mpResourceManager->addNewObject("Cuby", mpResourceManager->getObject("CubeTest")->getModelMap());
+		//cuby->Translate(5, 5, 5);
 	}
 
 	ResetCamera();
+
 	
 }
+
+/*Controls:
+
+Arrow keys: alter cameras pitch and yaw
+F1: Reset Camera
+F2: Wireframe Toggle
+F3: Screen Shot
+F11: FullScreen mode
+
+*/
 
 void Game::hookSpecialKey(int key, int x, int y)
 {
@@ -255,7 +282,7 @@ void Game::hookSpecialKey(int key, int x, int y)
 	{
 		mpCamera->setPitch(mpCamera->getPitch() - 0.05f);
 	}
-	if( key == GLUT_KEY_F2)
+	if( key == GLUT_KEY_F3)
 	{
 		mpCamera->screenShot(width, height);
 	}
@@ -263,7 +290,7 @@ void Game::hookSpecialKey(int key, int x, int y)
 	{
 		ResetCamera();
 	}
-	if( key == GLUT_KEY_F3)
+	if( key == GLUT_KEY_F2)
 	{
 		if(!wireframe)
 		{
@@ -276,13 +303,40 @@ void Game::hookSpecialKey(int key, int x, int y)
 			wireframe = false;
 		}
 	}
-	if (key == GLUT_KEY_F6)
+	if (key == GLUT_KEY_F11)
 	{
-		glutFullScreen();
+		if (!fullscreen)
+		{
+			fullScreen_Saves.x = (float)width;
+			fullScreen_Saves.y = (float)height;
+			fullScreen_Saves.z = (float)glutGet(GLUT_WINDOW_X);
+			fullScreen_Saves.w = (float)glutGet(GLUT_WINDOW_Y);
+			glutFullScreen();
+			fullscreen = true;
+		}
+		else
+		{
+			glutPositionWindow((int)fullScreen_Saves.z, (int)fullScreen_Saves.w);
+			glutReshapeWindow((int)fullScreen_Saves.x, (int)fullScreen_Saves.y);
+			
+			fullscreen = false;
+
+		}
+		
 	}
 
 }
 
+/*Controls:
+
+WSAD: strafing movement
+Q / R: Vertical movement
+Esc: Quit
+Tab: Activate acceleration and velocity of camera
+P: Pause game
+L: free mouse
+
+*/
 void Game::hookKey(unsigned char key, int x, int y)
 {
 	if(key == 'w' || key == 'W')
@@ -309,11 +363,11 @@ void Game::hookKey(unsigned char key, int x, int y)
 	{
 		mpCamera->command(vec3(0,0,1));
 	}
-	if(key == 27)
+	if(key == 27) //escape
 	{
 		endGame();
 	}
-	if(key == 9)
+	if(key == 9) //tab
 	{
 		mpCamera->FlyMode(!mpCamera->FlyMode());
 	}
@@ -325,7 +379,12 @@ void Game::hookKey(unsigned char key, int x, int y)
 	{
 		mouseFree = !mouseFree;
 	}
-	if(key == 'g' || key == 'G')
+	if (key == 'o' || key == 'O')
+	{
+		vec3 temp = mpCamera->getPos();
+		cout << "X: " << temp.x << endl << "Y: " << temp.y << endl << "Z: " << temp.z << endl;
+	}
+	/*if(key == 'g' || key == 'G')
 	{
 		if( fog)
 		{
@@ -339,7 +398,7 @@ void Game::hookKey(unsigned char key, int x, int y)
 			glEnable(GL_FOG);
 			cout << "yes fog\n";
 		}
-	}
+	}*/
 }
 
 void Game::endGame()

@@ -87,6 +87,9 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Project\Game\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="BillboardedTexture.cpp">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="TerrainManager.h">
       <Filter>Project\Game\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="BillboardedTexture.h">
+      <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
