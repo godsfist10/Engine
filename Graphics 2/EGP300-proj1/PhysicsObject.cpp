@@ -29,3 +29,4 @@ void PhysicsObject::physicsUpdate()
 	modifyVelocity(m_Acceleration);
 	Translate(m_Velocity.x, m_Velocity.y, m_Velocity.z);
 }
+

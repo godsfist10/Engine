@@ -762,6 +762,24 @@ Particle* ResourceManager::addNewParticle(const string& particleName, const Map<
 	return tempObject;
 }
 
+void ResourceManager::deleteObject(const string& key)
+{
+	if (hasObject(key))
+	{
+		delete m_ObjectsMap[key];
+		m_ObjectsMap.removeKey(key);
+	}
+
+}
+void ResourceManager::deleteBillboard(const string& key)
+{
+	if (hasBillboard(key))
+	{
+		delete m_BillboardsMap[key];
+		m_BillboardsMap.removeKey(key);
+	}
+}
+
 void ResourceManager::updateObjects(vec3 cameraPos)
 {
 	for( auto it = m_ObjectsMap.itBegin(); it != m_ObjectsMap.itEnd(); ++it)
@@ -773,7 +791,7 @@ void ResourceManager::updateObjects(vec3 cameraPos)
 	for (auto it = m_BillboardsMap.itBegin(); it != m_BillboardsMap.itEnd(); ++it)
 	{
 		BillboardedTexture* pBillboard = it->second;
-		pBillboard->update(cameraPos);
+		pBillboard->billBoardUpdate(cameraPos);
 	}
 
 	if (m_BillboardsMap.getSize() != BillBoardDrawOrder.getSize())
@@ -813,6 +831,7 @@ void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& Proj
 	{
 		BillBoardDrawOrder[i]->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
 	}
+	
 }
 
 float ResourceManager::getXZDistance(vec3 camPos, vec3 pos)

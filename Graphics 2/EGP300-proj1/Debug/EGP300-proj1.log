@@ -1,9 +1,48 @@
-﻿Build started 1/27/2015 5:58:23 AM.
-     1>Project "C:\Users\Paul\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
-       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.Cpp.Platform.targets(44,5): error MSB8020: The builds tools for v120 (Platform Toolset = 'v120') cannot be found. To build using the v120 build tools, either click the Project menu or right-click the solution, and then select "Update VC++ Projects...". Install v120 to build using the v120 build tools.
-     1>Done Building Project "C:\Users\Paul\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)) -- FAILED.
+﻿Build started 1/27/2015 7:25:34 PM.
+     1>Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../libs/SDL/include /I../libs/Arc/include /ZI /nologo /W3 /WX- /Od /Oy- /D NOGDI /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BillboardedTexture.cpp Debug.cpp Game.cpp Heightmap.cpp ParticleEffect.cpp ResourceManager.cpp Skybox.cpp TerrainManager.cpp main.cpp
+         BillboardedTexture.cpp
+         Generating Code...
+         Compiling...
+         main.cpp
+         TerrainManager.cpp
+         Skybox.cpp
+         ResourceManager.cpp
+         GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         ParticleEffect.cpp
+         GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Heightmap.cpp
+         GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Game.cpp
+         Debug.cpp
+         GLM: perspectiveFov function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\Debug\EGP300-proj2.exe" /INCREMENTAL /NOLOGO /LIBPATH:../libs/ /LIBPATH:../libs/SDL/lib/ /LIBPATH:../libs/Arc/lib ArcData.lib ArcCore.lib SDL.lib SDL_image.lib freeglut_static.lib gltools.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\Debug\EGP300-proj2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\Debug\EGP300-proj2.lib" /MACHINE:X86 Debug\BillboardedTexture.obj
+         Debug\Camera.obj
+         Debug\Debug.obj
+         Debug\Game.obj
+         Debug\Heightmap.obj
+         Debug\main.obj
+         Debug\Material.obj
+         Debug\Matrix.obj
+         Debug\Model.obj
+         Debug\Object.obj
+         Debug\Particle.obj
+         Debug\ParticleEffect.obj
+         Debug\ParticleSystemManager.obj
+         Debug\PhysicsObject.obj
+         Debug\ResourceManager.obj
+         Debug\ShaderManager.obj
+         Debug\Skybox.obj
+         Debug\TerrainManager.obj
+         Debug\Texture.obj
+         Debug\Vector2D.obj
+         Debug\Vector3D.obj
+         EGP300-proj1.vcxproj -> C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\Debug\EGP300-proj2.exe
+     1>Done Building Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.00
+Time Elapsed 00:00:12.31

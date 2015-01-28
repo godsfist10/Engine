@@ -12,6 +12,7 @@
 #include "BillboardedTexture.h"
 #include "PhysicsObject.h"
 #include "Particle.h"
+#include "Debug.h"
 
 #include <fstream>
 #include <iostream>
@@ -69,6 +70,9 @@ public:
 	
 	inline void removeObjectFromMap( const string& key) { hasObject(key) ? m_ObjectsMap.removeKey(key) : nullptr;}
 	inline void removeBillboardFromMap( const string& key) { hasBillboard(key) ? m_BillboardsMap.removeKey(key) : nullptr;}
+	void deleteObject(const string& key);
+	void deleteBillboard(const string& key);
+
 
 	inline Model* getModel(const string& key ) { return (hasModel(key) ? m_ModelsMap[key] : nullptr);}
 	inline Material* getMaterial( const string& key ) { return (hasMaterial(key) ? m_MaterialsMap[key] : nullptr); }

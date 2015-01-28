@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="BillboardedTexture.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Heightmap.cpp" />
     <ClCompile Include="main.cpp" />
@@ -35,6 +36,7 @@
   <ItemGroup>
     <ClInclude Include="BillboardedTexture.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Heightmap.h" />
     <ClInclude Include="Material.h" />

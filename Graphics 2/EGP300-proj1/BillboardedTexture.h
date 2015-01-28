@@ -18,7 +18,7 @@ public:
 	~BillboardedTexture(void);
 
 	void loadBillboard(ResourceManager* resourceManager, const string& textureFilename);
-	virtual void update(vec3 cameraPos);
+	virtual void billBoardUpdate(vec3 cameraPos);
 
 	bool AxisAligned() const { return axisAligned; }
 	void AxisAligned(bool val) { axisAligned = val; }

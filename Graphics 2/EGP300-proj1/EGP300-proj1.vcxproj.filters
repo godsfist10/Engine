@@ -37,6 +37,9 @@
     <Filter Include="Project\MathUtils">
       <UniqueIdentifier>{b6d2a478-d3da-461a-8d95-d10e65ab579a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Utils">
+      <UniqueIdentifier>{917edc18-4512-4889-be85-fb9c60d2fe51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -160,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystemManager.h">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

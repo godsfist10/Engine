@@ -39,6 +39,8 @@ protected:
 
 	vec3 m_Velocity;
 	vec3 m_Acceleration;
+	float m_Mass;
+
 
 };
 

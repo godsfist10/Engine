@@ -92,7 +92,7 @@ void BillboardedTexture::loadBillboard(ResourceManager* resourceManager, const s
 
 }
 
-void BillboardedTexture::update(vec3 cameraPos)
+void BillboardedTexture::billBoardUpdate(vec3 cameraPos)
 {
 	if (axisAligned)
 	{

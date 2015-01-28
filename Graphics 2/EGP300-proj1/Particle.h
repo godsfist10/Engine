@@ -13,6 +13,7 @@ public:
 	Particle(const Map<string, Model*> &modelsMap, const float& life);
 	~Particle();
 	
+
 	virtual void update();
 
 	bool killMe;

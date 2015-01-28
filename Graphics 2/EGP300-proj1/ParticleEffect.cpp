@@ -59,15 +59,28 @@ void ParticleEffect::update()
 		createParticle();
 	}
 
+	Map<string, Particle*> deleteMap;
+
 	for( auto it = particleMap.itBegin(); it != particleMap.itEnd(); ++it)
 	{
 		Particle* particle = it->second;
 		if( particle->killMe)
 		{
 			onDeathBehavior(particle);
-			particleMap.removeKey(it->first);
+			deleteMap.add(it->first, particle);
 		}
 	}
+
+	if (deleteMap.getSize() > 0)
+	{
+		for (auto it = deleteMap.itBegin(); it != deleteMap.itEnd(); ++it)
+		{
+			mpResourceManager->deleteObject(it->first);
+			particleMap.removeKey(it->first);
+		}
+		deleteMap.clear();
+	}
+
 }
 
 Particle* ParticleEffect::createParticle()
@@ -80,7 +93,7 @@ Particle* ParticleEffect::createParticle()
 Particle* ParticleEffect::createParticle(const string& key)
 {
 	Particle* tempParticle = mpResourceManager->addNewParticle(key, prefabModel, particleLifeSpan);
-	particleMap.insert(particleMap.itBegin(), particleMap.itEnd());
+	particleMap.add(key, tempParticle);
 	tempParticle->setAcceleration(particleStartAcceleration);
 	tempParticle->setVelocity(particleStartvelocity);
 	tempParticle->setPos(m_pos);
@@ -94,12 +107,15 @@ void ParticleEffect::onDeathBehavior(Particle* dyingParticle)
 		Particle* temp = createParticle();
 		temp->setVelocity(vec3(0,1,0));
 		temp->setScale(vec3(.5,.5,.5));
+		temp->setPos(dyingParticle->getPos());
 		temp = createParticle();
 		temp->setVelocity(vec3(0,-1,0));
 		temp->setScale(vec3(.5,.5,.5));
+		temp->setPos(dyingParticle->getPos());
 		temp = createParticle();
 		temp->setVelocity(vec3(0,0,1));
 		temp->setScale(vec3(.5,.5,.5));
+		temp->setPos(dyingParticle->getPos());
 
 	}
 	
