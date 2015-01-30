@@ -204,7 +204,7 @@ void Game::setUpWorld(int argNum, char* args[])
 
 		mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
 
-		m_cloudSkybox = new Skybox("Assets/Skybox/cloudBox.jpg", mpResourceManager, 3000, "cloudSkybox");
+		m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.png", mpResourceManager, 3000, "cloudSkybox");
 		m_cloudSkybox->setIsPrefab(true);
 		m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager, 3000, "underwaterSkybox");
 

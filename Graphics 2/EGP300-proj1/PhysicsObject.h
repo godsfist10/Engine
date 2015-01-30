@@ -5,6 +5,8 @@ using namespace std;
 using namespace glm;
 using namespace Arc;
 
+typedef float realNum;
+
 class PhysicsObject : public Object
 {
 public:
@@ -39,7 +41,7 @@ protected:
 
 	vec3 m_Velocity;
 	vec3 m_Acceleration;
-	float m_Mass;
+	realNum m_Mass;
 
 
 };
