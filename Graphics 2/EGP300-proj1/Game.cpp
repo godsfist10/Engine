@@ -194,7 +194,11 @@ void Game::setUpWorld(int argNum, char* args[])
 		//cube->setIsPrefab(true);
 		//Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
 		//Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
-
+		
+		//mpResourceManager->LoadFile("Assets/Planets/sphere.obj");
+		//mpResourceManager->addNewObject("moonMaybe", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		//moon->Translate(900, 0, 0);
+	   // moon->setScale(vec3(.1f, .1f, .1f));
 
 #pragma endregion standardPrefabSetup
 
@@ -204,7 +208,7 @@ void Game::setUpWorld(int argNum, char* args[])
 
 		mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
 
-		m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.png", mpResourceManager, 3000, "cloudSkybox");
+		m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.jpg", mpResourceManager, 3000, "cloudSkybox");
 		m_cloudSkybox->setIsPrefab(true);
 		m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager, 3000, "underwaterSkybox");
 
@@ -217,15 +221,15 @@ void Game::setUpWorld(int argNum, char* args[])
 		//m_waterMap->setIsPrefab(true);
 		
 		BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
-		billboard1->setPos(vec3(-400, 400, -200));
+		billboard1->setPos(vec3(-400, 400, -800));
 		billboard1->setScale(vec3(.6f, .6f, .6f));
 
 		BillboardedTexture* billboard2 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud3");
-		billboard2->setPos(vec3(0, 400, 0));
+		billboard2->setPos(vec3(700, 400, 700));
 		billboard2->setScale(vec3(.6f, .6f, .6f));
 
 		BillboardedTexture* billboard = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud1");
-		billboard->setPos(vec3(300, 400, 300));
+		billboard->setPos(vec3(-900, 400, 300));
 		billboard->setScale(vec3(.6f, .6f, .6f));
 
 
