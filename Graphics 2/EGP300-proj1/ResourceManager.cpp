@@ -53,6 +53,9 @@ Texture* ResourceManager::LoadTexture(string fileName, GLenum minFilter, GLenum 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
 	Texture* newTexture = new Texture(texID);
+	stringstream temp;
+	temp << m_TexturesMap.getSize();
+	m_TexturesMap.add(temp.str(), newTexture);
 
 	SDL_FreeSurface(surface);
 

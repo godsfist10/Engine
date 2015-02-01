@@ -105,5 +105,12 @@ protected:
 	vec4 fullScreen_Saves;
 #pragma endregion
 
+private:
+
+	void waterWorldUpdate();
+	void waterWorldFixedUpdate();
+	void spaceWorldUpdate();
+	void spaceWorldFixedUpdate();
+
 };
 

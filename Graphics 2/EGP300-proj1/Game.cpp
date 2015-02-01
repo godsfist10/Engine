@@ -88,35 +88,54 @@ void Game::PausedUpdate()
 
 void Game::UnpausedUpdate()
 {
-	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
-	mpResourceManager->updateObjects(mpCamera->getPos());
-	PhyshyFriends->update();
-	waterShaderManager->update();
+	mpResourceManager->updateObjects(mpCamera->getPos());	
+
+	waterWorldUpdate();
 }
 
 void Game::FixedUpdate()
 {
 	mpCamera->update();
 
-	
-	if(m_cloudSkybox->getIsPrefab() && mpCamera->getPos().y >= mpResourceManager->getObject("water")->getPos().y)
+	waterWorldFixedUpdate();
+}
+
+void Game::waterWorldUpdate()
+{
+	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
+	PhyshyFriends->update();
+	waterShaderManager->update();
+}
+void Game::waterWorldFixedUpdate()
+{
+
+	if (m_cloudSkybox->getIsPrefab() && mpCamera->getPos().y >= mpResourceManager->getObject("water")->getPos().y)
 	{
-	//cout << "switch to cloud box\n";
-	m_cloudSkybox->setIsPrefab(false);
-	m_underWaterSkybox->setIsPrefab(true);
+		//cout << "switch to cloud box\n";
+		m_cloudSkybox->setIsPrefab(false);
+		m_underWaterSkybox->setIsPrefab(true);
 	}
-	else if(m_underWaterSkybox->getIsPrefab() && mpCamera->getPos().y < mpResourceManager->getObject("water")->getPos().y)
+	else if (m_underWaterSkybox->getIsPrefab() && mpCamera->getPos().y < mpResourceManager->getObject("water")->getPos().y)
 	{
-	//cout << "switch to water box\n";
-	m_cloudSkybox->setIsPrefab(true);
-	m_underWaterSkybox->setIsPrefab(false);
+		//cout << "switch to water box\n";
+		m_cloudSkybox->setIsPrefab(true);
+		m_underWaterSkybox->setIsPrefab(false);
 	}
 
 	m_underWaterSkybox->setPos(mpCamera->getPos());
 	m_cloudSkybox->setPos(mpCamera->getPos());
-	
+
 
 	mpTerrainManager->update(mpCamera);
+}
+
+void Game::spaceWorldUpdate()
+{
+
+}
+void Game::spaceWorldFixedUpdate()
+{
+
 }
 
 
@@ -195,11 +214,6 @@ void Game::setUpWorld(int argNum, char* args[])
 		//Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
 		//Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
 		
-		//mpResourceManager->LoadFile("Assets/Planets/sphere.obj");
-		//mpResourceManager->addNewObject("moonMaybe", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		//moon->Translate(900, 0, 0);
-	   // moon->setScale(vec3(.1f, .1f, .1f));
-
 #pragma endregion standardPrefabSetup
 
 #pragma region WaterWorldSetup
@@ -243,7 +257,6 @@ void Game::setUpWorld(int argNum, char* args[])
 
 		grass2->setRotation(vec3(0, PI / 2.3f, 0));
 
-
 		Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 		fishy->Translate(5, 5, 5);
 
@@ -254,7 +267,21 @@ void Game::setUpWorld(int argNum, char* args[])
 		PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5,0,0), 100, 300, vec3(1,0,0));
 		PhyshyFriends->startEffect("Assets/Fish");
 
+		
+		
 #pragma endregion WaterWorldSetup
+
+#pragma region SpaceWorldSetup
+
+
+#pragma endregion SpaceWorldSetup
+
+		mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
+		Object* earth = mpResourceManager->addNewObject("Earthplz", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		earth->Translate(50, 0, 0);
+
+		//mpResourceManager->LoadFile("Assets/SuperMutantBehemoth/Super_Mutant_Behemoth.obj");
+		//mpResourceManager->addNewObject("bemoth", mpResourceManager->getObject("Assets/SuperMutantBehemoth")->getModelMap());
 
 		//Object* cuby = mpResourceManager->addNewObject("Cuby", mpResourceManager->getObject("CubeTest")->getModelMap());
 		//cuby->Translate(5, 5, 5);
