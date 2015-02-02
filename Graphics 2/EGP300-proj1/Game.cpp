@@ -66,19 +66,27 @@ void Game::render()
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
 
-	mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
+	//mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
 	
+	mpDebug->drawMessages();
+
 }
 
 void Game::update()
 {
-	if (Paused)
-		PausedUpdate();
-	else
-		UnpausedUpdate();
+	if (mpDebug->fpsCap())
+	{
+		mpDebug->incrementFrame();
+		mpDebug->addTextToScreen(std::to_string(mpDebug->getFPS()), vec2(10, 10), false, 0.0f);
 
-	FixedUpdate();
+		if (Paused)
+			PausedUpdate();
+		else
+			UnpausedUpdate();
+
+		FixedUpdate();
+	}
 }
 
 void Game::PausedUpdate()
@@ -90,14 +98,14 @@ void Game::UnpausedUpdate()
 {
 	mpResourceManager->updateObjects(mpCamera->getPos());	
 
-	waterWorldUpdate();
+	//waterWorldUpdate();
 }
 
 void Game::FixedUpdate()
 {
 	mpCamera->update();
 
-	waterWorldFixedUpdate();
+	//waterWorldFixedUpdate();
 }
 
 void Game::waterWorldUpdate()
@@ -149,10 +157,13 @@ void Game::start(int argNum, char* args[])
 	Paused = false;
 	fullscreen = false;
 
+	mpDebug = new Debug();
 	mpCamera = new Camera();
+	mpDebug = new Debug();
 	mpResourceManager = new ResourceManager();
 	mpTerrainManager = new TerrainManager();
 	waterShaderManager = new Shader_Manager();
+	
 
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);   
 	shaderManager.InitializeStockShaders();
@@ -216,6 +227,7 @@ void Game::setUpWorld(int argNum, char* args[])
 		
 #pragma endregion standardPrefabSetup
 
+		/*
 #pragma region WaterWorldSetup
 
 		waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
@@ -270,9 +282,9 @@ void Game::setUpWorld(int argNum, char* args[])
 		
 		
 #pragma endregion WaterWorldSetup
+		*/
 
 #pragma region SpaceWorldSetup
-
 
 #pragma endregion SpaceWorldSetup
 
@@ -447,6 +459,7 @@ void Game::endGame()
 	delete mpCamera;
 	delete mpTerrainManager;
 	delete waterShaderManager;
+	delete mpDebug;
 
 	exit(0);
 }

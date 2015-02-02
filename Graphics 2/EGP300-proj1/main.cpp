@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include "Game.h"
+#include "Debug.h"
 #include "Camera.h"
 #include "Model.h"
 #include <vector>
@@ -50,7 +51,6 @@ void RenderScene(void)
 {
 	game->render();
 	glutSwapBuffers();
-	
 }
 
 void Keys(unsigned char key, int x, int y)
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 
 	Arc_InitMemoryTracker();
 
-	glutInitWindowSize(800,600);
+	glutInitWindowSize(1280, 800);
 
 	int sdlFlags = SDL_INIT_TIMER | SDL_INIT_AUDIO;
 	if (SDL_Init(sdlFlags) != 0)
@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	glutCreateWindow("Graphics 2");
+	glutCreateWindow("Game Phyics");
 	glutReshapeFunc(ChangeSize);
 	glutDisplayFunc(RenderScene);
 	glutSpecialFunc(SpecialKeys);

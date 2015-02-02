@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include "Camera.h"
+#include "Debug.h"
 #include "Model.h"
 #include "ResourceManager.h"
 #include "Skybox.h"
@@ -23,6 +24,7 @@
 #include "BillboardedTexture.h"
 #include "ParticleEffect.h"
 #include "ShaderManager.h"
+
 #include <vector>
 #include <map>
 #include <math.h>
@@ -75,6 +77,7 @@ protected:
 #pragma region memberVariables
 
 	Camera* mpCamera;
+	Debug* mpDebug;
 	GLShaderManager	shaderManager;
 	Shader_Manager* waterShaderManager;
 	ResourceManager* mpResourceManager;
