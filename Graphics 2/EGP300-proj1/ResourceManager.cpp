@@ -161,6 +161,7 @@ void ResourceManager::cleanup()
 		delete pObject;
 	}
 	m_ObjectsMap.clear();
+	m_PhysicsObjectMap.clear();
 
 	BillBoardDrawOrder.clear();
 	for (auto it = m_BillboardsMap.itBegin(); it != m_BillboardsMap.itEnd(); ++it)
@@ -170,6 +171,13 @@ void ResourceManager::cleanup()
 
 	}
 	m_BillboardsMap.clear();
+
+	for (auto it = m_ForceGeneratorMap.itBegin(); it != m_ForceGeneratorMap.itEnd(); ++it)
+	{
+		ForceGenerator* pGenerator = it->second;
+		delete pGenerator;
+	}
+	m_ForceGeneratorMap.clear();
 
 }
 
@@ -755,6 +763,7 @@ PhysicsObject* ResourceManager::addNewPhysicsObject(const string& ObjectName, co
 {
 	PhysicsObject* tempObject = new PhysicsObject(modelsMap);
 	m_ObjectsMap.add(ObjectName, tempObject);
+	m_PhysicsObjectMap.add(ObjectName, tempObject);
 	return tempObject;
 }
 
@@ -765,15 +774,30 @@ Particle* ResourceManager::addNewParticle(const string& particleName, const Map<
 	return tempObject;
 }
 
+void ResourceManager::addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName)
+{
+	getForceGenerator(forceGeneratorName)->addToRegistry(getPhysicsObject(physicsObjectName));
+}
+
 void ResourceManager::deleteObject(const string& key)
 {
 	if (hasObject(key))
 	{
 		delete m_ObjectsMap[key];
 		m_ObjectsMap.removeKey(key);
+		removePhysicsObjectFromMap(key);
 	}
-
 }
+
+void ResourceManager::deleteForceGenerator(const string& key)
+{
+	if (hasForceGenerator(key))
+	{
+		delete m_ForceGeneratorMap[key];
+		m_ForceGeneratorMap.removeKey(key);
+	}
+}
+
 void ResourceManager::deleteBillboard(const string& key)
 {
 	if (hasBillboard(key))
@@ -820,6 +844,13 @@ void ResourceManager::updateObjects(vec3 cameraPos)
 			}
 		}
 	}
+
+	for (auto it = m_ForceGeneratorMap.itBegin(); it != m_ForceGeneratorMap.itEnd(); ++it)
+	{
+		ForceGenerator* pGenerator = it->second;
+		pGenerator->update();
+	}
+
 }
 
 void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager)

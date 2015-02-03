@@ -4,10 +4,11 @@
 
 Debug::Debug()
 {
-	mLastFrameTime = glutGet(GLUT_ELAPSED_TIME);
-	mStartTime = glutGet(GLUT_ELAPSED_TIME);
-	log(std::to_string(mStartTime));
-	mCurrentFrameCount = 0;
+	mLastTime = glutGet(GLUT_ELAPSED_TIME);
+	mFpsCount = 0;
+	mDeltaTime = 0;
+	mTimePrev = 0;
+	debugMode = false;
 }
 
 Debug::~Debug()
@@ -20,34 +21,30 @@ void Debug::cleanup()
 	mMessages.clear();
 }
 
-bool Debug::fpsCap()
+void Debug::update()
 {
-	double endFrameTime = mStartTime + (mCurrentFrameCount + 1) * TIME_PER_FRAME;
-	double endRenderTime = glutGet(GLUT_ELAPSED_TIME);
-	double idleTime = endFrameTime - endRenderTime;
-	if (idleTime <= 0.0)
-	{
-		return true;
-	}
-	return false;
+	pruneExpiredMessages();
+	double time = (double)glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+	mDeltaTime = time - mTimePrev;
+	mTimePrev = time;
+	if( debugMode)
+		addTextToScreen("delta time: " + std::to_string(getDeltaTime()), vec2( 10,30), false, 0.0f);
+	incrementFrame();
+	
 }
 
 void Debug::incrementFrame()
 {
-	mCurrentFrameCount++;
-	mLastFrameTime = glutGet(GLUT_ELAPSED_TIME);
-	pruneExpiredMessages();
-}
-
-float Debug::getDeltaTime()
-{
-	int renderTime = glutGet(GLUT_ELAPSED_TIME);
-	return ((float)renderTime - mLastFrameTime) / 100.0f;
-}
-
-float Debug::getFPS()
-{
-	return getDeltaTime();
+	double currentTime = glutGet(GLUT_ELAPSED_TIME);
+	mFpsCount++;
+	if (currentTime - mLastTime >= 1000.0)
+	{
+		if ( debugMode)
+			addTextToScreen(std::to_string(1000.0 / (double)mFpsCount) + " m/s per frame - FPS: " + std::to_string(mFpsCount), vec2(10,10), false, 1.0f);
+		mFpsCount = 0;
+		mLastTime += 1000.0;
+	}
+	
 }
 
 void Debug::addTextToScreen(const string& message, vec2 screenPos, bool saveLog, float timer)
@@ -69,7 +66,7 @@ void Debug::drawMessages()
 	{
 		onScreenMessage* temp = it._Ptr;
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glRasterPos2f(temp->pos.x, temp->pos.y);
+		glWindowPos2fARB(temp->pos.x, temp->pos.y);
 		int len, j;
 		len = (int)temp->message.size();
 		for (j = 0; j < len; j++) {
@@ -95,6 +92,7 @@ void Debug::pruneExpiredMessages()
 		}
 		else 
 		{
+			it->timer -= (float)mDeltaTime;
 			++it;
 		}
 	}

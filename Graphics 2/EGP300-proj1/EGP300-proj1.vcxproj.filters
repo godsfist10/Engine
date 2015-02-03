@@ -40,6 +40,9 @@
     <Filter Include="Project\Utils">
       <UniqueIdentifier>{917edc18-4512-4889-be85-fb9c60d2fe51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Game\SceneObjects\Forces">
+      <UniqueIdentifier>{c46c1f9a-7b6c-460c-ada7-750ff053fa41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -103,7 +106,13 @@
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ForceGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +177,13 @@
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

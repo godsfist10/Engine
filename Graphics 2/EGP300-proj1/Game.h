@@ -24,6 +24,7 @@
 #include "BillboardedTexture.h"
 #include "ParticleEffect.h"
 #include "ShaderManager.h"
+#include "GravityGenerator.h"
 
 #include <vector>
 #include <map>
@@ -79,7 +80,7 @@ protected:
 	Camera* mpCamera;
 	Debug* mpDebug;
 	GLShaderManager	shaderManager;
-	Shader_Manager* waterShaderManager;
+
 	ResourceManager* mpResourceManager;
 	TerrainManager* mpTerrainManager;
 
@@ -90,6 +91,9 @@ protected:
 	GLfloat m_MouseX, m_MouseY;
 	GLfloat m_CameraMoveSpeed, m_CameraLookSpeed;
 
+#pragma region waterWorldVars
+	Shader_Manager* waterShaderManager;
+
 	Skybox* m_underWaterSkybox;
 	Skybox* m_cloudSkybox;
 
@@ -99,6 +103,15 @@ protected:
 
 	PhysicsObject* physhy;
 	ParticleEffect* PhyshyFriends;
+#pragma endregion waterWorldVars
+
+#pragma region spaceWorldVars
+
+	PhysicsObject* Sun;
+	PhysicsObject* Earth;
+	PhysicsObject* Moon;
+
+#pragma endregion spaceWorldVars
 
 	bool mouseFree;
 	bool Paused;
@@ -110,10 +123,11 @@ protected:
 
 private:
 
+	
 	void waterWorldUpdate();
 	void waterWorldFixedUpdate();
 	void spaceWorldUpdate();
 	void spaceWorldFixedUpdate();
-
+	void spaceWorldDebug();
 };
 

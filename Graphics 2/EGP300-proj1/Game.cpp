@@ -68,30 +68,27 @@ void Game::render()
 
 	//mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
-	
-	mpDebug->drawMessages();
 
+	glClear(GL_DEPTH_BUFFER_BIT);
+	mpDebug->drawMessages();
 }
 
 void Game::update()
 {
-	if (mpDebug->fpsCap())
-	{
-		mpDebug->incrementFrame();
-		mpDebug->addTextToScreen(std::to_string(mpDebug->getFPS()), vec2(10, 10), false, 0.0f);
-
+	mpDebug->update();
+	
 		if (Paused)
 			PausedUpdate();
 		else
 			UnpausedUpdate();
 
 		FixedUpdate();
-	}
+	
 }
 
 void Game::PausedUpdate()
 {
-	
+	mpDebug->addTextToScreen("PAUSED", vec2(width / 2.0, height - 40));
 }
 
 void Game::UnpausedUpdate()
@@ -105,7 +102,28 @@ void Game::FixedUpdate()
 {
 	mpCamera->update();
 
+
+	if (mpDebug->getDebugMode())
+	{
+		vec3 temp = mpCamera->getPos();
+		mpDebug->addTextToScreen("Cam Pos:", vec2(10, height - 70), false, 0.0f);
+		mpDebug->addTextToScreen("X: " + std::to_string(temp.x), vec2(10, height - 90), false, 0.0f);
+		mpDebug->addTextToScreen("Y: " + std::to_string(temp.y), vec2(10, height - 110), false, 0.0f);
+		mpDebug->addTextToScreen("Z: " + std::to_string(temp.z), vec2(10, height - 130), false, 0.0f);
+		
+		spaceWorldDebug();
+	}
 	//waterWorldFixedUpdate();
+}
+
+void Game::spaceWorldDebug()
+{
+	vec3 pos = Earth->getPos();
+	mpDebug->addTextToScreen("Earth X: " + std::to_string(pos.x) + " Y: " + std::to_string(pos.y) + " Z: " + std::to_string(pos.z), vec2(150, height - 40), false, 0.0f);
+
+	pos = Moon->getPos();
+	mpDebug->addTextToScreen("Moon X: " + std::to_string(pos.x) + " Y: " + std::to_string(pos.y) + " Z: " + std::to_string(pos.z), vec2(150, height - 70), false, 0.0f);
+
 }
 
 void Game::waterWorldUpdate()
@@ -154,7 +172,7 @@ void Game::start(int argNum, char* args[])
 	wireframe = false;
 	fog = false;
 	mouseFree = false;
-	Paused = false;
+	Paused = true;
 	fullscreen = false;
 
 	mpDebug = new Debug();
@@ -165,7 +183,7 @@ void Game::start(int argNum, char* args[])
 	waterShaderManager = new Shader_Manager();
 	
 
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);   
+	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);   
 	shaderManager.InitializeStockShaders();
 	
 	glEnable(GL_DEPTH_TEST);
@@ -288,15 +306,27 @@ void Game::setUpWorld(int argNum, char* args[])
 
 #pragma endregion SpaceWorldSetup
 
+		//Model scale:  1 : 12,740,000
+
 		mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-		Object* earth = mpResourceManager->addNewObject("Earthplz", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		earth->Translate(50, 0, 0);
+		Earth = mpResourceManager->addNewPhysicsObject("Earthplz", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		Earth->Translate(0, 0, 0);
+		Earth->setMass(5.9726);
 
-		//mpResourceManager->LoadFile("Assets/SuperMutantBehemoth/Super_Mutant_Behemoth.obj");
-		//mpResourceManager->addNewObject("bemoth", mpResourceManager->getObject("Assets/SuperMutantBehemoth")->getModelMap());
+		mpResourceManager->LoadFile("Assets/Planets/Moon.obj", "MoonObj");
+		Moon = mpResourceManager->addNewPhysicsObject("Moonplz", mpResourceManager->getObject("MoonObj")->getModelMap());
+		Moon->Translate(100.0f, 0, 0);
+		Moon->setScale(vec3(.27f, .27f, .27f));
+		Moon->setVelocity(vec3(0, 0, 2.022f));
+		Moon->setMass(0.07342);
+			
+		GravityGenerator* generator = new GravityGenerator();
+		generator->setSourceObject(Earth);
+		generator->addToRegistry(Moon);
+		mpResourceManager->addForceGeneratorToMap("Earth-Moon", generator);
 
-		//Object* cuby = mpResourceManager->addNewObject("Cuby", mpResourceManager->getObject("CubeTest")->getModelMap());
-		//cuby->Translate(5, 5, 5);
+		//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
+
 	}
 
 	ResetCamera();
@@ -305,7 +335,7 @@ void Game::setUpWorld(int argNum, char* args[])
 /*Controls:
 
 Arrow keys: alter cameras pitch and yaw
-F1: Reset Camera
+F1: Debug Text
 F2: Wireframe Toggle
 F3: Screen Shot
 F11: FullScreen mode
@@ -335,10 +365,15 @@ void Game::hookSpecialKey(int key, int x, int y)
 	if( key == GLUT_KEY_F3)
 	{
 		mpCamera->screenShot(width, height);
+		mpDebug->addTextToScreen("Screenshot captured", vec2(width / 2.0f, 10), false, 1.0f);
 	}
 	if( key == GLUT_KEY_F1)
 	{
-		ResetCamera();
+		mpDebug->toggleDebugMode();
+		if (mpDebug->getDebugMode())
+			mpDebug->addTextToScreen("Debug Mode: ON", vec2(width / 2.0f, 10), false, .6f);
+		else
+			mpDebug->addTextToScreen("Debug Mode: OFF", vec2(width / 2.0f, 10), false, .6f);
 	}
 	if( key == GLUT_KEY_F2)
 	{
@@ -346,11 +381,13 @@ void Game::hookSpecialKey(int key, int x, int y)
 		{
 			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 			wireframe = true;
+			mpDebug->addTextToScreen("Drawing Mode: Wireframe", vec2(width / 2.0f, 10), false, .6f);
 		}
 		else
 		{
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 			wireframe = false;
+			mpDebug->addTextToScreen("Drawing Mode: Normal", vec2(width / 2.0f, 10), false, .6f);
 		}
 	}
 	if (key == GLUT_KEY_F11)
@@ -380,11 +417,13 @@ void Game::hookSpecialKey(int key, int x, int y)
 /*Controls:
 
 WSAD: strafing movement
-Q / R: Vertical movement
+Q / E: Vertical movement
 Esc: Quit
-Tab: Activate acceleration and velocity of camera
+R: Reset Camera Pos
+F: Activate acceleration and velocity of camera
 P: Pause game
 L: free mouse
+O: output mouse pos
 
 */
 void Game::hookKey(unsigned char key, int x, int y)
@@ -417,9 +456,17 @@ void Game::hookKey(unsigned char key, int x, int y)
 	{
 		endGame();
 	}
-	if(key == 9) //tab
+	if(key == 'f' || key == 'F')
 	{
 		mpCamera->FlyMode(!mpCamera->FlyMode());
+		if (mpCamera->FlyMode())
+			mpDebug->addTextToScreen("Camera Movement: Smooth/Fly", vec2(width / 2.0f, 10), false, .6f);
+		else
+			mpDebug->addTextToScreen("Camera Movement: Rigid", vec2(width / 2.0f, 10), false, .6f);
+	}
+	if (key == 'r' || key == 'R')
+	{
+		mpCamera->hardReset(width, height);
 	}
 	if (key == 'p' || key == 'P')
 	{
@@ -428,11 +475,21 @@ void Game::hookKey(unsigned char key, int x, int y)
 	if (key == 'l' || key == 'L')
 	{
 		mouseFree = !mouseFree;
+		if ( mouseFree)
+			mpDebug->addTextToScreen("Mouse: Free", vec2(10, height - 40), false, 0.6f);
+		else
+			mpDebug->addTextToScreen("Mouse: Locked", vec2(10, height - 40), false, 0.6f);
 	}
 	if (key == 'o' || key == 'O')
 	{
-		vec3 temp = mpCamera->getPos();
-		cout << "X: " << temp.x << endl << "Y: " << temp.y << endl << "Z: " << temp.z << endl;
+		if (!mpDebug->getDebugMode())
+		{
+			vec3 temp = mpCamera->getPos();
+			mpDebug->addTextToScreen("Cam Pos:", vec2(10, height - 70), false, 1.0f);
+			mpDebug->addTextToScreen("X: " + std::to_string(temp.x), vec2(10, height - 90), false, 1.0f);
+			mpDebug->addTextToScreen("Y: " + std::to_string(temp.y), vec2(10, height - 110), false, 1.0f);
+			mpDebug->addTextToScreen("Z: " + std::to_string(temp.z), vec2(10, height - 130), false, 1.0f);
+		}
 	}
 	/*if(key == 'g' || key == 'G')
 	{
@@ -463,7 +520,6 @@ void Game::endGame()
 
 	exit(0);
 }
-
 
 
 

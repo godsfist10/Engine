@@ -14,7 +14,9 @@
     <ClCompile Include="BillboardedTexture.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GravityGenerator.cpp" />
     <ClCompile Include="Heightmap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -37,7 +39,9 @@
     <ClInclude Include="BillboardedTexture.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GravityGenerator.h" />
     <ClInclude Include="Heightmap.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />

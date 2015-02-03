@@ -47,6 +47,7 @@ public:
 	inline void setPos(vec3 pos) {mPos = pos;}
 	inline vec3 getPos() {return mPos;}
 	inline void Translate(float x, float y, float z){mPos.x += x; mPos.y += y; mPos.z += z;}
+	inline void modifyPos(vec3 val) { mPos += val; }
 
 	inline void setScale(vec3 scale) {mScale = scale;}
 	inline vec3 getScale() {return mScale;}

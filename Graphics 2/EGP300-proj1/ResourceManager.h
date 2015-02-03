@@ -13,6 +13,7 @@
 #include "PhysicsObject.h"
 #include "Particle.h"
 #include "Debug.h"
+#include "ForceGenerator.h"
 
 #include <fstream>
 #include <iostream>
@@ -24,6 +25,7 @@
 
 class BillboardedTexture;
 class PhysicsObject;
+class ForceGenerator;
 
 using namespace std;
 using namespace Arc;
@@ -48,38 +50,49 @@ public:
 	inline bool hasObject( const string& key ) { return m_ObjectsMap.containsKey(key); }
 	inline bool hasTexture( const string& key) { return m_TexturesMap.containsKey(key); }
 	inline bool hasBillboard(const string& key) { return m_BillboardsMap.containsKey(key); }
-	
+	inline bool hasPhysicsObject(const string& key) { return m_PhysicsObjectMap.containsKey(key); }
+	inline bool hasForceGenerator(const string& key) { return m_ForceGeneratorMap.containsKey(key); }
+
 	inline Map<string, Model*> getModelsMap() const { return m_ModelsMap; }
 	inline Map<string, Material*> getMaterialsMap() const { return m_MaterialsMap; }
 	inline Map<string , Object*> getObjectsMap() const { return m_ObjectsMap; }
 	inline Map<string, Texture*> getTexturesMap() const { return m_TexturesMap; }
 	inline Map<string, BillboardedTexture*> getBillboardsMap() const { return m_BillboardsMap; }
+	inline Map<string, PhysicsObject*> getPhysicsObjectMap() const { return m_PhysicsObjectMap; }
+	inline Map<string, ForceGenerator*> getForceGeneratorMap() const { return m_ForceGeneratorMap; }
 
 	inline void addModelsToMap( Map<string, Model*>& modelsToAdd) { m_ModelsMap.insert(modelsToAdd.itBegin(), modelsToAdd.itEnd());}
 	inline void addMaterialsToMap( Map<string, Material*>& materialsToAdd)  { m_MaterialsMap.insert(materialsToAdd.itBegin(), materialsToAdd.itEnd()); }
 	inline void addTexturesToMap( Map<string, Texture*>& texturesToAdd) { m_TexturesMap.insert(texturesToAdd.itBegin(), texturesToAdd.itEnd()); }
 	inline void addObjectsToMap( Map<string, Object*>&objects) { m_ObjectsMap.insert(objects.itBegin(), objects.itEnd()); }
 	inline void addBillboardsToMap(Map<string, BillboardedTexture*>&billboards) { m_BillboardsMap.insert(billboards.itBegin(), billboards.itEnd()); } //if this is used I need to add them to draw order
-	
+	inline void addPhysicsObjectsToMap(Map<string, PhysicsObject*>&physicsObjects) { m_PhysicsObjectMap.insert(physicsObjects.itBegin(), physicsObjects.itEnd()); } 
+
 	inline void addModelToMap( const string& key, Model* model) { m_ModelsMap.add(key, model); }
 	inline void addMaterialToMap( const string& key, Material* material) { m_MaterialsMap.add(key, material); }
 	inline void addObjectToMap( const string& key, Object* object) { m_ObjectsMap.add(key, object); }
 	inline void addTextureToMap( const string& key, Texture* texture) { m_TexturesMap.add(key, texture); }
 	inline void addBillboardToMap(const string& key, BillboardedTexture* billboard) { m_BillboardsMap.add(key, billboard); addBillboardToDrawOrder(billboard); }
 	inline void addBillboardToDrawOrder(BillboardedTexture* billboard) { BillBoardDrawOrder.add(billboard); }
-	
-	inline void removeObjectFromMap( const string& key) { hasObject(key) ? m_ObjectsMap.removeKey(key) : nullptr;}
-	inline void removeBillboardFromMap( const string& key) { hasBillboard(key) ? m_BillboardsMap.removeKey(key) : nullptr;}
-	void deleteObject(const string& key);
-	void deleteBillboard(const string& key);
+	inline void addPhysicsObjectToMap(const string& key, PhysicsObject* physicsObject) { m_PhysicsObjectMap.add(key, physicsObject); }
+	inline void addForceGeneratorToMap(const string& key, ForceGenerator* generator) { m_ForceGeneratorMap.add(key, generator); }
 
+	inline void removeObjectFromMap( const string& key) { hasObject(key) ? m_ObjectsMap.removeKey(key) : nullptr;}
+	inline void removePhysicsObjectFromMap(const string& key) { hasPhysicsObject(key) ? m_PhysicsObjectMap.removeKey(key) : nullptr; }
+	inline void removeBillboardFromMap( const string& key) { hasBillboard(key) ? m_BillboardsMap.removeKey(key) : nullptr;}
+	inline void removeForceGeneratorFromMap(const string& key) { hasForceGenerator(key) ? m_ForceGeneratorMap.removeKey(key) : nullptr; }
+	void deleteObject(const string& key);
+	void deleteForceGenerator(const string& key);
+	void deleteBillboard(const string& key);
 
 	inline Model* getModel(const string& key ) { return (hasModel(key) ? m_ModelsMap[key] : nullptr);}
 	inline Material* getMaterial( const string& key ) { return (hasMaterial(key) ? m_MaterialsMap[key] : nullptr); }
 	inline Texture* getTexture( const string& key ) { return (hasTexture(key) ? m_TexturesMap[key] : nullptr); }
 	inline Object* getObject( const string& key ) { return (hasObject(key) ? m_ObjectsMap[key] : nullptr); }
 	inline BillboardedTexture* getBillboard(const string& key) { return (hasBillboard(key) ? m_BillboardsMap[key] : nullptr); }
-	
+	inline PhysicsObject* getPhysicsObject(const string& key) { return (hasPhysicsObject(key) ? m_PhysicsObjectMap[key] : nullptr); }
+	inline ForceGenerator* getForceGenerator(const string& key) { return (hasForceGenerator(key) ? m_ForceGeneratorMap[key] : nullptr); }
+
 	Model* addNewModel(const string& key );
 	Object* addNewObject( const string& key );
 	Material* addNewMaterial(const string& key );
@@ -87,6 +100,7 @@ public:
 	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
 	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
 
+	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
 
 private:
 
@@ -98,6 +112,7 @@ private:
 	Map<string, Material*> m_MaterialsMap;
 	Map<string, Model*> m_ModelsMap;
 	Map<string, BillboardedTexture*> m_BillboardsMap;
-
+	Map<string, PhysicsObject*> m_PhysicsObjectMap;
+	Map<string, ForceGenerator*> m_ForceGeneratorMap;
 };
 

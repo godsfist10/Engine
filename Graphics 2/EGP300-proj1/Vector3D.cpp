@@ -17,6 +17,13 @@ Vector3D::Vector3D(float x, float y, float z)
 	Z = z;
 }
 
+Vector3D::Vector3D(vec3 rhs)
+{
+	X = rhs.x;
+	Y = rhs.y;
+	Z = rhs.z;
+}
+
 Vector3D Vector3D::operator+(const Vector3D& rhs) const
 {
 	return Vector3D(X + rhs.X, Y + rhs.Y, Z + rhs.Z);
@@ -53,7 +60,7 @@ bool Vector3D::operator!=(const Vector3D& rhs) const
 
 float Vector3D::magnitude()
 {
-	return sqrt((X * X) + (Y * Y) + (Z * Z));
+	return glm::sqrt((X * X) + (Y * Y) + (Z * Z));
 }
 
 float Vector3D::magnitudeSquared()
@@ -82,4 +89,24 @@ Vector3D Vector3D::cross(const Vector3D& rhs) const
 float Vector3D::dot(const Vector3D& rhs) const
 {
 	return (X * rhs.X + Y * rhs.Y + Z * rhs.Z);
+}
+
+float Vector3D::dist(const Vector3D& a, const Vector3D& b)
+{
+	return glm::sqrt(distSquared(a, b));
+}
+
+float Vector3D::distSquared(const Vector3D& a, const Vector3D& b)
+{
+	return (pow((a.X - b.X), 2.0f) + pow((a.Y - b.Y), 2.0f) + pow((a.Z - b.Z), 2.0f));
+}
+
+float Vector3D::dist(const vec3& a, const vec3& b)
+{
+	return glm::sqrt(distSquared(a, b));
+}
+
+float Vector3D::distSquared(const vec3& a, const vec3& b)
+{
+	return (pow((a.x - b.x), 2.0f) + pow((a.y - b.y), 2.0f) + pow((a.z - b.z), 2.0f));
 }

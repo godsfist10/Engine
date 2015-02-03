@@ -12,36 +12,35 @@ class PhysicsObject : public Object
 public:
 	PhysicsObject();
 	PhysicsObject(const Map<string, Model*> &modelsMap);
+	PhysicsObject(const Map<string, Model*> &modelsMap, const double& mass);
 	~PhysicsObject();
-
-	/*inline PhysicsObject(const PhysicsObject& rhs)
-		: mModelsMap(rhs.mModelsMap),
-		mPos(rhs.mPos),
-		mRotation(rhs.mRotation),
-		mScale(rhs.mScale),
-		mIsPrefab(rhs.mIsPrefab)
-	{ 
-		m_Velocity = vec3(0, 0, 0);
-		m_Acceleration = vec3(0, 0, 0);
-	}*/
 
 	virtual void update();
 
-	inline vec3 getVelocity() { return m_Velocity; }
-	inline void setVelocity(vec3 vel) { m_Velocity = vel; }
-	inline void modifyVelocity(vec3 vel) { m_Velocity += vel; }
+	inline vec3 getVelocity() { return mVelocity; }
+	inline void setVelocity(vec3 vel) { mVelocity = vel; }
+	inline void modifyVelocity(vec3 vel) { mVelocity += vel; }
 
-	inline vec3 getAcceleration() { return m_Acceleration; }
-	inline void setAcceleration(vec3 val) { m_Acceleration = val; }
-	inline void modifyAcceleration(vec3 val) { m_Acceleration += val; }
+	inline vec3 getAcceleration() { return mAcceleration; }
+	inline void setAcceleration(vec3 val) { mAcceleration = val; }
+	inline void modifyAcceleration(vec3 val) { mAcceleration += val; }
+
+	inline vec3 getForce() { return mForce; }
+
+	inline double getMass() { return mMass; }
+	inline void setMass(double mass) { mMass = (realNum)mass; mInverseMass = 1.0f / (realNum)mass; }
+
+	inline void addForce(vec3 force) { mForce += force; }
 
 protected:
 
 	virtual void physicsUpdate();
 
-	vec3 m_Velocity;
-	vec3 m_Acceleration;
-	realNum m_Mass;
+	vec3 mVelocity;
+	vec3 mAcceleration;
+	vec3 mForce;
+	realNum mMass;
+	realNum mInverseMass;
 
 
 };
