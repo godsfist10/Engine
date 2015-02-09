@@ -108,8 +108,15 @@ protected:
 #pragma region spaceWorldVars
 
 	PhysicsObject* Sun;
+	PhysicsObject* Mercury;
+	PhysicsObject* Venus;
 	PhysicsObject* Earth;
 	PhysicsObject* Moon;
+	PhysicsObject* Mars;
+	PhysicsObject* Jupiter;
+	PhysicsObject* Saturn;
+	PhysicsObject* Uranus;
+	PhysicsObject* Neptune;	
 
 #pragma endregion spaceWorldVars
 

@@ -100,7 +100,7 @@ void ResourceManager::loadMTLFile(const string& filename)
 		{
 			if( currentMaterial == nullptr)
 			{
-				currentMaterial = addNewMaterial("DefaultMaterial");
+				currentMaterial = addNewMaterial(filename);
 			}
 
 			if(command == "Kd")
@@ -745,6 +745,20 @@ Model* ResourceManager::addNewModel(const string& key)
 	return tempModel;
 }
 
+Model* ResourceManager::addNewModel(const string& key, const string& previousModel, const string& newMatName, const string& newMatFile)
+{
+	Model* tempModel = new Model();
+	tempModel->setBatches(getModel(previousModel)->getBatches());
+	if (!hasMaterial(newMatName))
+	{
+		loadMTLFile(newMatFile);
+	}
+		
+	tempModel->setMaterial(getMaterial(newMatName));
+	m_ModelsMap.add(key, tempModel);
+	return tempModel;
+}
+
 Object* ResourceManager::addNewObject(const string& key)
 {
 	Object* tempObject = new Object();
@@ -806,6 +820,14 @@ void ResourceManager::deleteBillboard(const string& key)
 		m_BillboardsMap.removeKey(key);
 	}
 }
+
+void ResourceManager::applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile)
+{
+	Object* tempObject = getObject(objectName);
+	tempObject->removeModelFromMap(modelName);
+	tempObject->addModel(newModelName, addNewModel(newModelName, modelName, materialName, materialFile));
+}
+
 
 void ResourceManager::updateObjects(vec3 cameraPos)
 {

@@ -17,6 +17,8 @@
 #include <SDL/SDL_image.h>
 #undef main
 
+#include "Vector3D.h"
+
 using namespace glm;
 using namespace std;
 
@@ -85,6 +87,7 @@ public:
 protected:
 
 	vec3 m_Pos, m_Direction, m_Up;
+	vec3 forwardSideUpBool;
 
 	mat4x4 m_CachedView, m_CachedProjection;
 
@@ -98,8 +101,13 @@ protected:
 	float m_ManualMoveSpeed;
 	float m_MaxMoveSpeed;
 	float m_Acceleration;
-	
+	float m_AccelerationRamp;
 	bool m_FlyMode;
 	
+	float getMagnitude(vec3 dir);
+	vec3 normalized(vec3 dir);
+	
+
+
 };
 

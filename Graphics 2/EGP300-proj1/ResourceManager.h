@@ -94,11 +94,14 @@ public:
 	inline ForceGenerator* getForceGenerator(const string& key) { return (hasForceGenerator(key) ? m_ForceGeneratorMap[key] : nullptr); }
 
 	Model* addNewModel(const string& key );
+	Model* addNewModel(const string& key, const string& previousModel, const string& newMatName, const string& newMatFile);
 	Object* addNewObject( const string& key );
 	Material* addNewMaterial(const string& key );
 	Object* addNewObject( const string& ObjectName, const Map<string, Model*> &modelsMap );
 	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
 	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
+	void applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile);
+
 
 	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
 

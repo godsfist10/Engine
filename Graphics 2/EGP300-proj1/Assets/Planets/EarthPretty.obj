@@ -1,7 +1,7 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
 mtllib EarthPretty.mtl
-o EarthPlanet
+o Planet
 v 1.190225 -7.901507 -0.386728
 v 1.012466 -7.901507 -0.735599
 v 0.735599 -7.901507 -1.012466

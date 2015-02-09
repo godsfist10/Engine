@@ -47,9 +47,11 @@ public:
 	inline void setPos(vec3 pos) {mPos = pos;}
 	inline vec3 getPos() {return mPos;}
 	inline void Translate(float x, float y, float z){mPos.x += x; mPos.y += y; mPos.z += z;}
+	inline void Translate(vec3 val) { mPos += val; }
 	inline void modifyPos(vec3 val) { mPos += val; }
 
 	inline void setScale(vec3 scale) {mScale = scale;}
+	inline void setScale(float scale) { mScale.x = scale; mScale.y = scale; mScale.z = scale; }
 	inline vec3 getScale() {return mScale;}
 	inline void modifyScale(float x, float y, float z){mScale.x += x; mScale.y += y; mScale.z += z;}
 
@@ -60,10 +62,11 @@ public:
 	inline bool hasModel( const string& key ) { return mModelsMap.containsKey(key); }
 	inline void addModel(string modelName, Model* modelToAdd){mModelsMap.add(modelName, modelToAdd);}
 	inline void addModelMap(Map<string, Model*> &modelMapToAdd){ mModelsMap.insert(modelMapToAdd.itBegin(), modelMapToAdd.itEnd());}
+	inline void removeModelFromMap(const string& key) { mModelsMap.removeKey(key); }
 
 	inline Model* getModel(string modelName){return (hasModel(modelName) ? mModelsMap[modelName] : nullptr);}
 	inline Map<string, Model*> getModelMap() { return mModelsMap; }
-	
+
 protected:
 
 	Map<string, Model*> mModelsMap;

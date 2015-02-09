@@ -26,7 +26,8 @@ public:
 	void addBatch(GLBatch* tris);
 	void cleanup();
 
-	vector<GLBatch*> Batches() const { return batches; }
+	vector<GLBatch*> getBatches() const { return batches; }
+	inline void setBatches(vector<GLBatch*> newBatches) { batches = newBatches; }
 	inline void setMaterial(Material* material) {mpMaterial = material;}
 
 private:

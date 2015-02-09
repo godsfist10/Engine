@@ -25,9 +25,9 @@ void GravityGenerator::addForce(PhysicsObject* obj )
 	Vector3D direction = obj->getPos() - mSourceObject->getPos();
 	direction.normalize();
 
-	float force = ((GRAVITY_CONST * mSourceObject->getMass() * obj->getMass()) / distanceSQ);
+	double force = ((GRAVITY_CONST * mSourceObject->getMass() * obj->getMass()) / (double)distanceSQ);
 
-	Vector3D gravity = direction * force;
+	Vector3D gravity = direction * (float)force;
 	vec3 forceToAdd = vec3(gravity.X, gravity.Y, gravity.Z);
 	mSourceObject->addForce(forceToAdd);
 	obj->addForce(-forceToAdd);

@@ -309,21 +309,78 @@ void Game::setUpWorld(int argNum, char* args[])
 		//Model scale:  1 : 12,740,000
 
 		mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-		Earth = mpResourceManager->addNewPhysicsObject("Earthplz", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		Earth->Translate(0, 0, 0);
-		Earth->setMass(5.9726);
 
-		mpResourceManager->LoadFile("Assets/Planets/Moon.obj", "MoonObj");
-		Moon = mpResourceManager->addNewPhysicsObject("Moonplz", mpResourceManager->getObject("MoonObj")->getModelMap());
-		Moon->Translate(100.0f, 0, 0);
-		Moon->setScale(vec3(.27f, .27f, .27f));
-		Moon->setVelocity(vec3(0, 0, 2.022f));
-		Moon->setMass(0.07342);
+		Sun = mpResourceManager->addNewPhysicsObject("Sun", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Sun", "SunModel", "Planet", "SunMat", "Assets/Planets/Sun.mtl");
+		Sun->Translate(0, 0, 0);
+		Sun->setScale(139.2f / 10.0f);
+		Sun->setMass(0.0553);
+
+		Mercury = mpResourceManager->addNewPhysicsObject("Mercury", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Mercury", "MercuryModel", "Planet", "MercuryMat", "Assets/Planets/Mercury.mtl");
+		Mercury->Translate(387.0f, 0, 0);
+		Mercury->setScale(.4879f / 10.0f);
+		Mercury->setMass(0.0553);
+
+		Venus = mpResourceManager->addNewPhysicsObject("Venus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Venus", "VenusModel", "Planet", "VenusMat", "Assets/Planets/Venus.mtl");
+		Venus->Translate(723.0f, 0, 0);
+		Venus->setScale(1.2104f / 10.0f);
+		Venus->setMass(1);
+
+		Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		Earth->Translate(1000.0f, 0, 0);
+		Earth->setMass(5.9726);
+		Earth->setScale(1.2742f / 10.0f);
+		Earth->setMass(1);
+
+		Moon = mpResourceManager->addNewPhysicsObject("Moon", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Moon", "MoonModel", "Planet", "MoonMat", "Assets/Planets/Moon.mtl");
+		Moon->Translate(1000.0f, 0, 0.257f);
+		Moon->setScale(.3474f / 10.0f);
+		Moon->setMass(1);
+
+		Mars = mpResourceManager->addNewPhysicsObject("Mars", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Mars", "MarsModel", "Planet", "MarsMat", "Assets/Planets/Mars.mtl");
+		Mars->Translate(1524.0f, 0, 0);
+		Mars->setScale(.6779f / 10.0f);
+		Mars->setMass(1);
+
+		Jupiter = mpResourceManager->addNewPhysicsObject("Jupiter", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Jupiter", "JupiterModel", "Planet", "JupiterMat", "Assets/Planets/Jupiter.mtl");
+		Jupiter->Translate(5203.0f, 0, 0);
+		Jupiter->setScale(13.9822f / 10.0f);
+		Jupiter->setMass(1);
+
+		Saturn = mpResourceManager->addNewPhysicsObject("Saturn", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Saturn", "SaturnModel", "Planet", "SaturnMat", "Assets/Planets/Saturn.mtl");
+		Saturn->Translate(9537.0f, 0, 0);
+		Saturn->setScale(11.6464f / 10.0f);
+		Saturn->setMass(1);
+
+		Uranus = mpResourceManager->addNewPhysicsObject("Uranus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Uranus", "UranusModel", "Planet", "UranusMat", "Assets/Planets/Uranus.mtl");
+		Uranus->Translate(191910.0f, 0, 0);
+		Uranus->setScale(5.0724f / 10.0f);
+		Uranus->setMass(1);
+
+		Neptune = mpResourceManager->addNewPhysicsObject("Neptune", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+		mpResourceManager->applyMaterialToObject("Neptune", "NeptuneModel", "Planet", "NeptuneMat", "Assets/Planets/Neptune.mtl");
+		Neptune->Translate(30069.0f, 0, 0);
+		Neptune->setScale(4.9244f / 10.0f);
+		Neptune->setMass(1);
+		
+
+		//Moon = mpResourceManager->addNewPhysicsObject("Moonplz", mpResourceManager->getObject("MoonObj")->getModelMap());
+		//Moon->Translate(100.0f, 0, 0);
+		//Moon->setScale(vec3(.27f, .27f, .27f));
+		//Moon->setVelocity(vec3(0, 0, 2.022f));
+		//Moon->setMass(0.07342);
 			
-		GravityGenerator* generator = new GravityGenerator();
-		generator->setSourceObject(Earth);
-		generator->addToRegistry(Moon);
-		mpResourceManager->addForceGeneratorToMap("Earth-Moon", generator);
+		//GravityGenerator* generator = new GravityGenerator();
+		//generator->setSourceObject(Earth);
+		//generator->addToRegistry(Moon);
+		//mpResourceManager->addForceGeneratorToMap("Earth-Moon", generator);
 
 		//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
 

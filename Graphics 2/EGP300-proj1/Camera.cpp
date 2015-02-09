@@ -8,16 +8,19 @@ Camera::Camera(void)
 	m_DirectionUpdated = true;
 	m_Moving = true;
 	m_FlyMode = false;
-	m_MaxMoveSpeed = 5.0f;
+	m_MaxMoveSpeed = 15.0f;
 	m_ManualMoveSpeed = 6.0f;
-	m_Acceleration = .7f;
+	m_Acceleration = .1f;
+	m_AccelerationRamp = .1f;
 	m_CurrentMoveSpeed = vec3(0.0f, 0.0f, 0.0f);
 	vec3 cameraPos = m_Pos; 
+	vec3 forwardSideUpBool = vec3(0, 0, 0);
 
 }
 
 void Camera::update()
 {
+
 	if(m_FlyMode)
 	{
 		translateForward(m_CurrentMoveSpeed.x);
@@ -149,27 +152,12 @@ void Camera::screenShot(const int& screenWidth, const int& screenHeight, const s
 
 void Camera::command(vec3 commandDir)
 {
+	
 	if( m_FlyMode)
 	{
 		m_CurrentMoveSpeed += commandDir * m_Acceleration;
-		if( m_CurrentMoveSpeed.x > m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.x = m_MaxMoveSpeed;
-
-		if( m_CurrentMoveSpeed.y > m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.y = m_MaxMoveSpeed;
-
-		if( m_CurrentMoveSpeed.z > m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.z = m_MaxMoveSpeed;
-
-		if( m_CurrentMoveSpeed.x < -m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.x = -m_MaxMoveSpeed;
-
-		if( m_CurrentMoveSpeed.y < -m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.y = -m_MaxMoveSpeed;
-
-		if( m_CurrentMoveSpeed.z < -m_MaxMoveSpeed)
-			m_CurrentMoveSpeed.z = -m_MaxMoveSpeed;
-
+		if (getMagnitude(m_CurrentMoveSpeed) > m_MaxMoveSpeed)
+			m_CurrentMoveSpeed = normalize(m_CurrentMoveSpeed) * m_MaxMoveSpeed;
 
 	}
 	else
@@ -183,6 +171,20 @@ void Camera::command(vec3 commandDir)
 void Camera::resetCurrentSpeed()
 {
 	m_CurrentMoveSpeed = vec3(0,0,0);
+	m_Acceleration = 0.1f;
+}
+
+float Camera::getMagnitude(vec3 dir)
+{
+	Vector3D temp = Vector3D(dir);
+	return temp.magnitude();
+}
+
+vec3 Camera::normalized(vec3 dir)
+{
+	Vector3D temp = Vector3D(dir);
+	temp.normalize();
+	return vec3(temp.X, temp.Y, temp.Z);
 }
 
 
