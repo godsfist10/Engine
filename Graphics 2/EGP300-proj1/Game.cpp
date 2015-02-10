@@ -95,13 +95,15 @@ void Game::UnpausedUpdate()
 {
 	mpResourceManager->updateObjects(mpCamera->getPos());	
 
-	//waterWorldUpdate();
+	if (m_waterworld)
+		waterWorldUpdate();
+	if (m_space)
+		spaceWorldUpdate();
 }
 
 void Game::FixedUpdate()
 {
 	mpCamera->update();
-
 
 	if (mpDebug->getDebugMode())
 	{
@@ -111,19 +113,20 @@ void Game::FixedUpdate()
 		mpDebug->addTextToScreen("Y: " + std::to_string(temp.y), vec2(10, height - 110), false, 0.0f);
 		mpDebug->addTextToScreen("Z: " + std::to_string(temp.z), vec2(10, height - 130), false, 0.0f);
 		
-		spaceWorldDebug();
+		if (m_space)
+			spaceWorldDebug();
 	}
-	//waterWorldFixedUpdate();
+	
+	if (m_waterworld)
+		waterWorldFixedUpdate();
+	if (m_space)
+		spaceWorldFixedUpdate();
 }
 
 void Game::spaceWorldDebug()
 {
-	vec3 pos = Earth->getPos();
-	mpDebug->addTextToScreen("Earth X: " + std::to_string(pos.x) + " Y: " + std::to_string(pos.y) + " Z: " + std::to_string(pos.z), vec2(150, height - 40), false, 0.0f);
-
-	pos = Moon->getPos();
-	mpDebug->addTextToScreen("Moon X: " + std::to_string(pos.x) + " Y: " + std::to_string(pos.y) + " Z: " + std::to_string(pos.z), vec2(150, height - 70), false, 0.0f);
-
+	if (PlanetToFollow != nullptr)
+		mpDebug->addTextToScreen("Following: " + mpResourceManager->getObjectKey(PlanetToFollow) , vec2(width - 200, height - 40), false, 0.0f);
 }
 
 void Game::waterWorldUpdate()
@@ -157,7 +160,10 @@ void Game::waterWorldFixedUpdate()
 
 void Game::spaceWorldUpdate()
 {
-
+	if (PlanetToFollow != nullptr)
+	{
+		mpCamera->setPos(PlanetToFollow->getPos().x, mpCamera->getPos().y, PlanetToFollow->getPos().z);
+	}
 }
 void Game::spaceWorldFixedUpdate()
 {
@@ -167,6 +173,10 @@ void Game::spaceWorldFixedUpdate()
 
 void Game::start(int argNum, char* args[])
 {
+	m_space = true;
+	m_waterworld = false;
+
+	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
 	m_CameraLookSpeed = .2f;
 	wireframe = false;
@@ -182,7 +192,7 @@ void Game::start(int argNum, char* args[])
 	mpTerrainManager = new TerrainManager();
 	waterShaderManager = new Shader_Manager();
 	
-
+	
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);   
 	shaderManager.InitializeStockShaders();
 	
@@ -217,10 +227,7 @@ void Game::start(int argNum, char* args[])
 
 void Game::setUpWorld(int argNum, char* args[])
 {
-	int waterTerrainSize = 8000;
-	int terrainSize = 3000;
-	int terrainTriDensity = 100;
-
+	
 	if(argNum > 1)
 	{
 		for( int i = 1; i < argNum; i++)
@@ -242,148 +249,174 @@ void Game::setUpWorld(int argNum, char* args[])
 		//cube->setIsPrefab(true);
 		//Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
 		//Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
-		
+
 #pragma endregion standardPrefabSetup
 
-		/*
 #pragma region WaterWorldSetup
-
-		waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
-
-		mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
-
-		m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.jpg", mpResourceManager, 3000, "cloudSkybox");
-		m_cloudSkybox->setIsPrefab(true);
-		m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager, 3000, "underwaterSkybox");
-
-		mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true);
-		mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
 		
-		
-		m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
-		m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
-		//m_waterMap->setIsPrefab(true);
-		
-		BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
-		billboard1->setPos(vec3(-400, 400, -800));
-		billboard1->setScale(vec3(.6f, .6f, .6f));
+		if (m_waterworld)
+		{
 
-		BillboardedTexture* billboard2 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud3");
-		billboard2->setPos(vec3(700, 400, 700));
-		billboard2->setScale(vec3(.6f, .6f, .6f));
+			int waterTerrainSize = 8000;
+			int terrainSize = 3000;
+			int terrainTriDensity = 100;
 
-		BillboardedTexture* billboard = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud1");
-		billboard->setPos(vec3(-900, 400, 300));
-		billboard->setScale(vec3(.6f, .6f, .6f));
+			waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
+
+			mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
+
+			m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.jpg", mpResourceManager, 3000, "cloudSkybox");
+			m_cloudSkybox->setIsPrefab(true);
+			m_underWaterSkybox = new Skybox("Assets/WaterBox/waterSkybox.png", mpResourceManager, 3000, "underwaterSkybox");
+
+			mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true);
+			mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
 
 
-		BillboardedTexture* grass = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass");
-		grass->setPos(vec3(270, -100, 270));
-		grass->setScale(vec3(.25f, .25f, .25f));
+			m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
+			m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
+			//m_waterMap->setIsPrefab(true);
 
-		BillboardedTexture* grass2 = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass2");
-		grass2->setPos(vec3(270, -100, 270));
-		grass2->setScale(vec3(.25f, .25f, .25f));
+			BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
+			billboard1->setPos(vec3(-400, 400, -800));
+			billboard1->setScale(vec3(.6f, .6f, .6f));
 
-		grass2->setRotation(vec3(0, PI / 2.3f, 0));
+			BillboardedTexture* billboard2 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud3");
+			billboard2->setPos(vec3(700, 400, 700));
+			billboard2->setScale(vec3(.6f, .6f, .6f));
 
-		Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-		fishy->Translate(5, 5, 5);
+			BillboardedTexture* billboard = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud1");
+			billboard->setPos(vec3(-900, 400, 300));
+			billboard->setScale(vec3(.6f, .6f, .6f));
 
-		physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-		physhy->modifyVelocity(vec3(0, 0, 0));
-		physhy->modifyAcceleration(vec3(0, 0, .005));
 
-		PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5,0,0), 100, 300, vec3(1,0,0));
-		PhyshyFriends->startEffect("Assets/Fish");
+			BillboardedTexture* grass = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass");
+			grass->setPos(vec3(270, -100, 270));
+			grass->setScale(vec3(.25f, .25f, .25f));
 
-		
-		
+			BillboardedTexture* grass2 = new BillboardedTexture(mpResourceManager, "Assets/Grass/grass.png", false, "grass2");
+			grass2->setPos(vec3(270, -100, 270));
+			grass2->setScale(vec3(.25f, .25f, .25f));
+
+			grass2->setRotation(vec3(0, PI / 2.3f, 0));
+
+			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
+			fishy->Translate(5, 5, 5);
+
+			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
+			physhy->modifyVelocity(vec3(0, 0, 0));
+			physhy->modifyAcceleration(vec3(0, 0, .005));
+
+			PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 300, vec3(1, 0, 0));
+			PhyshyFriends->startEffect("Assets/Fish");
+
+		}
 #pragma endregion WaterWorldSetup
-		*/
 
 #pragma region SpaceWorldSetup
 
+		//Model scale:  1 : 12,740,000
+		if (m_space)
+		{
+			float earthVelocity = 30.3f;
+			float planetSizeScaleDiv = 10.0f;
+
+			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
+
+			Sun = mpResourceManager->addNewPhysicsObject("Sun", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Sun", "SunModel", "Planet", "SunMat", "Assets/Planets/Sun.mtl");
+			Sun->Translate(0, 0, 0);
+			Sun->setScale(139.2f / 10.0f);
+			Sun->setMass(0.0553);
+
+			Mercury = mpResourceManager->addNewPhysicsObject("Mercury", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Mercury", "MercuryModel", "Planet", "MercuryMat", "Assets/Planets/Mercury.mtl");
+			Mercury->Translate(387.0f, 0, 0);
+			Mercury->setScale(.4879f / planetSizeScaleDiv);
+			Mercury->setMass(0.0553);
+			Mercury->setVelocity(vec3(0, 0, earthVelocity * 1.607f));
+
+			Venus = mpResourceManager->addNewPhysicsObject("Venus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Venus", "VenusModel", "Planet", "VenusMat", "Assets/Planets/Venus.mtl");
+			Venus->Translate(723.0f, 0, 0);
+			Venus->setScale(1.2104f / planetSizeScaleDiv);
+			Venus->setMass(0.815);
+			Venus->setVelocity(vec3(0, 0, earthVelocity * 1.174f));
+
+			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth->Translate(1000.0f, 0, 0);
+			Earth->setMass(5.9726);
+			Earth->setScale(1.2742f / planetSizeScaleDiv);
+			Earth->setMass(1);
+			Earth->setVelocity(vec3(0, 0, earthVelocity));
+
+			Moon = mpResourceManager->addNewPhysicsObject("Moon", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Moon", "MoonModel", "Planet", "MoonMat", "Assets/Planets/Moon.mtl");
+			Moon->Translate(1000.257f, 0, 0);
+			Moon->setScale(.3474f / planetSizeScaleDiv);
+			Moon->setMass(0.012306f);
+			Moon->setVelocity(vec3(0, 0, 1.022f));
+
+			Mars = mpResourceManager->addNewPhysicsObject("Mars", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Mars", "MarsModel", "Planet", "MarsMat", "Assets/Planets/Mars.mtl");
+			Mars->Translate(1524.0f, 0, 0);
+			Mars->setScale(.6779f / planetSizeScaleDiv);
+			Mars->setMass(0.107f);
+			Mars->setVelocity(vec3(0, 0, earthVelocity * 0.802f));
+
+			Jupiter = mpResourceManager->addNewPhysicsObject("Jupiter", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Jupiter", "JupiterModel", "Planet", "JupiterMat", "Assets/Planets/Jupiter.mtl");
+			Jupiter->Translate(5203.0f, 0, 0);
+			Jupiter->setScale(13.9822f / planetSizeScaleDiv);
+			Jupiter->setMass(317.83f);
+			Jupiter->setVelocity(vec3(0, 0, earthVelocity * 0.434f));
+
+			Saturn = mpResourceManager->addNewPhysicsObject("Saturn", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Saturn", "SaturnModel", "Planet", "SaturnMat", "Assets/Planets/Saturn.mtl");
+			Saturn->Translate(9537.0f, 0, 0);
+			Saturn->setScale(11.6464f / planetSizeScaleDiv);
+			Saturn->setMass(317.83f);
+			Saturn->setVelocity(vec3(0, 0, earthVelocity * 0.323f));
+
+			Uranus = mpResourceManager->addNewPhysicsObject("Uranus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Uranus", "UranusModel", "Planet", "UranusMat", "Assets/Planets/Uranus.mtl");
+			Uranus->Translate(191910.0f, 0, 0);
+			Uranus->setScale(5.0724f / planetSizeScaleDiv);
+			Uranus->setMass(317.83f);
+			Uranus->setVelocity(vec3(0, 0, earthVelocity * 0.228f));
+
+			Neptune = mpResourceManager->addNewPhysicsObject("Neptune", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			mpResourceManager->applyMaterialToObject("Neptune", "NeptuneModel", "Planet", "NeptuneMat", "Assets/Planets/Neptune.mtl");
+			Neptune->Translate(30069.0f, 0, 0);
+			Neptune->setScale(4.9244f / planetSizeScaleDiv);
+			Neptune->setMass(317.83f);
+			Neptune->setVelocity(vec3(0, 0, earthVelocity * 0.182f));
+
+			GravityGenerator* generator = new GravityGenerator();
+			generator->setSourceObject(Sun);
+			generator->addToRegistry(Mercury);
+			generator->addToRegistry(Venus);
+			generator->addToRegistry(Earth);
+			generator->addToRegistry(Moon);
+			generator->addToRegistry(Mars);
+			generator->addToRegistry(Jupiter);
+			generator->addToRegistry(Saturn);
+			generator->addToRegistry(Uranus);
+			generator->addToRegistry(Neptune);
+		
+			mpResourceManager->addForceGeneratorToMap("SunGravity", generator);
+
+			GravityGenerator* MoonGenerator = new GravityGenerator();
+			MoonGenerator->setSourceObject(Earth);
+
+			mpResourceManager->addForceGeneratorToMap("EarthGravity", MoonGenerator);
+			generator->addToRegistry(Moon);
+			//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
+		}
+
 #pragma endregion SpaceWorldSetup
 
-		//Model scale:  1 : 12,740,000
-
-		mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-
-		Sun = mpResourceManager->addNewPhysicsObject("Sun", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Sun", "SunModel", "Planet", "SunMat", "Assets/Planets/Sun.mtl");
-		Sun->Translate(0, 0, 0);
-		Sun->setScale(139.2f / 10.0f);
-		Sun->setMass(0.0553);
-
-		Mercury = mpResourceManager->addNewPhysicsObject("Mercury", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Mercury", "MercuryModel", "Planet", "MercuryMat", "Assets/Planets/Mercury.mtl");
-		Mercury->Translate(387.0f, 0, 0);
-		Mercury->setScale(.4879f / 10.0f);
-		Mercury->setMass(0.0553);
-
-		Venus = mpResourceManager->addNewPhysicsObject("Venus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Venus", "VenusModel", "Planet", "VenusMat", "Assets/Planets/Venus.mtl");
-		Venus->Translate(723.0f, 0, 0);
-		Venus->setScale(1.2104f / 10.0f);
-		Venus->setMass(1);
-
-		Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		Earth->Translate(1000.0f, 0, 0);
-		Earth->setMass(5.9726);
-		Earth->setScale(1.2742f / 10.0f);
-		Earth->setMass(1);
-
-		Moon = mpResourceManager->addNewPhysicsObject("Moon", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Moon", "MoonModel", "Planet", "MoonMat", "Assets/Planets/Moon.mtl");
-		Moon->Translate(1000.0f, 0, 0.257f);
-		Moon->setScale(.3474f / 10.0f);
-		Moon->setMass(1);
-
-		Mars = mpResourceManager->addNewPhysicsObject("Mars", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Mars", "MarsModel", "Planet", "MarsMat", "Assets/Planets/Mars.mtl");
-		Mars->Translate(1524.0f, 0, 0);
-		Mars->setScale(.6779f / 10.0f);
-		Mars->setMass(1);
-
-		Jupiter = mpResourceManager->addNewPhysicsObject("Jupiter", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Jupiter", "JupiterModel", "Planet", "JupiterMat", "Assets/Planets/Jupiter.mtl");
-		Jupiter->Translate(5203.0f, 0, 0);
-		Jupiter->setScale(13.9822f / 10.0f);
-		Jupiter->setMass(1);
-
-		Saturn = mpResourceManager->addNewPhysicsObject("Saturn", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Saturn", "SaturnModel", "Planet", "SaturnMat", "Assets/Planets/Saturn.mtl");
-		Saturn->Translate(9537.0f, 0, 0);
-		Saturn->setScale(11.6464f / 10.0f);
-		Saturn->setMass(1);
-
-		Uranus = mpResourceManager->addNewPhysicsObject("Uranus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Uranus", "UranusModel", "Planet", "UranusMat", "Assets/Planets/Uranus.mtl");
-		Uranus->Translate(191910.0f, 0, 0);
-		Uranus->setScale(5.0724f / 10.0f);
-		Uranus->setMass(1);
-
-		Neptune = mpResourceManager->addNewPhysicsObject("Neptune", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-		mpResourceManager->applyMaterialToObject("Neptune", "NeptuneModel", "Planet", "NeptuneMat", "Assets/Planets/Neptune.mtl");
-		Neptune->Translate(30069.0f, 0, 0);
-		Neptune->setScale(4.9244f / 10.0f);
-		Neptune->setMass(1);
 		
-
-		//Moon = mpResourceManager->addNewPhysicsObject("Moonplz", mpResourceManager->getObject("MoonObj")->getModelMap());
-		//Moon->Translate(100.0f, 0, 0);
-		//Moon->setScale(vec3(.27f, .27f, .27f));
-		//Moon->setVelocity(vec3(0, 0, 2.022f));
-		//Moon->setMass(0.07342);
-			
-		//GravityGenerator* generator = new GravityGenerator();
-		//generator->setSourceObject(Earth);
-		//generator->addToRegistry(Moon);
-		//mpResourceManager->addForceGeneratorToMap("Earth-Moon", generator);
-
-		//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
-
 	}
 
 	ResetCamera();
@@ -548,6 +581,50 @@ void Game::hookKey(unsigned char key, int x, int y)
 			mpDebug->addTextToScreen("Z: " + std::to_string(temp.z), vec2(10, height - 130), false, 1.0f);
 		}
 	}
+	if (m_space)
+	{
+	
+		if (key == '1')
+		{
+			PlanetToFollow = Sun;
+		}
+		if (key == '2')
+		{
+			PlanetToFollow = Mercury;
+		}
+		if (key == '3')
+		{
+			PlanetToFollow = Venus;
+		}
+		if (key == '4')
+		{
+			PlanetToFollow = Earth;
+		}
+		if (key == '5')
+		{
+			PlanetToFollow = Mars;
+		}
+		if (key == '6')
+		{
+			PlanetToFollow = Jupiter;
+		}
+		if (key == '7')
+		{
+			PlanetToFollow = Saturn;
+		}
+		if (key == '8')
+		{
+			PlanetToFollow = Uranus;
+		}
+		if (key == '9')
+		{
+			PlanetToFollow = Neptune;
+		}
+		if (key == '0')
+		{
+			PlanetToFollow = nullptr;
+		}
+	}
 	/*if(key == 'g' || key == 'G')
 	{
 		if( fog)
@@ -563,6 +640,7 @@ void Game::hookKey(unsigned char key, int x, int y)
 			cout << "yes fog\n";
 		}
 	}*/
+
 }
 
 void Game::endGame()

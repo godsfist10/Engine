@@ -905,4 +905,3 @@ void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& Projecti
 
 	getObject(objectName)->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
 }
-

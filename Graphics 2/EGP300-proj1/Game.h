@@ -117,6 +117,7 @@ protected:
 	PhysicsObject* Saturn;
 	PhysicsObject* Uranus;
 	PhysicsObject* Neptune;	
+	PhysicsObject* PlanetToFollow;
 
 #pragma endregion spaceWorldVars
 
@@ -131,6 +132,9 @@ protected:
 private:
 
 	
+	bool m_space;
+	bool m_waterworld;
+
 	void waterWorldUpdate();
 	void waterWorldFixedUpdate();
 	void spaceWorldUpdate();

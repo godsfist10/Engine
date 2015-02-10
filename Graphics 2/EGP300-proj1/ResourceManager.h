@@ -53,6 +53,8 @@ public:
 	inline bool hasPhysicsObject(const string& key) { return m_PhysicsObjectMap.containsKey(key); }
 	inline bool hasForceGenerator(const string& key) { return m_ForceGeneratorMap.containsKey(key); }
 
+	inline string getObjectKey(Object* object) { return (m_ObjectsMap.containsValue(object) ? m_ObjectsMap.getIndexOf(object) : "None "); }
+	
 	inline Map<string, Model*> getModelsMap() const { return m_ModelsMap; }
 	inline Map<string, Material*> getMaterialsMap() const { return m_MaterialsMap; }
 	inline Map<string , Object*> getObjectsMap() const { return m_ObjectsMap; }
@@ -101,7 +103,7 @@ public:
 	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
 	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
 	void applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile);
-
+	
 
 	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
 

@@ -29,8 +29,7 @@ void GravityGenerator::addForce(PhysicsObject* obj )
 
 	Vector3D gravity = direction * (float)force;
 	vec3 forceToAdd = vec3(gravity.X, gravity.Y, gravity.Z);
-	mSourceObject->addForce(forceToAdd);
+	//mSourceObject->addForce(forceToAdd);
 	obj->addForce(-forceToAdd);
-
 
 }

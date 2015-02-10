@@ -1,8 +1,8 @@
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\vc120.pdb
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\vc120.idb
-c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\camera.obj
-c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\debug.obj
+c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\forcegenerator.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\game.obj
+c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\gravitygenerator.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\heightmap.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\main.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\material.obj
@@ -21,8 +21,8 @@ c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\texture.o
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\vector2d.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\vector3d.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\billboardedtexture.obj
-c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\forcegenerator.obj
-c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\gravitygenerator.obj
+c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\camera.obj
+c:\users\paul.kubik\desktop\game_physics\graphics 2\egp300-proj1\debug\debug.obj
 c:\users\paul.kubik\desktop\game_physics\graphics 2\debug\egp300-proj2.ilk
 c:\users\paul.kubik\desktop\game_physics\graphics 2\debug\egp300-proj2.exe
 c:\users\paul.kubik\desktop\game_physics\graphics 2\debug\egp300-proj2.pdb
