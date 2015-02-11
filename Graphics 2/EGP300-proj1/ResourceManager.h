@@ -38,7 +38,7 @@ public:
 
 	void updateObjects(vec3 cameraPos);
 	void drawAllObjects( const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager);
-	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName);
+	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName);
 	void cleanup();
 	void LoadFile(const string& filename);
 	void LoadFile(const string& filename, const string& key);

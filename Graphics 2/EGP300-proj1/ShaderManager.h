@@ -25,9 +25,12 @@ public:
 private:
 
 	GLuint waterShader;
+	bool waterShaderInUse;
+	GLuint colorBombShader;
+	bool colorBombShaderInUse;
 
+	//wave vars
 	GLuint baseImageLoc;
-
 	GLuint locMVP; 
 	GLuint locColor; 
 	GLuint locTime; 
@@ -39,6 +42,15 @@ private:
 	float waveHeight;
 	float lastTime;
 
+	//colorBomb Vars
+	GLuint locColorBomb;
+	GLuint locMVP_Bomb;
 
+	float colorStep_R;
+	float colorStep_G;
+	float colorStep_B;
+	float colorStepAmount;
+	int colorIndex;
+	
 };
 

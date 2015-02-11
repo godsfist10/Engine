@@ -53,7 +53,7 @@ void Object::draw(const mat4x4& view, const mat4x4& ProjectionMatrix, const mat4
 	}
 }
 
-void Object::draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager)
+void Object::draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& shaderName)
 {
 	mat4x4 mModel = mat4(1.0f);
 	mat4x4 mViewProjection, mMVP;
@@ -70,7 +70,7 @@ void Object::draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const
 	for (auto it = mModelsMap.itBegin(); it != mModelsMap.itEnd(); ++it)
 	{
 		Model* pModelToDraw = it->second;
-		pModelToDraw->drawModel(mMVP, shaderManager);
+		pModelToDraw->drawModel(mMVP, shaderManager, shaderName);
 	}
 }
 

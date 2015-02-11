@@ -895,7 +895,7 @@ float ResourceManager::getXZDistance(vec3 camPos, vec3 pos)
 	return( pow(camPos.x - pos.x, 2.0f) + pow( camPos.z - pos.z, 2.0f));
 }
 
-void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName)
+void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName)
 {
 	if( !hasObject(objectName))
 	{
@@ -903,5 +903,5 @@ void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& Projecti
 		return;
 	}
 
-	getObject(objectName)->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
+	getObject(objectName)->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager, shaderName );
 }

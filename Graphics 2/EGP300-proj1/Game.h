@@ -92,7 +92,7 @@ protected:
 	GLfloat m_CameraMoveSpeed, m_CameraLookSpeed;
 
 #pragma region waterWorldVars
-	Shader_Manager* waterShaderManager;
+	Shader_Manager* ShaderManager;
 
 	Skybox* m_underWaterSkybox;
 	Skybox* m_cloudSkybox;

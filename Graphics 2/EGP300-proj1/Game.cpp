@@ -66,7 +66,13 @@ void Game::render()
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
 
-	//mpResourceManager->drawObject(mView, proj, viewProj, waterShaderManager, "water");
+	if (m_waterworld)
+	{
+		mpResourceManager->drawObject(mView, proj, viewProj, ShaderManager, "water", "waterShader");
+		mpResourceManager->drawObject(mView, proj, viewProj, ShaderManager, "fishy", "colorBombShader");
+	}
+	
+
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
 
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -133,7 +139,8 @@ void Game::waterWorldUpdate()
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
 	PhyshyFriends->update();
-	waterShaderManager->update();
+	ShaderManager->update();
+
 }
 void Game::waterWorldFixedUpdate()
 {
@@ -173,8 +180,8 @@ void Game::spaceWorldFixedUpdate()
 
 void Game::start(int argNum, char* args[])
 {
-	m_space = true;
-	m_waterworld = false;
+	m_space = false;
+	m_waterworld = true;
 
 	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
@@ -190,7 +197,7 @@ void Game::start(int argNum, char* args[])
 	mpDebug = new Debug();
 	mpResourceManager = new ResourceManager();
 	mpTerrainManager = new TerrainManager();
-	waterShaderManager = new Shader_Manager();
+	ShaderManager = new Shader_Manager();
 	
 	
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);   
@@ -261,7 +268,8 @@ void Game::setUpWorld(int argNum, char* args[])
 			int terrainSize = 3000;
 			int terrainTriDensity = 100;
 
-			waterShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
+			ShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
+			ShaderManager->init("ColorVertShader.vp", "ColorFragShader");
 
 			mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
 
@@ -275,7 +283,7 @@ void Game::setUpWorld(int argNum, char* args[])
 
 			m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
 			m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
-			//m_waterMap->setIsPrefab(true);
+			m_waterMap->setIsPrefab(true);
 
 			BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
 			billboard1->setPos(vec3(-400, 400, -800));
@@ -302,10 +310,10 @@ void Game::setUpWorld(int argNum, char* args[])
 
 			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 			fishy->Translate(5, 5, 5);
+			fishy->setIsPrefab(true);
 
 			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			physhy->modifyVelocity(vec3(0, 0, 0));
-			physhy->modifyAcceleration(vec3(0, 0, .005));
+			physhy->modifyVelocity(vec3(0, 0, 1));
 
 			PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 300, vec3(1, 0, 0));
 			PhyshyFriends->startEffect("Assets/Fish");
@@ -650,7 +658,7 @@ void Game::endGame()
 	delete mpResourceManager;
 	delete mpCamera;
 	delete mpTerrainManager;
-	delete waterShaderManager;
+	delete ShaderManager;
 	delete mpDebug;
 
 	exit(0);

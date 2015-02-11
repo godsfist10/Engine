@@ -22,7 +22,7 @@ public:
 	~Model();
 
 	void drawModel(const mat4x4& mvp, GLShaderManager& shaderManager);
-	void drawModel(const mat4x4& mvp, Shader_Manager* shaderManager );
+	void drawModel(const mat4x4& mvp, Shader_Manager* shaderManager, const string& shaderName );
 	void addBatch(GLBatch* tris);
 	void cleanup();
 

@@ -61,6 +61,8 @@
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ColorFragShader.fp" />
+    <None Include="ColorVertShader.vp" />
     <None Include="WaterFragShader.fp" />
     <None Include="WaterVertShader.vp" />
   </ItemGroup>

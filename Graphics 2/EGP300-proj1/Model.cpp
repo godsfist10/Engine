@@ -25,11 +25,11 @@ void Model::drawModel(const mat4x4& mvp, GLShaderManager& shaderManager)
 	}
 }
 
-void Model::drawModel(const mat4x4& mvp, Shader_Manager* shaderManager)
+void Model::drawModel(const mat4x4& mvp, Shader_Manager* shaderManager, const string& shaderName)
 {
 	mpMaterial->bindTexture();
 
-	shaderManager->setupForDraw("f", mvp);
+	shaderManager->setupForDraw(shaderName, mvp);
 
 	for (auto it = batches.begin(); it != batches.end(); ++it)
 	{
