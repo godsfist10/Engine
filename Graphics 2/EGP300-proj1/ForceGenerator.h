@@ -19,7 +19,7 @@ public:
 
 protected:
 
-	virtual void addForce(PhysicsObject*) = 0;
+	virtual void addForce(PhysicsObject* obj) = 0;
 	bool mIsGlobal;
 	vector<PhysicsObject*> mRegistry;
 

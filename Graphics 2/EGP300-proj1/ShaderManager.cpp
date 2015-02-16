@@ -75,14 +75,11 @@ void Shader_Manager::setupForDraw(const string& shaderName,mat4x4 mvpMatrix)
 	}
 }
 
-void Shader_Manager::update()
+void Shader_Manager::update(double deltaTime)
 {
 	if (waterShaderInUse)
 	{
-		float currentTime = (float)glutGet(GLUT_ELAPSED_TIME);
-		float deltaTime = ((float)currentTime - lastTime) / 1000;
-		lastTime = currentTime;
-		waveTime += deltaTime;
+		waveTime += (float)deltaTime;
 	}
 
 	if (colorBombShaderInUse)

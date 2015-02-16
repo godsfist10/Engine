@@ -18,7 +18,7 @@ Object::Object(const Map<string, Model*> &modelsMap)
 {
 }
 
-void Object::update()
+void Object::update(double deltaTime)
 {
 
 }

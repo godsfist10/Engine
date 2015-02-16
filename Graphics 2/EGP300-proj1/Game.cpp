@@ -99,7 +99,7 @@ void Game::PausedUpdate()
 
 void Game::UnpausedUpdate()
 {
-	mpResourceManager->updateObjects(mpCamera->getPos());	
+	mpResourceManager->updateObjects(mpCamera->getPos(), (float)mpDebug->getDeltaTime());	
 
 	if (m_waterworld)
 		waterWorldUpdate();
@@ -138,8 +138,8 @@ void Game::spaceWorldDebug()
 void Game::waterWorldUpdate()
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
-	PhyshyFriends->update();
-	ShaderManager->update();
+	PhyshyFriends->update(mpDebug->getDeltaTime());
+	ShaderManager->update(mpDebug->getDeltaTime());
 
 }
 void Game::waterWorldFixedUpdate()
@@ -180,8 +180,8 @@ void Game::spaceWorldFixedUpdate()
 
 void Game::start(int argNum, char* args[])
 {
-	m_space = false;
-	m_waterworld = true;
+	m_space = true;
+	m_waterworld = false;
 
 	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
@@ -326,80 +326,80 @@ void Game::setUpWorld(int argNum, char* args[])
 		//Model scale:  1 : 12,740,000
 		if (m_space)
 		{
-			float earthVelocity = 30.3f;
+			float earthVelocity = 29.8f;
 			float planetSizeScaleDiv = 10.0f;
-
+			// radius, mass, pos, vel
 			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-
 			Sun = mpResourceManager->addNewPhysicsObject("Sun", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Sun", "SunModel", "Planet", "SunMat", "Assets/Planets/Sun.mtl");
 			Sun->Translate(0, 0, 0);
-			Sun->setScale(139.2f / 10.0f);
-			Sun->setMass(0.0553);
-
+			Sun->setScale(.25f / planetSizeScaleDiv);
+			Sun->setMass(1.0f);
+			
 			Mercury = mpResourceManager->addNewPhysicsObject("Mercury", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Mercury", "MercuryModel", "Planet", "MercuryMat", "Assets/Planets/Mercury.mtl");
-			Mercury->Translate(387.0f, 0, 0);
-			Mercury->setScale(.4879f / planetSizeScaleDiv);
-			Mercury->setMass(0.0553);
-			Mercury->setVelocity(vec3(0, 0, earthVelocity * 1.607f));
+			Mercury->Translate(0.31f, 0, 0);
+			Mercury->setScale(0.05f / planetSizeScaleDiv);
+			Mercury->setMass(0.0000001666f);
+			Mercury->setVelocity(vec3(0.0f, 0.0f, 0.0000003925392803303289f));
 
 			Venus = mpResourceManager->addNewPhysicsObject("Venus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Venus", "VenusModel", "Planet", "VenusMat", "Assets/Planets/Venus.mtl");
-			Venus->Translate(723.0f, 0, 0);
-			Venus->setScale(1.2104f / planetSizeScaleDiv);
-			Venus->setMass(0.815);
-			Venus->setVelocity(vec3(0, 0, earthVelocity * 1.174f));
+			Venus->Translate(0.718f, 0, 0);
+			Venus->setScale(.1f / planetSizeScaleDiv);
+			Venus->setMass(0.000002447f);
+			Venus->setVelocity(vec3(0, 0, 0.0000002377854700252f));
 
 			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth->Translate(1000.0f, 0, 0);
+			Earth->Translate(0.98f, 0, 0);
 			Earth->setMass(5.9726);
-			Earth->setScale(1.2742f / planetSizeScaleDiv);
-			Earth->setMass(1);
-			Earth->setVelocity(vec3(0, 0, earthVelocity));
+			Earth->setScale(.025f / planetSizeScaleDiv);
+			Earth->setMass(0.000003003f);
+			Earth->setVelocity(vec3(0, 0, 0.000000202542989816901f));
 
 			Moon = mpResourceManager->addNewPhysicsObject("Moon", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Moon", "MoonModel", "Planet", "MoonMat", "Assets/Planets/Moon.mtl");
-			Moon->Translate(1000.257f, 0, 0);
-			Moon->setScale(.3474f / planetSizeScaleDiv);
-			Moon->setMass(0.012306f);
-			Moon->setVelocity(vec3(0, 0, 1.022f));
+			Moon->Translate(0.979f, 0, 0);
+			Moon->setScale(0.005f / planetSizeScaleDiv);
+			Moon->setMass(0.0000000000000123f);
+			Moon->setVelocity(vec3(0, 0, (float)(0.0000002059429908 + 0.000000007197722768554639)));
 
 			Mars = mpResourceManager->addNewPhysicsObject("Mars", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Mars", "MarsModel", "Planet", "MarsMat", "Assets/Planets/Mars.mtl");
-			Mars->Translate(1524.0f, 0, 0);
-			Mars->setScale(.6779f / planetSizeScaleDiv);
-			Mars->setMass(0.107f);
-			Mars->setVelocity(vec3(0, 0, earthVelocity * 0.802f));
+			Mars->Translate(1.38f, 0, 0);
+			Mars->setScale(0.08f / planetSizeScaleDiv);
+			Mars->setMass(.0000003232f);
+			Mars->setVelocity(vec3(0, 0, .0000001624394778196f));
 
 			Jupiter = mpResourceManager->addNewPhysicsObject("Jupiter", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Jupiter", "JupiterModel", "Planet", "JupiterMat", "Assets/Planets/Jupiter.mtl");
-			Jupiter->Translate(5203.0f, 0, 0);
-			Jupiter->setScale(13.9822f / planetSizeScaleDiv);
-			Jupiter->setMass(317.83f);
-			Jupiter->setVelocity(vec3(0, 0, earthVelocity * 0.434f));
+			Jupiter->Translate(4.95f, 0, 0);
+			Jupiter->setScale(1.1f / planetSizeScaleDiv);
+			Jupiter->setMass(.0009547919f);
+			Jupiter->setVelocity(vec3(0, 0, .0000000879036575732f));
 
 			Saturn = mpResourceManager->addNewPhysicsObject("Saturn", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Saturn", "SaturnModel", "Planet", "SaturnMat", "Assets/Planets/Saturn.mtl");
-			Saturn->Translate(9537.0f, 0, 0);
-			Saturn->setScale(11.6464f / planetSizeScaleDiv);
-			Saturn->setMass(317.83f);
-			Saturn->setVelocity(vec3(0, 0, earthVelocity * 0.323f));
+			Saturn->Translate(9.02f, 0, 0);
+			Saturn->setScale(0.941f / planetSizeScaleDiv);
+			Saturn->setMass(.000285885f);
+			Saturn->setVelocity(vec3(0, 0, .0000000654213857054f));
 
 			Uranus = mpResourceManager->addNewPhysicsObject("Uranus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Uranus", "UranusModel", "Planet", "UranusMat", "Assets/Planets/Uranus.mtl");
-			Uranus->Translate(191910.0f, 0, 0);
-			Uranus->setScale(5.0724f / planetSizeScaleDiv);
-			Uranus->setMass(317.83f);
-			Uranus->setVelocity(vec3(0, 0, earthVelocity * 0.228f));
+			Uranus->Translate(18.3f, 0, 0);
+			Uranus->setScale(0.4f / planetSizeScaleDiv);
+			Uranus->setMass(.000043662f);
+			Uranus->setVelocity(vec3(0, 0, .0000000461798016744f));
 
 			Neptune = mpResourceManager->addNewPhysicsObject("Neptune", mpResourceManager->getObject("Assets/Planets")->getModelMap());
 			mpResourceManager->applyMaterialToObject("Neptune", "NeptuneModel", "Planet", "NeptuneMat", "Assets/Planets/Neptune.mtl");
-			Neptune->Translate(30069.0f, 0, 0);
-			Neptune->setScale(4.9244f / planetSizeScaleDiv);
-			Neptune->setMass(317.83f);
-			Neptune->setVelocity(vec3(0, 0, earthVelocity * 0.182f));
+			Neptune->Translate(30.0f, 0, 0);
+			Neptune->setScale(0.388f / planetSizeScaleDiv);
+			Neptune->setMass(.000051513f);
+			Neptune->setVelocity(vec3(0, 0, .0000000368628241436f));
 
+			/*
 			GravityGenerator* generator = new GravityGenerator();
 			generator->setSourceObject(Sun);
 			generator->addToRegistry(Mercury);
@@ -411,14 +411,14 @@ void Game::setUpWorld(int argNum, char* args[])
 			generator->addToRegistry(Saturn);
 			generator->addToRegistry(Uranus);
 			generator->addToRegistry(Neptune);
-		
 			mpResourceManager->addForceGeneratorToMap("SunGravity", generator);
 
 			GravityGenerator* MoonGenerator = new GravityGenerator();
 			MoonGenerator->setSourceObject(Earth);
-
 			mpResourceManager->addForceGeneratorToMap("EarthGravity", MoonGenerator);
 			generator->addToRegistry(Moon);
+			*/
+			mpResourceManager->giveAllPhysicsObjectsGravity();
 			//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
 		}
 

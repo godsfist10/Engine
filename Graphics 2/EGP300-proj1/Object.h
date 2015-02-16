@@ -35,7 +35,7 @@ public:
 
 	virtual ~Object(void);
 
-	virtual void update();
+	virtual void update(double deltaTime);
 
 	virtual void draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& shaderName);
 	virtual void draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager);

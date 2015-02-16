@@ -14,6 +14,7 @@
 #include "Particle.h"
 #include "Debug.h"
 #include "ForceGenerator.h"
+#include "GravityGenerator.h"
 
 #include <fstream>
 #include <iostream>
@@ -36,7 +37,7 @@ public:
 	ResourceManager(void);
 	~ResourceManager(void);
 
-	void updateObjects(vec3 cameraPos);
+	void updateObjects(vec3 cameraPos, float deltaTime);
 	void drawAllObjects( const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager);
 	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName);
 	void cleanup();
@@ -106,6 +107,7 @@ public:
 	
 
 	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
+	void giveAllPhysicsObjectsGravity();
 
 private:
 

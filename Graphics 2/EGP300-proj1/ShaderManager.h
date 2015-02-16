@@ -20,7 +20,7 @@ public:
 	~Shader_Manager(void);
 	void init(const string& vertexProgramName, const string& fragmentProgramName);
 	void setupForDraw(const string& shaderName, mat4x4 mvpMatrix);
-	void update();
+	void update(double deltaTime);
 
 private:
 
@@ -40,7 +40,6 @@ private:
 	float waveTime;
 	float waveWidth;
 	float waveHeight;
-	float lastTime;
 
 	//colorBomb Vars
 	GLuint locColorBomb;

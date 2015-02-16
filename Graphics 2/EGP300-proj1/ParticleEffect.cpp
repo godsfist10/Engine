@@ -50,9 +50,9 @@ void ParticleEffect::burst(const int& burstAmount)
 }
 
 //checks for particle spawning and dead particles
-void ParticleEffect::update()
+void ParticleEffect::update(double deltaTime)
 {
-	spawnTimer--; 
+	spawnTimer -= (float)deltaTime; 
 	if( spawnTimer <= 0)
 	{
 		spawnTimer = spawnSpeed;
