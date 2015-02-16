@@ -43,6 +43,9 @@
     <Filter Include="Project\Game\SceneObjects\Forces">
       <UniqueIdentifier>{c46c1f9a-7b6c-460c-ada7-750ff053fa41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Game\Resources\Shaders">
+      <UniqueIdentifier>{22cdaa80-f9cb-4f59-a761-cca4174d9d97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -114,6 +117,9 @@
     <ClCompile Include="GravityGenerator.cpp">
       <Filter>Project\Game\SceneObjects\Forces</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -184,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="GravityGenerator.h">
       <Filter>Project\Game\SceneObjects\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

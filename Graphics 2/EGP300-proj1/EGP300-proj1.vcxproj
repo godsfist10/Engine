@@ -28,6 +28,7 @@
     <ClCompile Include="ParticleSystemManager.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="TerrainManager.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Rectangle_3D.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="TerrainManager.h" />
