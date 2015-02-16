@@ -18,7 +18,7 @@ void GravityGenerator::update()
 	}
 }
 
-void GravityGenerator::addForce(PhysicsObject* obj )
+void GravityGenerator::addForce(PhysicsObject* obj)
 {
 	float distanceSQ = Vector3D::distSquared(mSourceObject->getPos(), obj->getPos());
 	

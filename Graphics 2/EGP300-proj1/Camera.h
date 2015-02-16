@@ -74,7 +74,7 @@ public:
 	inline vec3 getRight( void ) { return cross(getDirection(), m_Up); }
 
 	inline mat4x4 getProjectionMatrix() const { return m_CachedProjection;}
-	inline void setProjectionMatrix(float width, float height ) { m_CachedProjection = perspectiveFov(45.0f, width, height, 1.0f, 10000.0f); }
+	inline void setProjectionMatrix(float width, float height ) { m_CachedProjection = perspectiveFov(45.0f, width, height, .01f, 10000.0f); }
 
 	bool FlyMode() const { return m_FlyMode; }
 	void FlyMode(bool val) { m_FlyMode = val; resetCurrentSpeed(); }

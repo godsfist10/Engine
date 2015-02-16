@@ -15,7 +15,7 @@ public:
 	PhysicsObject(const Map<string, Model*> &modelsMap, const double& mass);
 	~PhysicsObject();
 
-	virtual void update();
+	virtual void update(double deltaTime);
 
 	inline vec3 getVelocity() { return mVelocity; }
 	inline void setVelocity(vec3 vel) { mVelocity = vel; }
@@ -34,14 +34,14 @@ public:
 
 protected:
 
-	virtual void physicsUpdate();
+	virtual void physicsUpdate(double deltaTime);
 
 	vec3 mVelocity;
 	vec3 mAcceleration;
 	vec3 mForce;
 	realNum mMass;
 	realNum mInverseMass;
-
+	realNum mDampeningVal;
 
 };
 

@@ -18,11 +18,11 @@ Particle::~Particle()
 
 }
 
-void Particle::update()
+void Particle::update(double deltaTime)
 {
 	lifeSpan--;
 	if(lifeSpan <= 0)
 		killMe = true;
 
-	physicsUpdate();
+	physicsUpdate(deltaTime);
 }

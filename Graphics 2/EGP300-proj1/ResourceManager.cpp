@@ -793,6 +793,25 @@ void ResourceManager::addPhysicsObjectToForceRegistry(const string& forceGenerat
 	getForceGenerator(forceGeneratorName)->addToRegistry(getPhysicsObject(physicsObjectName));
 }
 
+void ResourceManager::giveAllPhysicsObjectsGravity()
+{
+	for (auto it = m_PhysicsObjectMap.itBegin(); it != m_PhysicsObjectMap.itEnd(); ++it)
+	{
+		PhysicsObject* pObject = it->second;
+		GravityGenerator* tempGenerator = new GravityGenerator();
+		tempGenerator->setSourceObject(it->second);
+		for (auto iter = m_PhysicsObjectMap.itBegin(); iter != m_PhysicsObjectMap.itEnd(); ++iter)
+		{
+			if (iter->first != it->first)
+			{
+				tempGenerator->addToRegistry(iter->second);
+			}
+		}
+		addForceGeneratorToMap(it->first + "Gravity", tempGenerator);
+	}
+	
+}
+
 void ResourceManager::deleteObject(const string& key)
 {
 	if (hasObject(key))
@@ -828,13 +847,12 @@ void ResourceManager::applyMaterialToObject(const string& objectName, const stri
 	tempObject->addModel(newModelName, addNewModel(newModelName, modelName, materialName, materialFile));
 }
 
-
-void ResourceManager::updateObjects(vec3 cameraPos)
+void ResourceManager::updateObjects(vec3 cameraPos, float deltaTime)
 {
 	for( auto it = m_ObjectsMap.itBegin(); it != m_ObjectsMap.itEnd(); ++it)
 	{
 		Object* pObject = it->second;
-		pObject->update();
+		pObject->update(deltaTime);
 	}
 
 	for (auto it = m_BillboardsMap.itBegin(); it != m_BillboardsMap.itEnd(); ++it)

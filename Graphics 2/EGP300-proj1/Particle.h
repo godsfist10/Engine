@@ -14,7 +14,7 @@ public:
 	~Particle();
 	
 
-	virtual void update();
+	virtual void update(double deltaTime);
 
 	bool killMe;
 

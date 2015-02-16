@@ -15,7 +15,7 @@ public:
 	void startEffect(const string& modelPrefabKey);
 	void burst(const int& burstAmount);
 	
-	virtual void update();
+	virtual void update(double deltaTime);
 	virtual void onDeathBehavior(Particle* dyingParticle);
 
 	float ParticleLifeSpan() const { return particleLifeSpan; }

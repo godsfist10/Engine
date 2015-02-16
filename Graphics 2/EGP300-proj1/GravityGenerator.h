@@ -3,7 +3,7 @@
 #include "ForceGenerator.h"
 #include "Vector3D.h"
 
-const double GRAVITY_CONST = 6.67384 * (pow(10, -11));
+const double GRAVITY_CONST = 3.965f * pow(10.0f, -14.0f);
 
 class GravityGenerator : public ForceGenerator
 {
