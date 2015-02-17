@@ -812,6 +812,14 @@ void ResourceManager::giveAllPhysicsObjectsGravity()
 	
 }
 
+void ResourceManager::modifyPhysicsSystemTime(double val)
+{
+	for (auto it = m_PhysicsObjectMap.itBegin(); it != m_PhysicsObjectMap.itEnd(); ++it)
+	{
+		it->second->setSystemTimeMult(val);
+	}
+}
+
 void ResourceManager::deleteObject(const string& key)
 {
 	if (hasObject(key))

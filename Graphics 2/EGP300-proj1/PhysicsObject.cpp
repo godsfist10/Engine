@@ -4,6 +4,7 @@
 PhysicsObject::PhysicsObject()
 {
 	mDampeningVal = .999999999999f;
+	mSystemTimeMult = 86400.0;
 }
 
 PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap)
@@ -13,6 +14,7 @@ PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap)
 	mAcceleration = vec3(0, 0, 0);
 	mForce = vec3(0, 0, 0);
 	mDampeningVal = .999999999999f;
+	mSystemTimeMult = 86400.0;
 }
 
 PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap, const double& mass)
@@ -24,6 +26,7 @@ PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap, const double&
 	mMass = (realNum)mass;
 	mInverseMass = (realNum)1.0 / mMass;
 	mDampeningVal = .99999999f;
+	mSystemTimeMult = 86400.0;
 }
 
 PhysicsObject::~PhysicsObject()
@@ -38,8 +41,9 @@ void PhysicsObject::update(double deltaTime)
 void PhysicsObject::physicsUpdate(double deltaTime)
 {
 	double systemTime = deltaTime;
+	systemTime *= mSystemTimeMult;
 	// day per frame
-		systemTime *= 86400.0; 
+		//systemTime *= 86400.0; 
 	// week per frame
 		//systemTime *= 604800.0;
 	// month per frame

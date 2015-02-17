@@ -105,7 +105,7 @@ public:
 	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
 	void applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile);
 	
-
+	void modifyPhysicsSystemTime(double val);
 	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
 	void giveAllPhysicsObjectsGravity();
 

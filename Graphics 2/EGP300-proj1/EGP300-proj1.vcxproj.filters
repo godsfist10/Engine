@@ -118,7 +118,7 @@
       <Filter>Project\Game\SceneObjects\Forces</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Game\Resources\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +192,7 @@
       <Filter>Project\Game\SceneObjects\Forces</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Game\Resources\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

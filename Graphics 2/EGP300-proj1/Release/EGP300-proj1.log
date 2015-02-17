@@ -1,0 +1,58 @@
+﻿Build started 2/17/2015 3:27:16 AM.
+     1>Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\EGP300-proj2.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BillboardedTexture.cpp Camera.cpp Debug.cpp ForceGenerator.cpp Game.cpp GravityGenerator.cpp Heightmap.cpp main.cpp Material.cpp Matrix.cpp Model.cpp Object.cpp Particle.cpp ParticleEffect.cpp ParticleSystemManager.cpp PhysicsObject.cpp ResourceManager.cpp Shader.cpp ShaderManager.cpp Skybox.cpp TerrainManager.cpp Texture.cpp Vector2D.cpp Vector3D.cpp
+         BillboardedTexture.cpp
+     1>BillboardedTexture.cpp(104): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Camera.cpp
+     1>Camera.cpp(192): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Debug.cpp
+     1>Debug.cpp(144): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         ForceGenerator.cpp
+     1>ForceGenerator.cpp(29): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Game.cpp
+     1>Game.cpp(836): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         GravityGenerator.cpp
+     1>GravityGenerator.cpp(36): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Heightmap.cpp
+     1>Heightmap.cpp(326): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         main.cpp
+     1>main.cpp(135): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Material.cpp
+     1>Material.cpp(24): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Matrix.cpp
+     1>Matrix.cpp(352): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Model.cpp
+     1>Model.cpp(51): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Object.cpp
+     1>Object.cpp(83): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Particle.cpp
+     1>Particle.cpp(29): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         ParticleEffect.cpp
+     1>ParticleEffect.cpp(127): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         ParticleSystemManager.cpp
+     1>ParticleSystemManager.cpp(12): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         PhysicsObject.cpp
+     1>PhysicsObject.cpp(62): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         ResourceManager.cpp
+     1>ResourceManager.cpp(934): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Shader.cpp
+     1>Shader.cpp(31): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         ShaderManager.cpp
+     1>ShaderManager.cpp(145): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Skybox.cpp
+     1>Skybox.cpp(88): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Compiling...
+         TerrainManager.cpp
+     1>TerrainManager.cpp(218): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Texture.cpp
+     1>Texture.cpp(23): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Vector2D.cpp
+     1>Vector2D.cpp(80): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         Vector3D.cpp
+     1>Vector3D.cpp(113): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+     1>Done Building Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.67

@@ -9,6 +9,8 @@
 #include <GLM/glm.hpp>
 #include <GLM/ext.hpp>
 
+#include <Arc/Map.h>
+#include "Shader.h"
 
 using namespace std;
 using namespace glm;
@@ -23,6 +25,8 @@ public:
 	void update(double deltaTime);
 
 private:
+
+	//Map<string, Shader*> mShaderMap;
 
 	GLuint waterShader;
 	bool waterShaderInUse;

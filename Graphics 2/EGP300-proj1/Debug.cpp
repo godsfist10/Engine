@@ -28,7 +28,7 @@ void Debug::update()
 	mDeltaTime = time - mTimePrev;
 	mTimePrev = time;
 	if( debugMode)
-		addTextToScreen("delta time: " + std::to_string(getDeltaTime()), vec2( 10,30), false, 0.0f);
+		addTextToScreen("delta time: " + std::to_string(getDeltaTime()), vec2( 10, screenHeight - 30), false, 0.0f);
 	incrementFrame();
 	
 }
@@ -40,7 +40,7 @@ void Debug::incrementFrame()
 	if (currentTime - mLastTime >= 1000.0)
 	{
 		if ( debugMode)
-			addTextToScreen(std::to_string(1000.0 / (double)mFpsCount) + " m/s per frame - FPS: " + std::to_string(mFpsCount), vec2(10,10), false, 1.0f);
+			addTextToScreen(std::to_string(1000.0 / (double)mFpsCount) + " m/s per frame - FPS: " + std::to_string(mFpsCount), vec2(10,screenHeight - 50), false, 1.0f);
 		mFpsCount = 0;
 		mLastTime += 1000.0;
 	}
@@ -60,20 +60,49 @@ void Debug::addTextToScreen(const string& message, vec2 screenPos, bool saveLog,
 	mMessages.push_back(messageToAdd);
 }
 
+
+void Debug::addMessageToScreen(const string& message, bool saveLog)
+{
+	if (saveLog)
+		log(message);
+
+	onScreenMessage messageToAdd;
+	messageToAdd.message = message;
+	messageToAdd.timer = 1.0f;
+	mScrollingMessages.push_back(messageToAdd);
+
+}
+
 void Debug::drawMessages()
 {
+	glColor3f(1.0f, 1.0f, 1.0f);
 	for (std::vector<onScreenMessage>::iterator it = mMessages.begin(); it != mMessages.end(); ++it)
 	{
 		onScreenMessage* temp = it._Ptr;
-		glColor3f(1.0f, 1.0f, 1.0f);
+		
 		glWindowPos2fARB(temp->pos.x, temp->pos.y);
 		int len, j;
 		len = (int)temp->message.size();
 		for (j = 0; j < len; j++) {
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, temp->message[j]);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, temp->message[j]);
 		}
 	}
+	int i = 1;
+	float textHeight = 22.0f;
+	for (std::vector<onScreenMessage>::reverse_iterator it = mScrollingMessages.rbegin(); it != mScrollingMessages.rend(); ++it)
+	{
+	
+		glWindowPos2fARB(10 , textHeight * i);
+		int len, j;
+		len = (int)it->message.size();
+		for (j = 0; j < len; j++) {
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, it->message[j]);
+		}
+		i++;
+	}
+
 }
+
 
 void Debug::log(const string& log)
 {
@@ -94,6 +123,21 @@ void Debug::pruneExpiredMessages()
 		{
 			it->timer -= (float)mDeltaTime;
 			++it;
+		}
+	}
+
+	std::vector<onScreenMessage>::iterator iter = mScrollingMessages.begin();
+
+	for (; iter != mScrollingMessages.end();)
+	{
+		if (iter._Ptr->timer <= 0)
+		{
+			iter = mScrollingMessages.erase(iter);
+		}
+		else
+		{
+			iter->timer -= (float)mDeltaTime;
+			++iter;
 		}
 	}
 }

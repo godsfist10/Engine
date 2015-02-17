@@ -27,16 +27,21 @@ public:
 	void incrementFrame();
 	
 	void addTextToScreen(const string& message, vec2 screenPos, bool saveLog = false, float timer = 0);
+	void addMessageToScreen(const string& message, bool saveLog = false);
 	void drawMessages();
 	
 	inline double getDeltaTime() { return mDeltaTime; }
 	inline void toggleDebugMode() { debugMode = !debugMode; }
 	inline bool getDebugMode() { return debugMode; }
 	//inline int getCurrentFrame() { return mCurrentFrameCount; } 
-	
+
+	int screenWidth;
+	int screenHeight;
+
 protected:
 
 	vector<onScreenMessage> mMessages;
+	vector<onScreenMessage> mScrollingMessages;
 
 	void pruneExpiredMessages();
 	bool debugMode;

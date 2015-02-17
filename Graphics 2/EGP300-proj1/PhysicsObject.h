@@ -25,6 +25,10 @@ public:
 	inline void setAcceleration(vec3 val) { mAcceleration = val; }
 	inline void modifyAcceleration(vec3 val) { mAcceleration += val; }
 
+	inline void setSystemTimeMult(double val) { mSystemTimeMult = val; }
+	inline double getSystemTimeMult() { return mSystemTimeMult; }
+	inline void modSystemTimeMult(double val) { mSystemTimeMult += val; }
+
 	inline vec3 getForce() { return mForce; }
 
 	inline double getMass() { return mMass; }
@@ -42,6 +46,6 @@ protected:
 	realNum mMass;
 	realNum mInverseMass;
 	realNum mDampeningVal;
-
+	double mSystemTimeMult;
 };
 

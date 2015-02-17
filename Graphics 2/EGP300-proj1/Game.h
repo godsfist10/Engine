@@ -90,6 +90,7 @@ protected:
 
 	GLfloat m_MouseX, m_MouseY;
 	GLfloat m_CameraMoveSpeed, m_CameraLookSpeed;
+	int systemTimeAdjuster;
 
 #pragma region waterWorldVars
 	Shader_Manager* ShaderManager;
@@ -123,6 +124,7 @@ protected:
 
 	bool mouseFree;
 	bool Paused;
+	bool help;
 	bool fog;
 	bool wireframe;
 	bool fullscreen;
@@ -140,5 +142,7 @@ private:
 	void spaceWorldUpdate();
 	void spaceWorldFixedUpdate();
 	void spaceWorldDebug();
+
+	void resetSpaceWorld();
 };
 

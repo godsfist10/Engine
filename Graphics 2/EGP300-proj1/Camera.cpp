@@ -9,7 +9,7 @@ Camera::Camera(void)
 	m_Moving = true;
 	m_FlyMode = false;
 	m_MaxMoveSpeed = 15.0f;
-	m_ManualMoveSpeed = 6.0f;
+	m_ManualMoveSpeed = 1.0f;
 	m_Acceleration = .1f;
 	m_AccelerationRamp = .1f;
 	m_CurrentMoveSpeed = vec3(0.0f, 0.0f, 0.0f);

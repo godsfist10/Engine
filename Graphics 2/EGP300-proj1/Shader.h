@@ -12,6 +12,7 @@
 #include <string>
 
 using namespace std;
+using namespace glm;
 
 class Shader
 {
@@ -19,7 +20,8 @@ public:
 	Shader();
 	~Shader();
 	virtual void init(string vertShader, string fragShader);
-
+	virtual void setupForDraw(mat4x4 mvpMatrix);
+	virtual void update(double deltaTime);
 protected:
 
 	GLuint mShaderIndex;
