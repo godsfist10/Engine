@@ -3,8 +3,13 @@
 uniform mat4 mvpMatrix;
 
 in vec4 vVertex;
+in vec2 texCoord;
+
+out vec2 texCoordPass;
 
 void main()
 {
 	gl_Position = mvpMatrix * vVertex;
+	texCoordPass = texCoord;
+
 }
