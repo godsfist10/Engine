@@ -3,8 +3,7 @@
 
 Shader_Manager::Shader_Manager(void)
 {
-	waterShaderInUse = false;
-	colorBombShaderInUse = false;
+	initAll();
 }
 
 
@@ -13,132 +12,57 @@ Shader_Manager::~Shader_Manager(void)
 
 }
 
-void Shader_Manager::init(const string& vertexProgramName, const string& fragmentProgramName)
+void Shader_Manager::cleanup()
 {
-	if (vertexProgramName == "WaterVertShader.vp")
+	for (auto it = mShaderMap.itBegin(); it != mShaderMap.itEnd(); ++it)
 	{
-		waterShaderInUse = true;
-		waveTime = 0.0f;
-		waveWidth = 0.03f;
-		waveHeight = 3.0f;
-
-		waterShader = gltLoadShaderPairWithAttributes("WaterVertShader.vp", "WaterFragShader.fp", 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
-
-		locColor = glGetUniformLocation(waterShader, "vColorValue");
-		locMVP = glGetUniformLocation(waterShader, "mvpMatrix");
-		locTime = glGetUniformLocation(waterShader, "waveTime");
-		locWaveWidth = glGetUniformLocation(waterShader, "waveWidth");
-		locWaveHeight = glGetUniformLocation(waterShader, "waveHeight");
-		baseImageLoc = glGetUniformLocation(waterShader, "baseImage");
+		Shader* pShader = it->second;
+		delete pShader;
 	}
-	if (vertexProgramName == "ColorVertShader.vp")
-	{
-		colorBombShaderInUse = true;
+	mShaderMap.clear();
 
-		colorStepAmount = .05f;
-		colorIndex = 0;
+}
 
-		colorStep_R = 1;
-		colorStep_G = 0;
-		colorStep_B = 0;
 
-		colorBombShader = gltLoadShaderPairWithAttributes("ColorVertShader.vp", "ColorFragShader.fp", 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
+void Shader_Manager::initAll()   //when you add a new shader add it here in the format below
+{
+	/*
+	ShaderClass* temp = new ShaderClass();
+	temp->init();
+	addShader("desiredNameToCall", temp);
+	*/
 
-		locColorBomb = glGetUniformLocation(colorBombShader, "vColorBombValue");
-		locMVP_Bomb = glGetUniformLocation(colorBombShader, "mvpMatrix");
+	WaveShader* wave = new WaveShader();
+	wave->init();
+	addShader("waveShader", wave);
 
-	}
+	ColorBombShader* bomb = new ColorBombShader();
+	bomb->init();
+	addShader("colorShiftShader", bomb);
+
+	Diffuse* diffuse = new Diffuse();
+	diffuse->init();
+	addShader("diffuse", diffuse);
+
+}
+
+void Shader_Manager::addShader(const string& shaderName, Shader* shaderToAdd)
+{
+	mShaderMap.add(shaderName, shaderToAdd);
 }
 
 void Shader_Manager::setupForDraw(const string& shaderName,mat4x4 mvpMatrix)
 {
-
-	if (shaderName == "waterShader")
+	if (hasShader(shaderName))
 	{
-		float colorWater[] = { 0.145f, 0.427f, 0.482f, 0.8f };
-
-		glUseProgram(waterShader);
-		glUniform1i(baseImageLoc, 0);
-		glUniform1f(locTime, waveTime);
-		glUniform1f(locWaveWidth, waveWidth);
-		glUniform1f(locWaveHeight, waveHeight);
-		glUniform4fv(locColor, 1, colorWater);
-		glUniformMatrix4fv(locMVP, 1, GL_FALSE, &mvpMatrix[0][0]);
-	}
-	if (shaderName == "colorBombShader")
-	{
-		float colorBomb[] = { colorStep_R, colorStep_G, colorStep_B, 1.0f };
-		
-		glUseProgram(colorBombShader);
-		glUniform4fv(locColorBomb, 1, colorBomb);
-		glUniformMatrix4fv(locMVP_Bomb, 1, GL_FALSE, &mvpMatrix[0][0]);
+		mShaderMap[shaderName]->setupForDraw(mvpMatrix);
 	}
 }
 
 void Shader_Manager::update(double deltaTime)
 {
-	if (waterShaderInUse)
+	for (auto it = mShaderMap.itBegin(); it != mShaderMap.itEnd(); ++it)
 	{
-		waveTime += (float)deltaTime;
+		it->second->update(deltaTime);
 	}
-
-	if (colorBombShaderInUse)
-	{
-		if (colorIndex == 0)
-		{
-			colorStep_G += colorStepAmount;
-			if (colorStep_G >= 1)
-			{
-				colorIndex++;
-				colorStep_G = 1.0f;
-			}
-				
-		}
-		else if (colorIndex == 1)
-		{
-			colorStep_R -= colorStepAmount;
-			if (colorStep_R <= 0)
-			{
-				colorIndex++;
-				colorStep_R = 0.0f;
-			}
-		}
-		else if (colorIndex == 2)
-		{
-			colorStep_B += colorStepAmount;
-			if (colorStep_B >= 1)
-			{
-				colorIndex++;
-				colorStep_B = 1.0f;
-			}
-		}
-		else if (colorIndex == 3)
-		{
-			colorStep_G -= colorStepAmount;
-			if (colorStep_G <= 0)
-			{
-				colorIndex++;
-				colorStep_G = 0.0f;
-			}
-		}
-		else if (colorIndex == 4)
-		{
-			colorStep_R += colorStepAmount;
-			if (colorStep_R >= 1)
-			{
-				colorIndex++;
-				colorStep_R = 1.0f;
-			}
-		}
-		else if (colorIndex == 5)
-		{
-			colorStep_B -= colorStepAmount;
-			if (colorStep_B <= 0)
-			{
-				colorIndex = 0;
-				colorStep_B = 0.0f;
-			}
-		}
-	}
-
 }

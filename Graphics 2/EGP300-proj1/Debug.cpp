@@ -21,6 +21,12 @@ void Debug::cleanup()
 	mMessages.clear();
 }
 
+void Debug::init(ResourceManager* resourceManager, const string& textMtlFile)
+{
+	resourceManager->loadMTLFile(textMtlFile);
+	textMat = resourceManager->getMaterial("textMaterial");
+}
+
 void Debug::update()
 {
 	pruneExpiredMessages();
@@ -75,7 +81,7 @@ void Debug::addMessageToScreen(const string& message, bool saveLog)
 
 void Debug::drawMessages()
 {
-	glColor3f(1.0f, 1.0f, 1.0f);
+	textMat->bindTexture();
 	for (std::vector<onScreenMessage>::iterator it = mMessages.begin(); it != mMessages.end(); ++it)
 	{
 		onScreenMessage* temp = it._Ptr;

@@ -38,7 +38,7 @@ public:
 	~ResourceManager(void);
 
 	void updateObjects(vec3 cameraPos, float deltaTime);
-	void drawAllObjects( const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager);
+	void drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager, Shader_Manager* customShaderManager);
 	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName);
 	void cleanup();
 	void LoadFile(const string& filename);
@@ -103,8 +103,13 @@ public:
 	Object* addNewObject( const string& ObjectName, const Map<string, Model*> &modelsMap );
 	PhysicsObject* addNewPhysicsObject(const string& ObjectName, const Map<string, Model*> &modelsMap);
 	Particle* addNewParticle(const string& particleName, const Map<string, Model*> &modelsMap,  const float& lifespan);
-	void applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile);
 	
+	void applyMaterialToObject(const string& objectName, const string& newModelName, const string& modelName, const string& materialName, const string& materialFile);
+	void applyShaderToObject(const string& objectName, const string& shaderName);
+	void applyShaderToObject(Object* object, const string& shaderName);
+	void removeShaderFromObject(const string& objectName, bool returnToPrefab = true);
+	void removeShaderFromObject(Object* object, bool returnToPrefab = true);
+
 	void modifyPhysicsSystemTime(double val);
 	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
 	void giveAllPhysicsObjectsGravity();
@@ -121,5 +126,8 @@ private:
 	Map<string, BillboardedTexture*> m_BillboardsMap;
 	Map<string, PhysicsObject*> m_PhysicsObjectMap;
 	Map<string, ForceGenerator*> m_ForceGeneratorMap;
+
+	multimap<string, string> m_ShaderDrawMap;
+
 };
 

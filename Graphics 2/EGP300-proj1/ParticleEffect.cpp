@@ -105,15 +105,15 @@ void ParticleEffect::onDeathBehavior(Particle* dyingParticle)
 	if( dyingParticle->getScale().x > .5f)
 	{
 		Particle* temp = createParticle();
-		temp->setVelocity(vec3(0,1,0));
+		temp->setVelocity(vec3(0,3,0));
 		temp->setScale(vec3(.5,.5,.5));
 		temp->setPos(dyingParticle->getPos());
 		temp = createParticle();
-		temp->setVelocity(vec3(0,-1,0));
+		temp->setVelocity(vec3(0,-3,0));
 		temp->setScale(vec3(.5,.5,.5));
 		temp->setPos(dyingParticle->getPos());
 		temp = createParticle();
-		temp->setVelocity(vec3(0,0,1));
+		temp->setVelocity(vec3(0,0,3));
 		temp->setScale(vec3(.5,.5,.5));
 		temp->setPos(dyingParticle->getPos());
 

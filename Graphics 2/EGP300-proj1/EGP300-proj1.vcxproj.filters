@@ -120,6 +120,15 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Project\Game\Resources\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="ColorBombShader.cpp">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveShader.cpp">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Diffuse.cpp">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -194,6 +203,15 @@
     <ClInclude Include="Shader.h">
       <Filter>Project\Game\Resources\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="ColorBombShader.h">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveShader.h">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Diffuse.h">
+      <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="WaterFragShader.fp">
@@ -206,6 +224,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ColorVertShader.vp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DiffuseVertShader.vp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DiffuseFragShader.fp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

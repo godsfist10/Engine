@@ -71,13 +71,13 @@ void Game::render()
 
 	if (m_waterworld)
 	{
-		mpResourceManager->drawObject(mView, proj, viewProj, ShaderManager, "water", "waterShader");
-		mpResourceManager->drawObject(mView, proj, viewProj, ShaderManager, "fishy", "colorBombShader");
+		//mpResourceManager->drawObject(mView, proj, viewProj, mpShaderManager, "water", "waveShader");
+		//mpResourceManager->drawObject(mView, proj, viewProj, mpShaderManager, "fishy", "colorShiftShader");
 	}
 	
+	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager, mpShaderManager);
 
-	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager);
-
+	//glDisable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	mpDebug->drawMessages();
 }
@@ -103,6 +103,7 @@ void Game::PausedUpdate()
 void Game::UnpausedUpdate()
 {
 	mpResourceManager->updateObjects(mpCamera->getPos(), (float)mpDebug->getDeltaTime());	
+	mpShaderManager->update(mpDebug->getDeltaTime());
 
 	if (m_waterworld)
 		waterWorldUpdate();
@@ -197,8 +198,7 @@ void Game::spaceWorldDebug()
 void Game::waterWorldUpdate()
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
-	PhyshyFriends->update(mpDebug->getDeltaTime());
-	ShaderManager->update(mpDebug->getDeltaTime());
+	//PhyshyFriends->update(mpDebug->getDeltaTime());
 
 }
 void Game::waterWorldFixedUpdate()
@@ -236,11 +236,10 @@ void Game::spaceWorldFixedUpdate()
 
 }
 
-
 void Game::start(int argNum, char* args[])
 {
-	m_space = true;
-	m_waterworld = false;
+	m_space = false;
+	m_waterworld = true;
 
 	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
@@ -251,15 +250,16 @@ void Game::start(int argNum, char* args[])
 	Paused = true;
 	fullscreen = false;
 	help = false;
-	systemTimeAdjuster = 0; //starts at day per frame
+	systemTimeAdjuster = -1; //starts at normal per frame
 
 	mpDebug = new Debug();
 	mpCamera = new Camera();
 	mpDebug = new Debug();
 	mpResourceManager = new ResourceManager();
 	mpTerrainManager = new TerrainManager();
-	ShaderManager = new Shader_Manager();
-	
+	mpShaderManager = new Shader_Manager();
+
+	mpDebug->init(mpResourceManager, "Assets/TextMaterials/whiteTextMaterial.mtl");
 	
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);   
 	shaderManager.InitializeStockShaders();
@@ -298,16 +298,7 @@ void Game::start(int argNum, char* args[])
 
 void Game::setUpWorld(int argNum, char* args[])
 {
-	
-	if(argNum > 1)
-	{
-		for( int i = 1; i < argNum; i++)
-		{
-			mpResourceManager->LoadFile(args[i]);
-		}
-	}
-	else
-	{
+
 
 #pragma region standardPrefabSetup
 
@@ -332,9 +323,6 @@ void Game::setUpWorld(int argNum, char* args[])
 			int terrainSize = 3000;
 			int terrainTriDensity = 100;
 
-			ShaderManager->init("WaterVertShader.vp", "WaterFragShader.fp");
-			ShaderManager->init("ColorVertShader.vp", "ColorFragShader");
-
 			mpResourceManager->LoadFile("Assets/Fish/FISHY.obj");
 
 			m_cloudSkybox = new Skybox("Assets/Skybox/cloudbox2.jpg", mpResourceManager, 3000, "cloudSkybox");
@@ -344,10 +332,9 @@ void Game::setUpWorld(int argNum, char* args[])
 			mpTerrainManager->createTerrain(mpResourceManager, "Assets/Heightmap/heightmap_water.jpg", "Assets/Heightmap/heightmap_waterTexture.jpg", terrainSize, 200, terrainTriDensity, "repeatHM", true);
 			mpTerrainManager->setHeightOfRepeatingTerrain("repeatHM", -200.0f);
 
-
 			m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
 			m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
-			m_waterMap->setIsPrefab(true);
+			mpResourceManager->applyShaderToObject(m_waterMap, "waveShader");
 
 			BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
 			billboard1->setPos(vec3(-400, 400, -800));
@@ -374,13 +361,14 @@ void Game::setUpWorld(int argNum, char* args[])
 
 			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 			fishy->Translate(5, 5, 5);
-			fishy->setIsPrefab(true);
+			mpResourceManager->applyShaderToObject("fishy", "diffuse");
+			//fishy->setIsPrefab(true);
 
 			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			physhy->modifyVelocity(vec3(0, 0, 1));
+			physhy->modifyVelocity(vec3(0, 0, 3));
 
-			PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 300, vec3(1, 0, 0));
-			PhyshyFriends->startEffect("Assets/Fish");
+			//PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 10, vec3(1, 0, 0));
+			//PhyshyFriends->startEffect("Assets/Fish");
 
 		}
 #pragma endregion WaterWorldSetup
@@ -467,8 +455,7 @@ void Game::setUpWorld(int argNum, char* args[])
 		}
 
 #pragma endregion SpaceWorldSetup	
-	}
-
+	
 	ResetCamera();
 }
 
@@ -703,7 +690,6 @@ void Game::hookKey(unsigned char key, int x, int y)
 			mpCamera->setYaw(1.1f);
 			mpCamera->setPitch(-.55f);
 		}
-
 		if (key == 't' || key == 'T')
 		{
 			// day per frame
@@ -714,7 +700,12 @@ void Game::hookKey(unsigned char key, int x, int y)
 			//systemTime *= 2628000.0;
 			// year per frame
 			//systemTime *= 31536000.0;
-			if (systemTimeAdjuster == 1)
+			if (systemTimeAdjuster == 0)
+			{
+				systemTimeAdjuster = -1;
+				mpResourceManager->modifyPhysicsSystemTime(1.0);
+			}
+			else if (systemTimeAdjuster == 1)
 			{
 				systemTimeAdjuster = 0;
 				mpResourceManager->modifyPhysicsSystemTime(86400.0);
@@ -732,7 +723,12 @@ void Game::hookKey(unsigned char key, int x, int y)
 		}
 		if (key == 'y' || key == 'Y')
 		{
-			if (systemTimeAdjuster == 0)
+			if (systemTimeAdjuster == -1)
+			{
+				systemTimeAdjuster = 0;
+				mpResourceManager->modifyPhysicsSystemTime(86400.0);
+			}
+			else if (systemTimeAdjuster == 0)
 			{
 				systemTimeAdjuster = 1;
 				mpResourceManager->modifyPhysicsSystemTime(604800.0);
@@ -749,7 +745,7 @@ void Game::hookKey(unsigned char key, int x, int y)
 			}
 
 		}
-
+		
 	}
 	/*if(key == 'g' || key == 'G')
 	{
@@ -776,7 +772,7 @@ void Game::endGame()
 	delete mpResourceManager;
 	delete mpCamera;
 	delete mpTerrainManager;
-	delete ShaderManager;
+	delete mpShaderManager;
 	delete mpDebug;
 
 	exit(0);

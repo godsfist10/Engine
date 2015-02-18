@@ -3,28 +3,28 @@
 
 Shader::Shader()
 {
-}
 
+}
 
 Shader::~Shader()
 {
 }
 
-void Shader::init(string vertShader, string fragShader)
-{
-
-	mShaderIndex = gltLoadShaderPairWithAttributes(vertShader.c_str(), fragShader.c_str());
-	
-	locMVP = glGetUniformLocation(mShaderIndex, "mvpMatrix");
-}
-
-void Shader::setupForDraw(mat4x4 mvpMatrix)
-{
-	glUseProgram(mShaderIndex);
-	glUniformMatrix4fv(locMVP, 1, GL_FALSE, &mvpMatrix[0][0]);
-}
-
 void Shader::update(double deltaTime)
 {
 
+}
+
+void Shader::init(const string& vertShaderName, const string& fragShaderName, bool vertexAtt, bool textureAtt)
+{
+	if (!vertexAtt && !textureAtt)
+		mShaderIndex = gltLoadShaderPairWithAttributes(vertShaderName.c_str(), fragShaderName.c_str());
+	else if (vertexAtt && !textureAtt)
+		mShaderIndex = gltLoadShaderPairWithAttributes(vertShaderName.c_str(), fragShaderName.c_str(), 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
+	else if (vertexAtt && textureAtt)
+		mShaderIndex = gltLoadShaderPairWithAttributes(vertShaderName.c_str(), fragShaderName.c_str(), 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
+	else if (!vertexAtt && textureAtt)
+		mShaderIndex = gltLoadShaderPairWithAttributes(vertShaderName.c_str(), fragShaderName.c_str(), 1, GLT_ATTRIBUTE_TEXTURE0, "texCoord");
+
+	locMVP = glGetUniformLocation(mShaderIndex, "mvpMatrix");
 }

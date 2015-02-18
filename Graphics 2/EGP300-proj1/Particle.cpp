@@ -20,7 +20,7 @@ Particle::~Particle()
 
 void Particle::update(double deltaTime)
 {
-	lifeSpan--;
+	lifeSpan -= (float)deltaTime;
 	if(lifeSpan <= 0)
 		killMe = true;
 

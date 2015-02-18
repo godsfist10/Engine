@@ -11,49 +11,30 @@
 
 #include <Arc/Map.h>
 #include "Shader.h"
+#include "WaveShader.h"
+#include "ColorBombShader.h"
+#include "Diffuse.h"
 
 using namespace std;
 using namespace glm;
+using namespace Arc;
 
 class Shader_Manager
 {
 public:
 	Shader_Manager(void);
 	~Shader_Manager(void);
-	void init(const string& vertexProgramName, const string& fragmentProgramName);
+	void cleanup();
+
+	void initAll();
+	void addShader(const string& shaderName, Shader* shaderToAdd);
 	void setupForDraw(const string& shaderName, mat4x4 mvpMatrix);
 	void update(double deltaTime);
 
+	inline bool hasShader(const string& key) { return mShaderMap.containsKey(key); }
+
 private:
 
-	//Map<string, Shader*> mShaderMap;
-
-	GLuint waterShader;
-	bool waterShaderInUse;
-	GLuint colorBombShader;
-	bool colorBombShaderInUse;
-
-	//wave vars
-	GLuint baseImageLoc;
-	GLuint locMVP; 
-	GLuint locColor; 
-	GLuint locTime; 
-	GLuint locWaveHeight; 
-	GLuint locWaveWidth; 
-
-	float waveTime;
-	float waveWidth;
-	float waveHeight;
-
-	//colorBomb Vars
-	GLuint locColorBomb;
-	GLuint locMVP_Bomb;
-
-	float colorStep_R;
-	float colorStep_G;
-	float colorStep_B;
-	float colorStepAmount;
-	int colorIndex;
-	
+	Map<string, Shader*> mShaderMap;
 };
 

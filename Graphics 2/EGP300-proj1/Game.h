@@ -80,7 +80,7 @@ protected:
 	Camera* mpCamera;
 	Debug* mpDebug;
 	GLShaderManager	shaderManager;
-
+	Shader_Manager* mpShaderManager;
 	ResourceManager* mpResourceManager;
 	TerrainManager* mpTerrainManager;
 
@@ -93,7 +93,7 @@ protected:
 	int systemTimeAdjuster;
 
 #pragma region waterWorldVars
-	Shader_Manager* ShaderManager;
+	
 
 	Skybox* m_underWaterSkybox;
 	Skybox* m_cloudSkybox;

@@ -3,6 +3,7 @@
 
 using namespace std;
 
+class ResourceManager;
 
 struct onScreenMessage
 {
@@ -18,7 +19,7 @@ public:
 	Debug();
 	~Debug();
 	void cleanup();
-	void init();
+	void init(ResourceManager* resourceManager, const string& textMtlFile);
 
 	const float TIME_PER_FRAME = 1000.0f / 60.0f;
 	static void log(const string& log);
@@ -51,5 +52,6 @@ protected:
 	double mTimePrev;
 	int mFpsCount;
 
+	Material* textMat;
 };
 

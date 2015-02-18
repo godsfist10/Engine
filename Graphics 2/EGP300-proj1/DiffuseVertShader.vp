@@ -1,0 +1,10 @@
+#version 330
+
+uniform mat4 mvpMatrix;
+
+in vec4 vVertex;
+
+void main()
+{
+	gl_Position = mvpMatrix * vVertex;
+}

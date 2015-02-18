@@ -13,7 +13,9 @@
   <ItemGroup>
     <ClCompile Include="BillboardedTexture.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ColorBombShader.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Diffuse.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GravityGenerator.cpp" />
@@ -35,11 +37,14 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
+    <ClCompile Include="WaveShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BillboardedTexture.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ColorBombShader.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="Diffuse.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GravityGenerator.h" />
@@ -61,10 +66,13 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="WaveShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorFragShader.fp" />
     <None Include="ColorVertShader.vp" />
+    <None Include="DiffuseFragShader.fp" />
+    <None Include="DiffuseVertShader.vp" />
     <None Include="WaterFragShader.fp" />
     <None Include="WaterVertShader.vp" />
   </ItemGroup>

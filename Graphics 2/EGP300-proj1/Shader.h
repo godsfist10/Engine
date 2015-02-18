@@ -19,8 +19,9 @@ class Shader
 public:
 	Shader();
 	~Shader();
-	virtual void init(string vertShader, string fragShader);
-	virtual void setupForDraw(mat4x4 mvpMatrix);
+	virtual void init() = 0;
+	virtual void init(const string& vertShaderName, const string& fragShaderName, bool vertexAtt = false, bool textureAtt = false);
+	virtual void setupForDraw(mat4x4 mvpMatrix) = 0;
 	virtual void update(double deltaTime);
 protected:
 

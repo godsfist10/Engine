@@ -17,7 +17,7 @@ Texture* ResourceManager::LoadTexture(string fileName, GLenum minFilter, GLenum 
 
 	if ( ! surface)
 	{
-		cout << "Texture: " + fileName + " does not exist and did not load";
+		Debug::log("Texture: " + fileName + " does not exist and did not load");
 		return 0;
 	}
 
@@ -193,7 +193,7 @@ void ResourceManager::LoadFile(const string& filename)
 
 	if ( ! file)
 	{
-		cout << "File: " + filename + " not loaded because it does not exist";
+		Debug::log("File: " + filename + " not loaded because it does not exist\n");
 		return; // Shit broke
 
 	}
@@ -458,7 +458,7 @@ void ResourceManager::LoadFile(const string& filename, const string& key)
 {
 	if (this->hasObject(key))
 	{
-		cout << "Key: " + key + "already in use in object map\n";
+		Debug::log("Key: " + key + "already in use in object map\n");
 		return;
 	}
 
@@ -470,7 +470,7 @@ void ResourceManager::LoadFile(const string& filename, const string& key)
 
 	if (!file)
 	{
-		cout << "File: " + filename + " not loaded because it does not exist\n";
+		Debug::log("File: " + filename + " not loaded because it does not exist\n");
 		return; // Shit broke
 
 	}
@@ -901,8 +901,15 @@ void ResourceManager::updateObjects(vec3 cameraPos, float deltaTime)
 
 }
 
-void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager)
+void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager, Shader_Manager* customShaderManager)
 {
+
+	for (multimap<string, string>::iterator it = m_ShaderDrawMap.begin(); it != m_ShaderDrawMap.end(); ++it)
+	{
+		Object* pObject = getObject(it->first);
+		pObject->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, customShaderManager, it->second);
+	}
+
 	for( auto it = m_ObjectsMap.itBegin(); it != m_ObjectsMap.itEnd(); ++it)
 	{
 		Object* pObject = it->second;
@@ -914,6 +921,7 @@ void ResourceManager::drawAllObjects(const mat4x4& viewPoint, const mat4x4& Proj
 		BillBoardDrawOrder[i]->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager);
 	}
 	
+	
 }
 
 float ResourceManager::getXZDistance(vec3 camPos, vec3 pos)
@@ -921,13 +929,45 @@ float ResourceManager::getXZDistance(vec3 camPos, vec3 pos)
 	return( pow(camPos.x - pos.x, 2.0f) + pow( camPos.z - pos.z, 2.0f));
 }
 
+//Depreciated
 void ResourceManager::drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName)
 {
 	if( !hasObject(objectName))
 	{
-		cout << "Cannot draw: " + objectName;
+		Debug::log("Cannot draw: " + objectName + "\n");
 		return;
 	}
 
 	getObject(objectName)->draw(viewPoint, ProjectionMatrix, ProjectionViewPrecalced, shaderManager, shaderName );
+}
+
+void ResourceManager::applyShaderToObject(const string& objectName, const string& shaderName)
+{
+	if (!hasObject(objectName))
+	{
+		Debug::log("Applying shader to object that doesnt exist: " + objectName + "\n");
+	}
+
+	getObject(objectName)->setIsPrefab(true);
+	m_ShaderDrawMap.insert(pair<string, string>(objectName, shaderName));
+	
+}
+
+void ResourceManager::applyShaderToObject(Object* object, const string& shaderName)
+{
+	object->setIsPrefab(true);
+	m_ShaderDrawMap.insert(pair<string, string>(getObjectKey(object), shaderName));
+
+}
+
+void ResourceManager::removeShaderFromObject(const string& objectName, bool returnToPrefab)
+{
+	m_ShaderDrawMap.erase(objectName);
+	getObject(objectName)->setIsPrefab(returnToPrefab);
+}
+
+void ResourceManager::removeShaderFromObject(Object* object, bool returnToPrefab)
+{
+	m_ShaderDrawMap.erase(getObjectKey(object));
+	object->setIsPrefab(returnToPrefab);
 }
