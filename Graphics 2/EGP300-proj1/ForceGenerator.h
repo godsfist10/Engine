@@ -5,7 +5,7 @@ class ForceGenerator
 {
 public:
 	ForceGenerator();
-	~ForceGenerator();
+	virtual ~ForceGenerator();
 
 	virtual void update() = 0;
 
