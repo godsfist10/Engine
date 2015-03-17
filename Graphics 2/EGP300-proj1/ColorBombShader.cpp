@@ -19,7 +19,7 @@ void ColorBombShader::init()
 	colorStep_G = 0;
 	colorStep_B = 0;
 
-	mShaderIndex = gltLoadShaderPairWithAttributes("ColorVertShader.vp", "ColorFragShader.fp", 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
+	mShaderIndex = gltLoadShaderPairWithAttributes("Assets/Shaders/ColorVertShader.vp", "Assets/Shaders/ColorFragShader.fp", 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
 
 	locColorBomb = glGetUniformLocation(mShaderIndex, "vColorBombValue");
 	locMVP = glGetUniformLocation(mShaderIndex, "mvpMatrix");

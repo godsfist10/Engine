@@ -12,7 +12,7 @@ Diffuse::~Diffuse()
 
 void Diffuse::init()
 {
-	mShaderIndex = gltLoadShaderPairWithAttributes("DiffuseVertShader.vp", "DiffuseFragShader.fp", 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
+	mShaderIndex = gltLoadShaderPairWithAttributes("Assets/Shaders/DiffuseVertShader.vp", "Assets/Shaders/DiffuseFragShader.fp", 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
 	locMVP = glGetUniformLocation(mShaderIndex, "mvpMatrix");
 	baseImageLoc = glGetUniformLocation(mShaderIndex, "baseImage");
 }

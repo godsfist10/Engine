@@ -1,0 +1,19 @@
+#version 330
+
+uniform mat4 mvpMatrix;
+uniform float waveTime;
+uniform float waveHeight;
+uniform float waveWidth;
+
+in vec4 vVertex;
+in vec2 texCoord;
+
+out vec2 texCoordPass;
+
+void main()
+{
+	vec4 vertex = vVertex;
+	texCoordPass = texCoord;
+	vertex.y = sin(waveWidth * vVertex.x + waveTime) * cos(waveWidth * vVertex.z + waveTime) * waveHeight;
+	gl_Position = mvpMatrix * vertex;
+}

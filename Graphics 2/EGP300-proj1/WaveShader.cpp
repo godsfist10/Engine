@@ -16,7 +16,7 @@ void WaveShader::init()
 	waveWidth = 0.03f;
 	waveHeight = 3.0f;
 
-	mShaderIndex = gltLoadShaderPairWithAttributes("WaterVertShader.vp", "WaterFragShader.fp", 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
+	mShaderIndex = gltLoadShaderPairWithAttributes("Assets/Shaders/WaterVertShader.vp", "Assets/Shaders/WaterFragShader.fp", 2, GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_TEXTURE0, "texCoord");
 
 	locColor = glGetUniformLocation(mShaderIndex, "vColorValue");
 	locMVP = glGetUniformLocation(mShaderIndex, "mvpMatrix");

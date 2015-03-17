@@ -1,58 +1,47 @@
-﻿Build started 2/17/2015 3:27:16 AM.
-     1>Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
+﻿Build started 3/17/2015 12:51:01 AM.
+     1>Project "C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\EGP300-proj2.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BillboardedTexture.cpp Camera.cpp Debug.cpp ForceGenerator.cpp Game.cpp GravityGenerator.cpp Heightmap.cpp main.cpp Material.cpp Matrix.cpp Model.cpp Object.cpp Particle.cpp ParticleEffect.cpp ParticleSystemManager.cpp PhysicsObject.cpp ResourceManager.cpp Shader.cpp ShaderManager.cpp Skybox.cpp TerrainManager.cpp Texture.cpp Vector2D.cpp Vector3D.cpp
-         BillboardedTexture.cpp
-     1>BillboardedTexture.cpp(104): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Camera.cpp
-     1>Camera.cpp(192): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Debug.cpp
-     1>Debug.cpp(144): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         ForceGenerator.cpp
-     1>ForceGenerator.cpp(29): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../libs/SDL/include /I../libs/Arc/include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D NOGDI /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp
          Game.cpp
-     1>Game.cpp(836): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         GravityGenerator.cpp
-     1>GravityGenerator.cpp(36): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Heightmap.cpp
-     1>Heightmap.cpp(326): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         main.cpp
-     1>main.cpp(135): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Material.cpp
-     1>Material.cpp(24): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Matrix.cpp
-     1>Matrix.cpp(352): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Model.cpp
-     1>Model.cpp(51): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Object.cpp
-     1>Object.cpp(83): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Particle.cpp
-     1>Particle.cpp(29): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         ParticleEffect.cpp
-     1>ParticleEffect.cpp(127): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         ParticleSystemManager.cpp
-     1>ParticleSystemManager.cpp(12): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         PhysicsObject.cpp
-     1>PhysicsObject.cpp(62): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         ResourceManager.cpp
-     1>ResourceManager.cpp(934): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Shader.cpp
-     1>Shader.cpp(31): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         ShaderManager.cpp
-     1>ShaderManager.cpp(145): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Skybox.cpp
-     1>Skybox.cpp(88): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Compiling...
-         TerrainManager.cpp
-     1>TerrainManager.cpp(218): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Texture.cpp
-     1>Texture.cpp(23): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Vector2D.cpp
-     1>Vector2D.cpp(80): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-         Vector3D.cpp
-     1>Vector3D.cpp(113): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
-     1>Done Building Project "C:\Users\paul.kubik\Desktop\Game_Physics\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)) -- FAILED.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\EGP300-proj2.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:../libs/ /LIBPATH:../libs/SDL/lib/ /LIBPATH:../libs/Arc/lib/release ArcData.lib ArcCore.lib SDL.lib SDL_image.lib freeglut_static.lib gltools.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\EGP300-proj2.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\EGP300-proj2.lib" /MACHINE:X86 /SAFESEH Release\BillboardedTexture.obj
+         Release\Camera.obj
+         Release\ColorBombShader.obj
+         Release\Debug.obj
+         Release\Diffuse.obj
+         Release\ForceGenerator.obj
+         Release\Game.obj
+         Release\GravityGenerator.obj
+         Release\Heightmap.obj
+         Release\main.obj
+         Release\Material.obj
+         Release\Matrix.obj
+         Release\Model.obj
+         Release\Object.obj
+         Release\Particle.obj
+         Release\ParticleEffect.obj
+         Release\ParticleSystemManager.obj
+         Release\PhysicsObject.obj
+         Release\ResourceManager.obj
+         Release\Shader.obj
+         Release\ShaderManager.obj
+         Release\Skybox.obj
+         Release\TerrainManager.obj
+         Release\Texture.obj
+         Release\Vector2D.obj
+         Release\Vector3D.obj
+         Release\WaveShader.obj
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Generating code
+         Finished generating code
+     1>gltools.lib(GLBatch.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLBatch.obj)' or at 'C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\vc90.pdb'; linking object as if no debug info
+     1>gltools.lib(glew.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(glew.obj)' or at 'C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\vc90.pdb'; linking object as if no debug info
+     1>gltools.lib(GLShaderManager.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLShaderManager.obj)' or at 'C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\vc90.pdb'; linking object as if no debug info
+     1>gltools.lib(GLTools.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLTools.obj)' or at 'C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\vc90.pdb'; linking object as if no debug info
+     1>gltools.lib(GLTriangleBatch.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLTriangleBatch.obj)' or at 'C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\vc90.pdb'; linking object as if no debug info
+         EGP300-proj1.vcxproj -> C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\Release\EGP300-proj2.exe
+     1>Done Building Project "C:\Users\Stephen Lane-Walsh\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.67
+Time Elapsed 00:00:05.08

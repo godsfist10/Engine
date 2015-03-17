@@ -238,8 +238,8 @@ void Game::spaceWorldFixedUpdate()
 
 void Game::start(int argNum, char* args[])
 {
-	m_space = false;
-	m_waterworld = true;
+	m_space = true;
+	m_waterworld = false;
 
 	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
