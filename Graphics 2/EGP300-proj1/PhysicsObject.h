@@ -17,35 +17,34 @@ public:
 
 	virtual void update(double deltaTime);
 
-	inline vec3 getVelocity() { return mVelocity; }
-	inline void setVelocity(vec3 vel) { mVelocity = vel; }
-	inline void modifyVelocity(vec3 vel) { mVelocity += vel; }
+	inline Vector3D getVelocity() { return mVelocity; }
+	inline void setVelocity(Vector3D vel) { mVelocity = vel; }
+	inline void modifyVelocity(Vector3D vel) { mVelocity += vel; }
 
-	inline vec3 getAcceleration() { return mAcceleration; }
-	inline void setAcceleration(vec3 val) { mAcceleration = val; }
-	inline void modifyAcceleration(vec3 val) { mAcceleration += val; }
+	inline Vector3D getAcceleration() { return mAcceleration; }
+	inline void setAcceleration(Vector3D val) { mAcceleration = val; }
+	inline void modifyAcceleration(Vector3D val) { mAcceleration += val; }
 
-	inline void setSystemTimeMult(double val) { mSystemTimeMult = val; }
-	inline double getSystemTimeMult() { return mSystemTimeMult; }
-	inline void modSystemTimeMult(double val) { mSystemTimeMult += val; }
-
-	inline vec3 getForce() { return mForce; }
+	inline Vector3D getForce() { return mForce; }
+	inline void clearForceAccumulation() { mForce = Vector3D(0, 0, 0); }
 
 	inline double getMass() { return mMass; }
 	inline void setMass(double mass) { mMass = (realNum)mass; mInverseMass = 1.0f / (realNum)mass; }
 
-	inline void addForce(vec3 force) { mForce += force; }
+	inline void addForce(Vector3D force) { mForce += force; }
+
+	inline bool hasFiniteMass() { return !infiniteMass; }
 
 protected:
 
 	virtual void physicsUpdate(double deltaTime);
 
-	vec3 mVelocity;
-	vec3 mAcceleration;
-	vec3 mForce;
+	Vector3D mVelocity;
+	Vector3D mAcceleration;
+	Vector3D mForce;
 	realNum mMass;
 	realNum mInverseMass;
 	realNum mDampeningVal;
-	double mSystemTimeMult;
+	bool infiniteMass;
 };
 

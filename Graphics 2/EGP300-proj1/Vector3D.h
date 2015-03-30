@@ -3,13 +3,13 @@
 #include <glm/ext.hpp>
 
 using namespace glm;
-
 class Vector3D
 {
 public:
 	Vector3D();
 	Vector3D(float x, float y, float z);
 	Vector3D(vec3 rhs);
+	Vector3D(const Vector3D& rhs);
 	~Vector3D();
 
 	float X;
@@ -17,11 +17,15 @@ public:
 	float Z;
 
 	Vector3D operator+(const Vector3D&) const;
+	Vector3D operator+=(const Vector3D&);
 	Vector3D operator-(const Vector3D&) const;
+	Vector3D operator-=(const Vector3D&);
 	Vector3D operator*(const float&) const;
+	Vector3D operator*=(const float&);
 	Vector3D operator/(const float&) const;
 	bool operator==(const Vector3D&) const;
 	bool operator!=(const Vector3D&) const;
+	glm::vec3 toVec3();
 
 	float magnitude();
 	float magnitudeSquared();

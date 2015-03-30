@@ -46,6 +46,9 @@
     <Filter Include="Project\Game\Resources\Shaders">
       <UniqueIdentifier>{22cdaa80-f9cb-4f59-a761-cca4174d9d97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Game\SceneObjects\Forces\BookForceGenerators">
+      <UniqueIdentifier>{4a048702-0053-4fc5-9ced-6f5a8e998eca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,6 +132,30 @@
     <ClCompile Include="Diffuse.cpp">
       <Filter>Project\Game\Resources\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleForceRegistry.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleForceGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityForceGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="DragForceGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="SpringForceGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="AnchorSpringForceGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ElasticForceGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BuoyancyForceGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -211,6 +238,30 @@
     </ClInclude>
     <ClInclude Include="Diffuse.h">
       <Filter>Project\Game\Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceRegistry.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="DragForceGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="SpringForceGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="AnchorSpringForceGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ElasticForceGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="BuoyancyForceGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

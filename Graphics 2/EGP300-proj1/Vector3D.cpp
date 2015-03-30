@@ -10,6 +10,13 @@ Vector3D::~Vector3D()
 {
 }
 
+Vector3D::Vector3D(const Vector3D& rhs)
+{
+	X = rhs.X;
+	Y = rhs.Y;
+	Z = rhs.Z;
+}
+
 Vector3D::Vector3D(float x, float y, float z)
 {
 	X = x;
@@ -29,14 +36,38 @@ Vector3D Vector3D::operator+(const Vector3D& rhs) const
 	return Vector3D(X + rhs.X, Y + rhs.Y, Z + rhs.Z);
 }
 
+Vector3D Vector3D::operator+=(const Vector3D& rhs)
+{
+	this->X += rhs.X;
+	this->Y += rhs.Y;
+	this->Z += rhs.Z;
+	return *this;
+}
+
 Vector3D Vector3D::operator-(const Vector3D& rhs) const
 {
 	return Vector3D(X - rhs.X, Y - rhs.Y, Z - rhs.Z);
 }
 
+Vector3D Vector3D::operator-=(const Vector3D& rhs)
+{
+	this->X -= rhs.X;
+	this->Y -= rhs.Y;
+	this->Z -= rhs.Z;
+	return *this;
+}
+
 Vector3D Vector3D::operator*(const float& rhs) const
 {
 	return Vector3D(X * rhs, Y * rhs, Z * rhs);
+}
+
+Vector3D Vector3D::operator*=(const float& rhs)
+{
+	this->X *= rhs;
+	this->Y *= rhs;
+	this->Z *= rhs;
+	return *this;
 }
 
 Vector3D Vector3D::operator/(const float& rhs) const
@@ -58,9 +89,15 @@ bool Vector3D::operator!=(const Vector3D& rhs) const
 	return true;
 }
 
+glm::vec3 Vector3D::toVec3()
+{
+	glm::vec3 ofTheJedi = vec3(X, Y, Z);
+	return ofTheJedi;
+}
+
 float Vector3D::magnitude()
 {
-	return glm::sqrt((X * X) + (Y * Y) + (Z * Z));
+	return std::sqrt((X * X) + (Y * Y) + (Z * Z));
 }
 
 float Vector3D::magnitudeSquared()

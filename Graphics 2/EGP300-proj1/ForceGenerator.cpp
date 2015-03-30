@@ -12,7 +12,7 @@ ForceGenerator::~ForceGenerator()
 
 void ForceGenerator::removeFromRegistry(PhysicsObject* object)
 {
-	std::vector<PhysicsObject*>::iterator it = mRegistry.begin(); //not sure if this works
+	std::vector<PhysicsObject*>::iterator it = mRegistry.begin(); 
 
 	for (; it != mRegistry.end();)
 	{

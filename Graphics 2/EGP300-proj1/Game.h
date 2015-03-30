@@ -24,7 +24,7 @@
 #include "BillboardedTexture.h"
 #include "ParticleEffect.h"
 #include "ShaderManager.h"
-#include "GravityGenerator.h"
+#include "ParticleForceRegistry.h"
 
 #include <vector>
 #include <map>
@@ -83,6 +83,7 @@ protected:
 	Shader_Manager* mpShaderManager;
 	ResourceManager* mpResourceManager;
 	TerrainManager* mpTerrainManager;
+	ParticleForceRegistry* mpParticleForceManager;
 
 	mat4x4	mvpMatrix;
 	GLint			width, height;
