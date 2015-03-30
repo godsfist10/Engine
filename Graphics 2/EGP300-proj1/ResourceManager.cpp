@@ -172,12 +172,6 @@ void ResourceManager::cleanup()
 	}
 	m_BillboardsMap.clear();
 
-	for (auto it = m_ForceGeneratorMap.itBegin(); it != m_ForceGeneratorMap.itEnd(); ++it)
-	{
-		ForceGenerator* pGenerator = it->second;
-		delete pGenerator;
-	}
-	m_ForceGeneratorMap.clear();
 
 }
 
@@ -788,38 +782,6 @@ Particle* ResourceManager::addNewParticle(const string& particleName, const Map<
 	return tempObject;
 }
 
-void ResourceManager::addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName)
-{
-	getForceGenerator(forceGeneratorName)->addToRegistry(getPhysicsObject(physicsObjectName));
-}
-
-void ResourceManager::giveAllPhysicsObjectsGravity()
-{
-	for (auto it = m_PhysicsObjectMap.itBegin(); it != m_PhysicsObjectMap.itEnd(); ++it)
-	{
-		PhysicsObject* pObject = it->second;
-		GravityGenerator* tempGenerator = new GravityGenerator();
-		tempGenerator->setSourceObject(it->second);
-		for (auto iter = m_PhysicsObjectMap.itBegin(); iter != m_PhysicsObjectMap.itEnd(); ++iter)
-		{
-			if (iter->first != it->first)
-			{
-				tempGenerator->addToRegistry(iter->second);
-			}
-		}
-		addForceGeneratorToMap(it->first + "Gravity", tempGenerator);
-	}
-	
-}
-
-void ResourceManager::modifyPhysicsSystemTime(double val)
-{
-	for (auto it = m_PhysicsObjectMap.itBegin(); it != m_PhysicsObjectMap.itEnd(); ++it)
-	{
-		it->second->setSystemTimeMult(val);
-	}
-}
-
 void ResourceManager::deleteObject(const string& key)
 {
 	if (hasObject(key))
@@ -827,15 +789,6 @@ void ResourceManager::deleteObject(const string& key)
 		delete m_ObjectsMap[key];
 		m_ObjectsMap.removeKey(key);
 		removePhysicsObjectFromMap(key);
-	}
-}
-
-void ResourceManager::deleteForceGenerator(const string& key)
-{
-	if (hasForceGenerator(key))
-	{
-		delete m_ForceGeneratorMap[key];
-		m_ForceGeneratorMap.removeKey(key);
 	}
 }
 
@@ -891,12 +844,6 @@ void ResourceManager::updateObjects(vec3 cameraPos, float deltaTime)
 				i -= 1;
 			}
 		}
-	}
-
-	for (auto it = m_ForceGeneratorMap.itBegin(); it != m_ForceGeneratorMap.itEnd(); ++it)
-	{
-		ForceGenerator* pGenerator = it->second;
-		pGenerator->update();
 	}
 
 }

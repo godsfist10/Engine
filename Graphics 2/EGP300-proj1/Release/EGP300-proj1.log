@@ -1,9 +1,55 @@
-﻿Build started 3/17/2015 3:19:31 AM.
+﻿Build started 3/29/2015 10:49:34 PM.
      1>Project "C:\Users\paul.kubik\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         EGP300-proj1.vcxproj -> C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Release\EGP300-proj2.exe
-     1>Done Building Project "C:\Users\paul.kubik\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../libs/SDL/include /I../libs/Arc/include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D NOGDI /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BillboardedTexture.cpp Debug.cpp ForceGenerator.cpp Game.cpp GravityGenerator.cpp Heightmap.cpp Particle.cpp ParticleEffect.cpp PhysicsObject.cpp ResourceManager.cpp Skybox.cpp TerrainManager.cpp main.cpp
+         BillboardedTexture.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         Debug.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         ForceGenerator.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         Game.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         GravityGenerator.cpp
+     1>GravityGenerator.cpp : fatal error C1041: cannot open program database 'c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\release\vc120.pdb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+         Heightmap.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         Particle.cpp
+     1>Particle.cpp : fatal error C1041: cannot open program database 'c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\release\vc120.pdb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+         ParticleEffect.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         PhysicsObject.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         ResourceManager.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         Skybox.cpp
+     1>Skybox.cpp : fatal error C1041: cannot open program database 'c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\release\vc120.pdb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+         TerrainManager.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+         main.cpp
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(28): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(29): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\PhysicsObject.h(30): error C2065: 'mSystemTimeMult' : undeclared identifier
+     1>Done Building Project "C:\Users\paul.kubik\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.09
+Time Elapsed 00:00:12.26

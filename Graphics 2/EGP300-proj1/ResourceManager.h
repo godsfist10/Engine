@@ -52,7 +52,6 @@ public:
 	inline bool hasTexture( const string& key) { return m_TexturesMap.containsKey(key); }
 	inline bool hasBillboard(const string& key) { return m_BillboardsMap.containsKey(key); }
 	inline bool hasPhysicsObject(const string& key) { return m_PhysicsObjectMap.containsKey(key); }
-	inline bool hasForceGenerator(const string& key) { return m_ForceGeneratorMap.containsKey(key); }
 
 	inline string getObjectKey(Object* object) { return (m_ObjectsMap.containsValue(object) ? m_ObjectsMap.getIndexOf(object) : "None "); }
 	
@@ -62,7 +61,6 @@ public:
 	inline Map<string, Texture*> getTexturesMap() const { return m_TexturesMap; }
 	inline Map<string, BillboardedTexture*> getBillboardsMap() const { return m_BillboardsMap; }
 	inline Map<string, PhysicsObject*> getPhysicsObjectMap() const { return m_PhysicsObjectMap; }
-	inline Map<string, ForceGenerator*> getForceGeneratorMap() const { return m_ForceGeneratorMap; }
 
 	inline void addModelsToMap( Map<string, Model*>& modelsToAdd) { m_ModelsMap.insert(modelsToAdd.itBegin(), modelsToAdd.itEnd());}
 	inline void addMaterialsToMap( Map<string, Material*>& materialsToAdd)  { m_MaterialsMap.insert(materialsToAdd.itBegin(), materialsToAdd.itEnd()); }
@@ -78,12 +76,10 @@ public:
 	inline void addBillboardToMap(const string& key, BillboardedTexture* billboard) { m_BillboardsMap.add(key, billboard); addBillboardToDrawOrder(billboard); }
 	inline void addBillboardToDrawOrder(BillboardedTexture* billboard) { BillBoardDrawOrder.add(billboard); }
 	inline void addPhysicsObjectToMap(const string& key, PhysicsObject* physicsObject) { m_PhysicsObjectMap.add(key, physicsObject); }
-	inline void addForceGeneratorToMap(const string& key, ForceGenerator* generator) { m_ForceGeneratorMap.add(key, generator); }
 
 	inline void removeObjectFromMap( const string& key) { hasObject(key) ? m_ObjectsMap.removeKey(key) : nullptr;}
 	inline void removePhysicsObjectFromMap(const string& key) { hasPhysicsObject(key) ? m_PhysicsObjectMap.removeKey(key) : nullptr; }
 	inline void removeBillboardFromMap( const string& key) { hasBillboard(key) ? m_BillboardsMap.removeKey(key) : nullptr;}
-	inline void removeForceGeneratorFromMap(const string& key) { hasForceGenerator(key) ? m_ForceGeneratorMap.removeKey(key) : nullptr; }
 	void deleteObject(const string& key);
 	void deleteForceGenerator(const string& key);
 	void deleteBillboard(const string& key);
@@ -94,8 +90,7 @@ public:
 	inline Object* getObject( const string& key ) { return (hasObject(key) ? m_ObjectsMap[key] : nullptr); }
 	inline BillboardedTexture* getBillboard(const string& key) { return (hasBillboard(key) ? m_BillboardsMap[key] : nullptr); }
 	inline PhysicsObject* getPhysicsObject(const string& key) { return (hasPhysicsObject(key) ? m_PhysicsObjectMap[key] : nullptr); }
-	inline ForceGenerator* getForceGenerator(const string& key) { return (hasForceGenerator(key) ? m_ForceGeneratorMap[key] : nullptr); }
-
+	
 	Model* addNewModel(const string& key );
 	Model* addNewModel(const string& key, const string& previousModel, const string& newMatName, const string& newMatFile);
 	Object* addNewObject( const string& key );
@@ -110,9 +105,6 @@ public:
 	void removeShaderFromObject(const string& objectName, bool returnToPrefab = true);
 	void removeShaderFromObject(Object* object, bool returnToPrefab = true);
 
-	void modifyPhysicsSystemTime(double val);
-	inline void addPhysicsObjectToForceRegistry(const string& forceGeneratorName, const string& physicsObjectName);
-	void giveAllPhysicsObjectsGravity();
 
 private:
 
@@ -125,7 +117,6 @@ private:
 	Map<string, Model*> m_ModelsMap;
 	Map<string, BillboardedTexture*> m_BillboardsMap;
 	Map<string, PhysicsObject*> m_PhysicsObjectMap;
-	Map<string, ForceGenerator*> m_ForceGeneratorMap;
 
 	multimap<string, string> m_ShaderDrawMap;
 

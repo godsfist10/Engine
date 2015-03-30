@@ -102,6 +102,7 @@ void Game::PausedUpdate()
 
 void Game::UnpausedUpdate()
 {
+	mpParticleForceManager->updateForces(mpDebug->getDeltaTime());
 	mpResourceManager->updateObjects(mpCamera->getPos(), (float)mpDebug->getDeltaTime());	
 	mpShaderManager->update(mpDebug->getDeltaTime());
 
@@ -125,6 +126,7 @@ void Game::FixedUpdate()
 		
 		if (m_space)
 			spaceWorldDebug();
+		
 	}
 	
 	if (help)
@@ -162,7 +164,7 @@ void Game::spaceWorldDebug()
 		float xPos = (float)(width - 200);
 		float yStartPos = (float)(height - 30);
 		float yAdding = 20.0f;
-
+		/*
 		mpDebug->addTextToScreen("Following: " + mpResourceManager->getObjectKey(PlanetToFollow), vec2(xPos, yStartPos));
 		mpDebug->addTextToScreen("Pos: ", vec2(xPos, yStartPos - yAdding));
 		mpDebug->addTextToScreen("  X: " + glm::to_string(PlanetToFollow->getPos().x), vec2(xPos, yStartPos - yAdding * 2));
@@ -176,22 +178,7 @@ void Game::spaceWorldDebug()
 		mpDebug->addTextToScreen("  X: " + glm::to_string(PlanetToFollow->getAcceleration().x), vec2(xPos, yStartPos - yAdding * 10));
 		mpDebug->addTextToScreen("  Y: " + glm::to_string(PlanetToFollow->getAcceleration().y), vec2(xPos, yStartPos - yAdding * 11));
 		mpDebug->addTextToScreen("  Z: " + glm::to_string(PlanetToFollow->getAcceleration().z), vec2(xPos, yStartPos - yAdding * 12));
-	}
-	if (systemTimeAdjuster == 0)
-	{
-		mpDebug->addTextToScreen("Timescale: 1 frame = 1 day" , vec2(300, height - 30));
-	}
-	else if (systemTimeAdjuster == 1)
-	{
-		mpDebug->addTextToScreen("Timescale: 1 frame = 1 week", vec2(300, height - 30));
-	}
-	else if (systemTimeAdjuster == 2)
-	{
-		mpDebug->addTextToScreen("Timescale: 1 frame = 1 month", vec2(300, height - 30));
-	}
-	else if (systemTimeAdjuster == 3)
-	{
-		mpDebug->addTextToScreen("Timescale: 1 frame = 1 year", vec2(300, height - 30));
+		*/
 	}
 }
 
@@ -238,8 +225,9 @@ void Game::spaceWorldFixedUpdate()
 
 void Game::start(int argNum, char* args[])
 {
-	m_space = true;
-	m_waterworld = false;
+	bool spaceGo = false;
+	m_space = spaceGo;
+	m_waterworld = !spaceGo;
 
 	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
@@ -258,6 +246,7 @@ void Game::start(int argNum, char* args[])
 	mpResourceManager = new ResourceManager();
 	mpTerrainManager = new TerrainManager();
 	mpShaderManager = new Shader_Manager();
+	mpParticleForceManager = new ParticleForceRegistry();
 
 	mpDebug->init(mpResourceManager, "Assets/TextMaterials/whiteTextMaterial.mtl");
 	
@@ -360,12 +349,32 @@ void Game::setUpWorld(int argNum, char* args[])
 			grass2->setRotation(vec3(0, PI / 2.3f, 0));
 
 			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			fishy->Translate(5, 5, 5);
-			mpResourceManager->applyShaderToObject("fishy", "diffuse");
+			fishy->Translate(50, 5, 50);
+			//mpResourceManager->applyShaderToObject("fishy", "diffuse");
 			//fishy->setIsPrefab(true);
 
 			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			physhy->modifyVelocity(vec3(0, 0, 3));
+			physhy->Translate(50, 5, 40);
+			physhy->modifyVelocity(Vector3D(0,0,3));
+
+			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
+			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth->Translate(100.0f, 50.0f, 0);
+			Earth->setScale(1);
+			Earth->setMass(1.0f);
+			Earth->setVelocity(vec3(0, 0, 0));
+
+			GravityForceGenerator* gravGen = new GravityForceGenerator(Vector3D(0, -9.8f, 0));
+			mpParticleForceManager->add(Earth, gravGen);
+			mpParticleForceManager->addForceGeneratorToList(gravGen);
+
+			DragForceGenerator* waterDragGen = new DragForceGenerator(.1f);
+			mpParticleForceManager->add(Earth, waterDragGen);
+			mpParticleForceManager->addForceGeneratorToList(waterDragGen);
+			
+			BuoyancyForceGen* bouyGen = new BuoyancyForceGen(5.0f, .015f, 150.0f);
+			mpParticleForceManager->add(Earth, bouyGen);
+			mpParticleForceManager->addForceGeneratorToList(bouyGen);
 
 			//PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 10, vec3(1, 0, 0));
 			//PhyshyFriends->startEffect("Assets/Fish");
@@ -450,7 +459,6 @@ void Game::setUpWorld(int argNum, char* args[])
 			Neptune->setMass(.000051513f);
 			Neptune->setVelocity(vec3(0, 0, .0000000368628241436f));
 
-			mpResourceManager->giveAllPhysicsObjectsGravity();
 			//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
 		}
 
@@ -690,61 +698,6 @@ void Game::hookKey(unsigned char key, int x, int y)
 			mpCamera->setYaw(1.1f);
 			mpCamera->setPitch(-.55f);
 		}
-		if (key == 't' || key == 'T')
-		{
-			// day per frame
-			//systemTime *= 86400.0; 
-			// week per frame
-			//systemTime *= 604800.0;
-			// month per frame
-			//systemTime *= 2628000.0;
-			// year per frame
-			//systemTime *= 31536000.0;
-			if (systemTimeAdjuster == 0)
-			{
-				systemTimeAdjuster = -1;
-				mpResourceManager->modifyPhysicsSystemTime(1.0);
-			}
-			else if (systemTimeAdjuster == 1)
-			{
-				systemTimeAdjuster = 0;
-				mpResourceManager->modifyPhysicsSystemTime(86400.0);
-			}
-			else if (systemTimeAdjuster == 2)
-			{
-				systemTimeAdjuster = 1;
-				mpResourceManager->modifyPhysicsSystemTime(604800.0);
-			}
-			else if (systemTimeAdjuster == 3)
-			{
-				systemTimeAdjuster = 2;
-				mpResourceManager->modifyPhysicsSystemTime(2628000.0);
-			}
-		}
-		if (key == 'y' || key == 'Y')
-		{
-			if (systemTimeAdjuster == -1)
-			{
-				systemTimeAdjuster = 0;
-				mpResourceManager->modifyPhysicsSystemTime(86400.0);
-			}
-			else if (systemTimeAdjuster == 0)
-			{
-				systemTimeAdjuster = 1;
-				mpResourceManager->modifyPhysicsSystemTime(604800.0);
-			}
-			else if (systemTimeAdjuster == 1)
-			{
-				systemTimeAdjuster = 2;
-				mpResourceManager->modifyPhysicsSystemTime(2628000.0);
-			}
-			else if (systemTimeAdjuster == 2)
-			{
-				systemTimeAdjuster = 3;
-				mpResourceManager->modifyPhysicsSystemTime(31536000.0);
-			}
-
-		}
 		
 	}
 	/*if(key == 'g' || key == 'G')
@@ -769,11 +722,13 @@ void Game::endGame()
 {
 	IMG_Quit();
 
+	delete mpParticleForceManager;
 	delete mpResourceManager;
 	delete mpCamera;
 	delete mpTerrainManager;
 	delete mpShaderManager;
 	delete mpDebug;
+	
 
 	exit(0);
 }
