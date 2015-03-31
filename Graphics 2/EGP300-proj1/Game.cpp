@@ -69,12 +69,6 @@ void Game::render()
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
 
-	if (m_waterworld)
-	{
-		//mpResourceManager->drawObject(mView, proj, viewProj, mpShaderManager, "water", "waveShader");
-		//mpResourceManager->drawObject(mView, proj, viewProj, mpShaderManager, "fishy", "colorShiftShader");
-	}
-	
 	mpResourceManager->drawAllObjects(mView, proj, viewProj, shaderManager, mpShaderManager);
 
 	//glDisable(GL_DEPTH_TEST);
@@ -85,34 +79,33 @@ void Game::render()
 void Game::update()
 {
 	mpDebug->update();
-	
-		if (Paused)
-			PausedUpdate();
-		else
-			UnpausedUpdate();
+	double deltaTime = mpDebug->getDeltaTime();
 
-		FixedUpdate();
+		if (Paused)
+			PausedUpdate(deltaTime);
+		else
+			UnpausedUpdate(deltaTime);
+
+		FixedUpdate(deltaTime);
 	
 }
 
-void Game::PausedUpdate()
+void Game::PausedUpdate(double deltaTime)
 {
 	mpDebug->addTextToScreen("PAUSED", vec2(width / 2.0, height - 40));
 }
 
-void Game::UnpausedUpdate()
+void Game::UnpausedUpdate(double deltaTime)
 {
-	mpParticleForceManager->updateForces(mpDebug->getDeltaTime());
-	mpResourceManager->updateObjects(mpCamera->getPos(), (float)mpDebug->getDeltaTime());	
-	mpShaderManager->update(mpDebug->getDeltaTime());
+	mpParticleForceManager->updateForces(deltaTime);
+	mpResourceManager->updateObjects(mpCamera->getPos(), (float)deltaTime);	
+	mpContactHandler->Update(deltaTime);
+	mpShaderManager->update((float)deltaTime);
 
-	if (m_waterworld)
-		waterWorldUpdate();
-	if (m_space)
-		spaceWorldUpdate();
+	WorldUpdate(deltaTime);
 }
 
-void Game::FixedUpdate()
+void Game::FixedUpdate(double deltaTime)
 {
 	mpCamera->update();
 
@@ -124,11 +117,15 @@ void Game::FixedUpdate()
 		mpDebug->addTextToScreen("Y: " + std::to_string(temp.y), vec2(10, height - 110), false, 0.0f);
 		mpDebug->addTextToScreen("Z: " + std::to_string(temp.z), vec2(10, height - 130), false, 0.0f);
 		
-		if (m_space)
-			spaceWorldDebug();
+		WorldDebug();
 		
 	}
 	
+	WorldFixedUpdate(deltaTime);
+}
+
+void Game::WorldDebug()
+{
 	if (help)
 	{
 		mpDebug->addTextToScreen("WSAD+EQ: Movement", vec2(10, height * .5f + 200));
@@ -142,53 +139,15 @@ void Game::FixedUpdate()
 		mpDebug->addTextToScreen("F3: Capture Screenshot", vec2(10, height * .5f + 40));
 		mpDebug->addTextToScreen("F11: Toggle Fullscreen", vec2(10, height * .5f + 20));
 		mpDebug->addTextToScreen("H: Toggle Help Text", vec2(10, height * .5f));
-
-		if (m_space)
-		{
-			mpDebug->addTextToScreen("1-9: Set Cam XY pos to Coordinated Planet And Show Related Data", vec2(10, height * .5f -20));
-			mpDebug->addTextToScreen("0: Follow No Planet", vec2(10, height * .5f - 40));
-			mpDebug->addTextToScreen("T/Y: Increase/Decrease Time Passed Per Frame", vec2(10, height * .5f - 60));
-		}
-	}
-
-	if (m_waterworld)
-		waterWorldFixedUpdate();
-	if (m_space)
-		spaceWorldFixedUpdate();
-}
-
-void Game::spaceWorldDebug()
-{
-	if (PlanetToFollow != nullptr)
-	{
-		float xPos = (float)(width - 200);
-		float yStartPos = (float)(height - 30);
-		float yAdding = 20.0f;
-		/*
-		mpDebug->addTextToScreen("Following: " + mpResourceManager->getObjectKey(PlanetToFollow), vec2(xPos, yStartPos));
-		mpDebug->addTextToScreen("Pos: ", vec2(xPos, yStartPos - yAdding));
-		mpDebug->addTextToScreen("  X: " + glm::to_string(PlanetToFollow->getPos().x), vec2(xPos, yStartPos - yAdding * 2));
-		mpDebug->addTextToScreen("  Y: " + glm::to_string(PlanetToFollow->getPos().y), vec2(xPos, yStartPos - yAdding * 3));
-		mpDebug->addTextToScreen("  Z: " + glm::to_string(PlanetToFollow->getPos().z), vec2(xPos, yStartPos - yAdding * 4));
-		mpDebug->addTextToScreen("Vel: " + mpResourceManager->getObjectKey(PlanetToFollow), vec2(xPos, yStartPos - yAdding * 5));
-		mpDebug->addTextToScreen("  X: " + glm::to_string(PlanetToFollow->getVelocity().x), vec2(xPos, yStartPos - yAdding * 6));
-		mpDebug->addTextToScreen("  Y: " + glm::to_string(PlanetToFollow->getVelocity().y), vec2(xPos, yStartPos - yAdding * 7));
-		mpDebug->addTextToScreen("  Z: " + glm::to_string(PlanetToFollow->getVelocity().z), vec2(xPos, yStartPos - yAdding * 8));
-		mpDebug->addTextToScreen("Acc: " + mpResourceManager->getObjectKey(PlanetToFollow), vec2(xPos, yStartPos - yAdding * 9));
-		mpDebug->addTextToScreen("  X: " + glm::to_string(PlanetToFollow->getAcceleration().x), vec2(xPos, yStartPos - yAdding * 10));
-		mpDebug->addTextToScreen("  Y: " + glm::to_string(PlanetToFollow->getAcceleration().y), vec2(xPos, yStartPos - yAdding * 11));
-		mpDebug->addTextToScreen("  Z: " + glm::to_string(PlanetToFollow->getAcceleration().z), vec2(xPos, yStartPos - yAdding * 12));
-		*/
 	}
 }
-
-void Game::waterWorldUpdate()
+void Game::WorldUpdate(double deltaTime)
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
 	//PhyshyFriends->update(mpDebug->getDeltaTime());
 
 }
-void Game::waterWorldFixedUpdate()
+void Game::WorldFixedUpdate(double deltaTime)
 {
 
 	if (m_cloudSkybox->getIsPrefab() && mpCamera->getPos().y >= mpResourceManager->getObject("water")->getPos().y)
@@ -211,25 +170,9 @@ void Game::waterWorldFixedUpdate()
 	mpTerrainManager->update(mpCamera);
 }
 
-void Game::spaceWorldUpdate()
-{
-	if (PlanetToFollow != nullptr)
-	{
-		mpCamera->setPos(PlanetToFollow->getPos().x, mpCamera->getPos().y, PlanetToFollow->getPos().z);
-	}
-}
-void Game::spaceWorldFixedUpdate()
-{
-
-}
-
 void Game::start(int argNum, char* args[])
 {
-	bool spaceGo = false;
-	m_space = spaceGo;
-	m_waterworld = !spaceGo;
 
-	PlanetToFollow = nullptr;
 	m_CameraMoveSpeed = .5f;
 	m_CameraLookSpeed = .2f;
 	wireframe = false;
@@ -238,8 +181,7 @@ void Game::start(int argNum, char* args[])
 	Paused = true;
 	fullscreen = false;
 	help = false;
-	systemTimeAdjuster = -1; //starts at normal per frame
-
+	
 	mpDebug = new Debug();
 	mpCamera = new Camera();
 	mpDebug = new Debug();
@@ -247,6 +189,7 @@ void Game::start(int argNum, char* args[])
 	mpTerrainManager = new TerrainManager();
 	mpShaderManager = new Shader_Manager();
 	mpParticleForceManager = new ParticleForceRegistry();
+	mpContactHandler = new ContactHandler();
 
 	mpDebug->init(mpResourceManager, "Assets/TextMaterials/whiteTextMaterial.mtl");
 	
@@ -292,7 +235,8 @@ void Game::setUpWorld(int argNum, char* args[])
 #pragma region standardPrefabSetup
 
 
-		//mpResourceManager->LoadFile("Assets/StandardObjects/Cube/Cube.obj", "CubeTest");
+		//mpResourceManager->LoadFile("Assets/StandardObjects/Cube/cube.obj", "cubePrefab");
+	    //cube = mpResourceManager->addNewPhysicsObject("cube", mpResourceManager->getObject("cubePrefab")->getModelMap());
 		//mpResourceManager->LoadFile("Assets/StandardObjects/Sphere/Sphere.obj");
 		//mpResourceManager->LoadFile("Assets/StandardObjects/Torus/Torus.obj");
 
@@ -304,10 +248,7 @@ void Game::setUpWorld(int argNum, char* args[])
 #pragma endregion standardPrefabSetup
 
 #pragma region WaterWorldSetup
-		
-		if (m_waterworld)
-		{
-
+	
 			int waterTerrainSize = 8000;
 			int terrainSize = 3000;
 			int terrainTriDensity = 100;
@@ -324,7 +265,8 @@ void Game::setUpWorld(int argNum, char* args[])
 			m_waterMap = new Heightmap(mpResourceManager, "Assets/Water/waterTexture.jpg", waterTerrainSize, waterTerrainSize, 200, "water");
 			m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
 			mpResourceManager->applyShaderToObject(m_waterMap, "waveShader");
-
+			
+			/*
 			BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
 			billboard1->setPos(vec3(-400, 400, -800));
 			billboard1->setScale(vec3(.6f, .6f, .6f));
@@ -347,6 +289,10 @@ void Game::setUpWorld(int argNum, char* args[])
 			grass2->setScale(vec3(.25f, .25f, .25f));
 
 			grass2->setRotation(vec3(0, PI / 2.3f, 0));
+			*/
+
+			//PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 10, vec3(1, 0, 0));
+			//PhyshyFriends->startEffect("Assets/Fish");
 
 			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
 			fishy->Translate(50, 5, 50);
@@ -354,39 +300,88 @@ void Game::setUpWorld(int argNum, char* args[])
 			//fishy->setIsPrefab(true);
 
 			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			physhy->Translate(50, 5, 40);
-			physhy->modifyVelocity(Vector3D(0,0,3));
+			physhy->init(Vector3D(50, 5, 40), Vector3D(0, 0, 3));
+
+			mpResourceManager->LoadFile("Assets/StandardObjects/Cube/cube.obj", "CubePlease");
+			Ground = mpResourceManager->addNewPhysicsObject("ground", mpResourceManager->getObject("CubePlease")->getModelMap());
+			Ground->setPos(100, 0, 300);
+			Ground->setMass(MAXFLOAT);
+			Ground->setScale(50, .05f, 600);
 
 			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
 			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth->Translate(100.0f, 50.0f, 0);
+			Earth->init(Vector3D(100.0f, 50.0f, 0));
 			Earth->setScale(1);
 			Earth->setMass(1.0f);
-			Earth->setVelocity(vec3(0, 0, 0));
+
+			Earth2 = mpResourceManager->addNewPhysicsObject("Earth2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth2->init(Vector3D(100.0f, 50.0f, 50));
+			Earth2->setScale(1);
+			Earth2->setMass(1.0f);
+
+			Earth3 = mpResourceManager->addNewPhysicsObject("Earth3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth3->init(Vector3D(100.0f, 50.0f, 100));
+			Earth3->setScale(1);
+			Earth3->setMass(1.0f);
+
+			Earth4 = mpResourceManager->addNewPhysicsObject("Earth4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth4->init(Vector3D(100.0f, 50.0f, 150));
+			Earth4->setScale(1);
+			Earth4->setMass(1.0f);
+
+			Earth5 = mpResourceManager->addNewPhysicsObject("Earth5", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth5->init(Vector3D(100.0f, 30.0f, 200));
+			Earth5->setScale(1);
+			Earth5->setMass(1.0f);
+
+			Earth6 = mpResourceManager->addNewPhysicsObject("Earth6", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			Earth6->init(Vector3D(100.0f, 50.0f, 250));
+			Earth6->setScale(1);
+			Earth6->setMass(1.0f);
+
+
 
 			GravityForceGenerator* gravGen = new GravityForceGenerator(Vector3D(0, -9.8f, 0));
 			mpParticleForceManager->add(Earth, gravGen);
+			mpParticleForceManager->add(Earth2, gravGen);
+			mpParticleForceManager->add(Earth3, gravGen);
+			mpParticleForceManager->add(Earth4, gravGen);
+			mpParticleForceManager->add(Earth5, gravGen);
+			mpParticleForceManager->add(Earth6, gravGen);
+
 			mpParticleForceManager->addForceGeneratorToList(gravGen);
 
 			DragForceGenerator* waterDragGen = new DragForceGenerator(.1f);
 			mpParticleForceManager->add(Earth, waterDragGen);
+			mpParticleForceManager->add(Earth2, waterDragGen);
 			mpParticleForceManager->addForceGeneratorToList(waterDragGen);
 			
-			BuoyancyForceGen* bouyGen = new BuoyancyForceGen(5.0f, .015f, 150.0f);
+			BuoyancyForceGen* bouyGen = new BuoyancyForceGen(5.0f, .012f, 150.0f);
 			mpParticleForceManager->add(Earth, bouyGen);
 			mpParticleForceManager->addForceGeneratorToList(bouyGen);
 
-			//PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 10, vec3(1, 0, 0));
-			//PhyshyFriends->startEffect("Assets/Fish");
+			SpringForceGen* springGen = new SpringForceGen(Earth4, .3f, 30.0);
+			mpParticleForceManager->add(Earth3, springGen);
 
-		}
+			SpringForceGen* springGen2 = new SpringForceGen(Earth3, .3f, 30.0);
+			mpParticleForceManager->add(Earth4, springGen2);
+
+		
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Earth5, Earth6, 50));
+
+			mpContactHandler->AddCollisionObject(Earth2);
+			mpContactHandler->AddCollisionObject(Earth3);
+			mpContactHandler->AddCollisionObject(Earth4);
+			mpContactHandler->AddCollisionObject(Earth5);
+			mpContactHandler->AddCollisionObject(Earth6);
+			mpContactHandler->AddGround(Ground);
+		
 #pragma endregion WaterWorldSetup
 
-#pragma region SpaceWorldSetup
-
-		//Model scale:  1 : 12,740,000
-		if (m_space)
-		{
+#pragma region SpaceWorldSetup 
+		/* //keeping this for reference if I need it
+			//Model scale:  1 : 12,740,000
+		
 			float earthVelocity = 29.8f;
 			float planetSizeScaleDiv = 10.0f;
 			// radius, mass, pos, vel
@@ -397,73 +392,14 @@ void Game::setUpWorld(int argNum, char* args[])
 			Sun->setScale(.25f / planetSizeScaleDiv);
 			Sun->setMass(1.0f);
 			
-			Mercury = mpResourceManager->addNewPhysicsObject("Mercury", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Mercury", "MercuryModel", "Planet", "MercuryMat", "Assets/Planets/Mercury.mtl");
-			Mercury->Translate(0.31f, 0, 0);
-			Mercury->setScale(0.05f / planetSizeScaleDiv);
-			Mercury->setMass(0.0000001666f);
-			Mercury->setVelocity(vec3(0.0f, 0.0f, 0.0000003925392803303289f));
-
-			Venus = mpResourceManager->addNewPhysicsObject("Venus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Venus", "VenusModel", "Planet", "VenusMat", "Assets/Planets/Venus.mtl");
-			Venus->Translate(0.718f, 0, 0);
-			Venus->setScale(.1f / planetSizeScaleDiv);
-			Venus->setMass(0.000002447f);
-			Venus->setVelocity(vec3(0, 0, 0.0000002377854700252f));
-
-			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth->Translate(0.98f, 0, 0);
-			Earth->setScale(.025f / planetSizeScaleDiv);
-			Earth->setMass(0.000003003f);
-			Earth->setVelocity(vec3(0, 0, 0.000000202542989816901f));
-
-			Moon = mpResourceManager->addNewPhysicsObject("Moon", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Moon", "MoonModel", "Planet", "MoonMat", "Assets/Planets/Moon.mtl");
-			Moon->Translate(0.979f, 0, 0);
-			Moon->setScale(0.005f / planetSizeScaleDiv);
-			Moon->setMass(0.0000000000000123f);
-			Moon->setVelocity(vec3(0, 0, (float)(0.0000002059429908 + 0.000000007197722768554639)));
-
-			Mars = mpResourceManager->addNewPhysicsObject("Mars", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Mars", "MarsModel", "Planet", "MarsMat", "Assets/Planets/Mars.mtl");
-			Mars->Translate(1.38f, 0, 0);
-			Mars->setScale(0.08f / planetSizeScaleDiv);
-			Mars->setMass(.0000003232f);
-			Mars->setVelocity(vec3(0, 0, .0000001624394778196f));
-
-			Jupiter = mpResourceManager->addNewPhysicsObject("Jupiter", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Jupiter", "JupiterModel", "Planet", "JupiterMat", "Assets/Planets/Jupiter.mtl");
-			Jupiter->Translate(4.95f, 0, 0);
-			Jupiter->setScale(1.1f / planetSizeScaleDiv);
-			Jupiter->setMass(.0009547919f);
-			Jupiter->setVelocity(vec3(0, 0, .0000000879036575732f));
-
-			Saturn = mpResourceManager->addNewPhysicsObject("Saturn", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Saturn", "SaturnModel", "Planet", "SaturnMat", "Assets/Planets/Saturn.mtl");
-			Saturn->Translate(9.02f, 0, 0);
-			Saturn->setScale(0.941f / planetSizeScaleDiv);
-			Saturn->setMass(.000285885f);
-			Saturn->setVelocity(vec3(0, 0, .0000000654213857054f));
-
-			Uranus = mpResourceManager->addNewPhysicsObject("Uranus", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Uranus", "UranusModel", "Planet", "UranusMat", "Assets/Planets/Uranus.mtl");
-			Uranus->Translate(18.3f, 0, 0);
-			Uranus->setScale(0.4f / planetSizeScaleDiv);
-			Uranus->setMass(.000043662f);
-			Uranus->setVelocity(vec3(0, 0, .0000000461798016744f));
-
-			Neptune = mpResourceManager->addNewPhysicsObject("Neptune", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Neptune", "NeptuneModel", "Planet", "NeptuneMat", "Assets/Planets/Neptune.mtl");
-			Neptune->Translate(30.0f, 0, 0);
-			Neptune->setScale(0.388f / planetSizeScaleDiv);
-			Neptune->setMass(.000051513f);
-			Neptune->setVelocity(vec3(0, 0, .0000000368628241436f));
-
 			//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
-		}
+		
+		*/
 
 #pragma endregion SpaceWorldSetup	
 	
+
+
 	ResetCamera();
 }
 
@@ -565,36 +501,36 @@ H: help
 */
 void Game::hookKey(unsigned char key, int x, int y)
 {
-	if(key == 'w' || key == 'W')
+	if (key == 'w' || key == 'W')
 	{
-		mpCamera->command(vec3(1,0,0));
+		mpCamera->command(vec3(1, 0, 0));
 	}
-	if(key == 's' || key == 'S')
+	if (key == 's' || key == 'S')
 	{
-		mpCamera->command(vec3(-1,0,0));
+		mpCamera->command(vec3(-1, 0, 0));
 	}
-	if(key == 'e' || key == 'E')
+	if (key == 'e' || key == 'E')
 	{
-		mpCamera->command(vec3(0,1,0));
+		mpCamera->command(vec3(0, 1, 0));
 	}
-	if(key == 'q' || key == 'Q')
+	if (key == 'q' || key == 'Q')
 	{
-		mpCamera->command(vec3(0,-1,0));
+		mpCamera->command(vec3(0, -1, 0));
 	}
-	if( key == 'a' || key == 'A')
+	if (key == 'a' || key == 'A')
 	{
-		mpCamera->command(vec3(0,0,-1));
+		mpCamera->command(vec3(0, 0, -1));
 	}
-	if( key == 'd' || key == 'D')
+	if (key == 'd' || key == 'D')
 	{
-		mpCamera->command(vec3(0,0,1));
+		mpCamera->command(vec3(0, 0, 1));
 	}
-	if(key == 27) //escape
+	if (key == 27) //escape
 	{
 		endGame();
 	}
-	if(key == 'f' || key == 'F')
-	{ 
+	if (key == 'f' || key == 'F')
+	{
 		mpCamera->FlyMode(!mpCamera->FlyMode());
 		if (mpCamera->FlyMode())
 			mpDebug->addMessageToScreen("Camera Movement: Smooth/Fly");
@@ -603,10 +539,9 @@ void Game::hookKey(unsigned char key, int x, int y)
 	}
 	if (key == 'r' || key == 'R')
 	{
-		mpCamera->hardReset(width, height);
-		mpDebug->addMessageToScreen("Reset");
-		if (m_space)
-			resetSpaceWorld();
+		//mpCamera->hardReset(width, height);
+		mpDebug->addMessageToScreen("Reset World");
+		ResetWorld();
 	}
 	if (key == 'p' || key == 'P')
 	{
@@ -615,7 +550,7 @@ void Game::hookKey(unsigned char key, int x, int y)
 	if (key == 'l' || key == 'L')
 	{
 		mouseFree = !mouseFree;
-		if ( mouseFree)
+		if (mouseFree)
 			mpDebug->addMessageToScreen("Mouse: Free");
 		else
 			mpDebug->addMessageToScreen("Mouse: Locked");
@@ -624,99 +559,25 @@ void Game::hookKey(unsigned char key, int x, int y)
 	{
 		help = !help;
 	}
-	if (m_space)
-	{
-	
-		if (key == '1')
-		{
-			if (PlanetToFollow != Sun)
-				PlanetToFollow = Sun;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '2')
-		{
-			if (PlanetToFollow != Mercury)
-				PlanetToFollow = Mercury;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '3')
-		{
-			if (PlanetToFollow != Venus)
-				PlanetToFollow = Venus;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '4')
-		{
-			if (PlanetToFollow != Earth)
-				PlanetToFollow = Earth;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '5')
-		{
-			if (PlanetToFollow != Mars)
-				PlanetToFollow = Mars;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '6')
-		{
-			if (PlanetToFollow != Jupiter)
-				PlanetToFollow = Jupiter;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '7')
-		{
-			if (PlanetToFollow != Saturn)
-				PlanetToFollow = Saturn;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '8')
-		{
-			if (PlanetToFollow != Uranus)
-				PlanetToFollow = Uranus;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '9')
-		{
-			if (PlanetToFollow != Neptune)
-				PlanetToFollow = Neptune;
-			else
-				PlanetToFollow = nullptr;
-		}
-		if (key == '0')
-		{
-			PlanetToFollow = nullptr;
-			mpCamera->setPos(vec3(-5, 11, 15));
-			
-			mpCamera->setYaw(1.1f);
-			mpCamera->setPitch(-.55f);
-		}
-		
-	}
+
 	/*if(key == 'g' || key == 'G')
 	{
-		if( fog)
-		{
-			fog =  false;
-			glDisable(GL_FOG);
-			cout << "no fog\n";
-		}
-		else
-		{
-			fog = true;
-			glEnable(GL_FOG);
-			cout << "yes fog\n";
-		}
+	if( fog)
+	{
+	fog =  false;
+	glDisable(GL_FOG);
+	cout << "no fog\n";
+	}
+	else
+	{
+	fog = true;
+	glEnable(GL_FOG);
+	cout << "yes fog\n";
+	}
 	}*/
 
 }
+	
 
 void Game::endGame()
 {
@@ -728,57 +589,31 @@ void Game::endGame()
 	delete mpTerrainManager;
 	delete mpShaderManager;
 	delete mpDebug;
-	
+	delete mpContactHandler;
 
 	exit(0);
 }
 
 
-void Game::resetSpaceWorld()
+void Game::ResetWorld()
 {
 	// radius, mass, pos, vel
 	Paused = true;
 
-	Sun->setPos(vec3(0, 0, 0));
-	Sun->setVelocity(vec3(0, 0, 0));
-	Sun->setAcceleration(vec3(0, 0, 0));
+	//mpResourceManager->resetAllObjects();
 
-	Mercury->setPos(vec3(0.31f, 0, 0));
-	Mercury->setVelocity(vec3(0.0f, 0.0f, 0.0000003925392803303289f));
-	Mercury->setAcceleration(vec3(0, 0, 0));
-
-	Venus->setPos(vec3(0.718f, 0, 0));
-	Venus->setVelocity(vec3(0, 0, 0.0000002377854700252f));
-	Venus->setAcceleration(vec3(0, 0, 0));
-
-	Earth->setPos(vec3(0.98f, 0, 0));
-	Earth->setVelocity(vec3(0, 0, 0.000000202542989816901f));
+	Earth->setPos(vec3(100.0f, 50.0f, 0));
+	Earth->setVelocity(vec3(0, 0, 0));
 	Earth->setAcceleration(vec3(0, 0, 0));
+	Earth2->resetObject();
+	Earth3->resetObject();
+	Earth4->resetObject();
+	Earth5->resetObject();
+	Earth6->resetObject();
 
-	Moon->setPos(vec3(0.979f, 0, 0));
-	Moon->setVelocity(vec3(0, 0, (float)(0.0000002059429908 + 0.000000007197722768554639)));
-	Moon->setAcceleration(vec3(0, 0, 0));
+	physhy->setPos(50, 5, 40);
 
-	Mars->setPos(vec3(1.38f, 0, 0));
-	Mars->setVelocity(vec3(0, 0, .0000001624394778196f));
-	Mars->setAcceleration(vec3(0, 0, 0));
-
-	Jupiter->setPos(vec3(4.95f, 0, 0));
-	Jupiter->setVelocity(vec3(0, 0, .0000000879036575732f));
-	Jupiter->setAcceleration(vec3(0, 0, 0));
-
-	Saturn->setPos(vec3(9.02f, 0, 0));
-	Saturn->setVelocity(vec3(0, 0, .0000000654213857054f));
-	Sun->setAcceleration(vec3(0, 0, 0));
-
-	Uranus->setPos(vec3(18.3f, 0, 0));
-	Uranus->setVelocity(vec3(0, 0, .0000000461798016744f));
-	Uranus->setAcceleration(vec3(0, 0, 0));
-
-	Neptune->setPos(vec3(30.0f, 0, 0));
-	Neptune->setVelocity(vec3(0, 0, .0000000368628241436f));
-	Neptune->setAcceleration(vec3(0, 0, 0));
-
+	mpResourceManager->getObject("fishy")->setRotation(glm::vec3(0, 0, 0));
 }
 
 

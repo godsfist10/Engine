@@ -1,6 +1,8 @@
 #include "Vector3D.h"
 #include <cmath>
 
+Vector3D const Vector3D::ZERO = Vector3D(0, 0, 0);
+
 Vector3D::Vector3D()
 {
 }

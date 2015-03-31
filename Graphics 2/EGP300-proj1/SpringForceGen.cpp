@@ -24,8 +24,7 @@ void SpringForceGen::updateForce(PhysicsObject* particle, double deltaTime)
 	force -= pos;
 	// Calculate the magnitude of the force.
 	realNum magnitude = force.magnitude();
-	magnitude = std::abs(magnitude - mRestLength); //not sure why abs value. springs can compress as well.
-	magnitude *= mSpringConstant;
+	magnitude = mSpringConstant * (magnitude - mRestLength); //not sure why abs value in the book. springs can compress as well.
 	// Calculate the final force and apply it.
 	force.normalize();
 	force *= -magnitude;

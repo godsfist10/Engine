@@ -6,6 +6,7 @@ Object::Object(void)
 	,mPos(0.0f,0.0f,0.0f)
 	,mRotation(0.0f,0.0f,0.0f)
 	,mIsPrefab(false)
+	,startPos(0, 0, 0)
 {
 }
 
@@ -14,8 +15,20 @@ Object::Object(const Map<string, Model*> &modelsMap)
 	,mPos(0.0f,0.0f,0.0f)
 	,mRotation(0.0f,0.0f,0.0f)
 	,mIsPrefab(false)
+	,startPos(0,0,0)
 	,mModelsMap(modelsMap)
 {
+}
+
+void Object::resetObject()
+{
+	mPos = startPos;
+}
+
+void Object::init(glm::vec3 pos)
+{
+	mPos = pos;
+	startPos = pos;
 }
 
 void Object::update(double deltaTime)

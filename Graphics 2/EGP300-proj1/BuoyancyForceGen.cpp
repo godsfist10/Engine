@@ -1,5 +1,4 @@
 #include "BuoyancyForceGen.h"
-#include "Debug.h"
 
 BuoyancyForceGen::BuoyancyForceGen()
 {
@@ -29,13 +28,11 @@ void BuoyancyForceGen::updateForce(PhysicsObject* particle, double deltaTime)
 	{
 		
 		force.Y = mLiquidDensity * mVolume;
-		Debug::log(std::to_string(force.Y));
 		particle->addForce(force);
 		return;
 	}
 	// Otherwise we are partly submerged.
 	force.Y = mLiquidDensity * mVolume * (depth - mMaxDepth - mWaterHeight) / (-2.0f * mMaxDepth);
-	Debug::log(std::to_string(force.Y));
 	particle->addForce(force);
 
 }

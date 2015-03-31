@@ -49,6 +49,15 @@
     <Filter Include="Project\Game\SceneObjects\Forces\BookForceGenerators">
       <UniqueIdentifier>{4a048702-0053-4fc5-9ced-6f5a8e998eca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Game\SceneObjects\Forces\ContactGenerators">
+      <UniqueIdentifier>{ae8a240e-8db4-4070-b000-f9b2f5c616a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact">
+      <UniqueIdentifier>{02c17cc1-fd75-4c39-9da4-7ef971cc07d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\Game\SceneObjects\Forces\ContactGenerators\Reqs">
+      <UniqueIdentifier>{c85a02ae-7859-4bff-a3df-39af09af46bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -114,12 +123,6 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Project\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ForceGenerator.cpp">
-      <Filter>Project\Game\SceneObjects\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="GravityGenerator.cpp">
-      <Filter>Project\Game\SceneObjects\Forces</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Project\Game\Resources\Shaders</Filter>
     </ClCompile>
@@ -155,6 +158,21 @@
     </ClCompile>
     <ClCompile Include="BuoyancyForceGen.cpp">
       <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundContactGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
+    </ClCompile>
+    <ClCompile Include="Contact.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactGenerator.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactHandler.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClCompile>
+    <ClCompile Include="RodContactGen.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,12 +239,6 @@
     <ClInclude Include="Debug.h">
       <Filter>Project\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ForceGenerator.h">
-      <Filter>Project\Game\SceneObjects\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="GravityGenerator.h">
-      <Filter>Project\Game\SceneObjects\Forces</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Project\Game\Resources\Shaders</Filter>
     </ClInclude>
@@ -262,6 +274,21 @@
     </ClInclude>
     <ClInclude Include="BuoyancyForceGen.h">
       <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundContactGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactGenerator.h">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactHandler.h">
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
+    </ClInclude>
+    <ClInclude Include="RodContactGen.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

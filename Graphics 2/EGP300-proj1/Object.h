@@ -24,8 +24,8 @@ class Object
 public:
 	Object(void);
 	Object(const Map<string, Model*> &modelsMap);
-	
-	inline Object( const Object& rhs )
+
+	inline Object(const Object& rhs)
 		: mModelsMap(rhs.mModelsMap),
 		mPos(rhs.mPos),
 		mRotation(rhs.mRotation),
@@ -41,10 +41,14 @@ public:
 	virtual void draw(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager);
 	virtual void cleanup();
 
+	void init(glm::vec3 pos);
+
 	inline bool getIsPrefab() const { return mIsPrefab; }
 	inline void setIsPrefab(bool val) { mIsPrefab = val; }
 
-	inline void setPos(vec3 pos) {mPos = pos;}
+	inline void setPos(vec3 pos) { mPos = pos; }
+	inline void setPos(float x, float y, float z) { setPos(glm::vec3(x, y, z)); }
+	inline void setPos(Vector3D pos) { setPos(glm::vec3(pos.X, pos.Y, pos.Z)); }
 	inline vec3 getPos() {return mPos;}
 	inline void Translate(float x, float y, float z){mPos.x += x; mPos.y += y; mPos.z += z;}
 	inline void Translate(vec3 val) { mPos += val; }
@@ -52,6 +56,7 @@ public:
 
 	inline void setScale(vec3 scale) {mScale = scale;}
 	inline void setScale(float scale) { mScale.x = scale; mScale.y = scale; mScale.z = scale; }
+	inline void setScale(float x, float y, float z) { mScale.x = x; mScale.y = y; mScale.z = z; }
 	inline vec3 getScale() {return mScale;}
 	inline void modifyScale(float x, float y, float z){mScale.x += x; mScale.y += y; mScale.z += z;}
 
@@ -67,6 +72,8 @@ public:
 	inline Model* getModel(string modelName){return (hasModel(modelName) ? mModelsMap[modelName] : nullptr);}
 	inline Map<string, Model*> getModelMap() { return mModelsMap; }
 
+	virtual void resetObject();
+
 protected:
 
 	Map<string, Model*> mModelsMap;
@@ -77,5 +84,6 @@ protected:
 	
 	bool mIsPrefab;
 	
+	vec3 startPos;
 };
 

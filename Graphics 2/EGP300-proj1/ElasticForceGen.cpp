@@ -28,8 +28,7 @@ void ElasticForceGen::updateForce(PhysicsObject* particle, double deltaTime)
 
 	if (magnitude <= mRestLength) return;
 
-	magnitude = std::abs(magnitude - mRestLength); //not sure why abs value. springs can compress as well.
-	magnitude *= mSpringConstant;
+	magnitude = mSpringConstant * (magnitude - mRestLength); //not sure why abs value. springs can compress as well.
 	// Calculate the final force and apply it.
 	force.normalize();
 	force *= -magnitude;

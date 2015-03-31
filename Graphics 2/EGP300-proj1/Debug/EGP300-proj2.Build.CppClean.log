@@ -35,7 +35,11 @@ c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\gravityforcegen
 c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\gravitygenerator.obj
 c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\heightmap.obj
 c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\main.obj
-c:\users\paul.kubik\desktop\engine\graphics 2\debug\egp300-proj2.ilk
+c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\contact.obj
+c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\contactgenerator.obj
+c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\contacthandler.obj
+c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\groundcontactgen.obj
+c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\rodcontactgen.obj
 c:\users\paul.kubik\desktop\engine\graphics 2\debug\egp300-proj2.exe
 c:\users\paul.kubik\desktop\engine\graphics 2\debug\egp300-proj2.pdb
 c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\debug\egp300-proj2.tlog\cl.command.1.tlog

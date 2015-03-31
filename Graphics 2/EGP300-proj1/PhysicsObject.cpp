@@ -9,27 +9,47 @@ PhysicsObject::PhysicsObject()
 PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap)
 :Object(modelsMap)
 {
-	mVelocity = vec3(0, 0, 0); 
-	mAcceleration = vec3(0, 0, 0);
-	mForce = vec3(0, 0, 0);
+	mVelocity = Vector3D::ZERO;
+	mAcceleration = Vector3D::ZERO;
+	mForce = Vector3D::ZERO;
 	mDampeningVal = .999999999999f;
 	infiniteMass = false;
+	mRestitution = .5f;
+
+	startVel = Vector3D::ZERO;
+	startAcc = Vector3D::ZERO;
 }
 
 PhysicsObject::PhysicsObject(const Map<string, Model*> &modelsMap, const double& mass)
 	:Object(modelsMap)
 {
-	mVelocity = vec3(0, 0, 0);
-	mAcceleration = vec3(0, 0, 0);
-	mForce = vec3(0, 0, 0);
+	mVelocity = Vector3D::ZERO;
+	mAcceleration = Vector3D::ZERO;
+	mForce = Vector3D::ZERO;
 	mMass = (realNum)mass;
 	mInverseMass = (realNum)1.0 / mMass;
 	mDampeningVal = .99999999f;
 	infiniteMass = false;
+	mRestitution = .5f;
+
+	startVel = Vector3D::ZERO;
+	startAcc = Vector3D::ZERO;
 }
 
 PhysicsObject::~PhysicsObject()
 {
+}
+
+void PhysicsObject::init(Vector3D pos, Vector3D vel, Vector3D acc)
+{
+	mPos = pos.toVec3();
+	startPos = pos.toVec3();
+
+	mVelocity = vel;
+	startVel = vel;
+
+	mAcceleration = acc;
+	startAcc = acc;
 }
 
 void PhysicsObject::update(double deltaTime)
@@ -46,3 +66,9 @@ void PhysicsObject::physicsUpdate(double deltaTime)
 	clearForceAccumulation();
 }
 
+void PhysicsObject::resetObject()
+{
+	Object::resetObject();
+	mVelocity = startVel;
+	mAcceleration = startAcc;
+}

@@ -13,8 +13,6 @@
 #include "PhysicsObject.h"
 #include "Particle.h"
 #include "Debug.h"
-#include "ForceGenerator.h"
-#include "GravityGenerator.h"
 
 #include <fstream>
 #include <iostream>
@@ -41,6 +39,7 @@ public:
 	void drawAllObjects(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, GLShaderManager& shaderManager, Shader_Manager* customShaderManager);
 	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName);
 	void cleanup();
+	void resetAllObjects();
 	void LoadFile(const string& filename);
 	void LoadFile(const string& filename, const string& key);
 	Texture* LoadTexture(string fileName, GLenum minFilter, GLenum magFilter, GLenum wrapMode);

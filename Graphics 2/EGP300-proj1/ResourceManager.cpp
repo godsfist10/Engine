@@ -175,6 +175,14 @@ void ResourceManager::cleanup()
 
 }
 
+void ResourceManager::resetAllObjects()
+{
+	for (auto it = m_ObjectsMap.itBegin(); it != m_ObjectsMap.itEnd(); ++it)
+	{
+		it->second->resetObject();
+	}
+}
+
 void ResourceManager::LoadFile(const string& filename)
 {
 	// Massive help from Stephen Lane-Walsh

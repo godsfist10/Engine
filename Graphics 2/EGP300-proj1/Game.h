@@ -25,6 +25,7 @@
 #include "ParticleEffect.h"
 #include "ShaderManager.h"
 #include "ParticleForceRegistry.h"
+#include "ContactHandler.h"
 
 #include <vector>
 #include <map>
@@ -33,7 +34,7 @@
 #include <Arc/Map.h>
 
 const float PI = 3.1415926f;
-
+const float MAXFLOAT = std::numeric_limits<float>::max();
 using namespace Arc;
 
 class Game
@@ -47,9 +48,6 @@ public:
 	void endGame();
 	void setUpWorld(int argNum, char* args[]);
 	void update();
-	void PausedUpdate();
-	void UnpausedUpdate();
-	void FixedUpdate();
 	void render();
 	
 	void ResetCamera();
@@ -84,17 +82,15 @@ protected:
 	ResourceManager* mpResourceManager;
 	TerrainManager* mpTerrainManager;
 	ParticleForceRegistry* mpParticleForceManager;
+	ContactHandler* mpContactHandler;
 
 	mat4x4	mvpMatrix;
 	GLint			width, height;
-	
 
 	GLfloat m_MouseX, m_MouseY;
 	GLfloat m_CameraMoveSpeed, m_CameraLookSpeed;
 	int systemTimeAdjuster;
 
-#pragma region waterWorldVars
-	
 
 	Skybox* m_underWaterSkybox;
 	Skybox* m_cloudSkybox;
@@ -105,23 +101,15 @@ protected:
 
 	PhysicsObject* physhy;
 	ParticleEffect* PhyshyFriends;
-#pragma endregion waterWorldVars
-
-#pragma region spaceWorldVars
-
-	PhysicsObject* Sun;
-	PhysicsObject* Mercury;
-	PhysicsObject* Venus;
 	PhysicsObject* Earth;
-	PhysicsObject* Moon;
-	PhysicsObject* Mars;
-	PhysicsObject* Jupiter;
-	PhysicsObject* Saturn;
-	PhysicsObject* Uranus;
-	PhysicsObject* Neptune;	
-	PhysicsObject* PlanetToFollow;
+	PhysicsObject* Earth2;
+	PhysicsObject* Earth3;
+	PhysicsObject* Earth4;
+	PhysicsObject* Earth5;
+	PhysicsObject* Earth6;
+	
+	PhysicsObject* Ground;
 
-#pragma endregion spaceWorldVars
 
 	bool mouseFree;
 	bool Paused;
@@ -134,16 +122,12 @@ protected:
 
 private:
 
-	
-	bool m_space;
-	bool m_waterworld;
-
-	void waterWorldUpdate();
-	void waterWorldFixedUpdate();
-	void spaceWorldUpdate();
-	void spaceWorldFixedUpdate();
-	void spaceWorldDebug();
-
-	void resetSpaceWorld();
+	void PausedUpdate(double deltaTime);
+	void UnpausedUpdate(double deltaTime);
+	void FixedUpdate(double deltaTime);
+	void WorldUpdate(double deltaTime);
+	void WorldFixedUpdate(double deltaTime);
+	void WorldDebug();
+	void ResetWorld();
 };
 
