@@ -172,7 +172,7 @@
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
     </ClCompile>
     <ClCompile Include="RodContactGen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,7 +288,7 @@
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
     </ClInclude>
     <ClInclude Include="RodContactGen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

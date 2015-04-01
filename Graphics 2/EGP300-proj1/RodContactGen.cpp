@@ -24,6 +24,7 @@ void RodContactGen::AddContact(ContactHandler* contactHandler)
 	//check if objects are already perfect distance apart + return if so
 	if (currentLength == mLength) return;
 
+	//rest = 0 so that there is no mercy
 	realNum restitution = 0.0f;
 	realNum penetration = 0.0f;
 	Vector3D contactNormal = mObj->getPos() - mObj2->getPos();
@@ -40,6 +41,7 @@ void RodContactGen::AddContact(ContactHandler* contactHandler)
 		penetration = mLength - currentLength;
 	}
 
+	//add contact
 	contactHandler->AddContact(Contact(restitution, penetration, contactNormal, mObj, mObj2));
 
 }

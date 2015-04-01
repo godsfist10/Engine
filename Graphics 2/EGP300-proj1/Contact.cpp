@@ -3,12 +3,11 @@
 
 Contact::Contact(float restitution, float penetration, Vector3D contactNormal, PhysicsObject* contactOne, PhysicsObject* contactTwo)
 {
-	m_Restitution = restitution;
-	m_Penetration = penetration;
-	m_ContactNormal = contactNormal;
-
-	mp_ContactOne = contactOne;
-	mp_ContactTwo = contactTwo;
+	mRestitution = restitution;
+	mPenetration = penetration;
+	mContactNormal = contactNormal;
+	mpContactOne = contactOne;
+	mpContactTwo = contactTwo;
 }
 
 Contact::~Contact()
@@ -19,20 +18,18 @@ void Contact::resolveVelocity(realNum deltaTime)
 {
 	realNum separatingVelocity = calculateSeparatingVelocity();
 
-	if (separatingVelocity > 0)
+	//if objects are seperating theres not a problem
+	if (separatingVelocity > 0)	return;
+	
+	realNum newSeparatingVelocity = -separatingVelocity * mRestitution;
+
+	Vector3D acceleration = mpContactOne->getAcceleration();
+	if (mpContactTwo)
 	{
-		return;
+		acceleration -= mpContactTwo->getAcceleration();
 	}
 
-	realNum newSeparatingVelocity = -separatingVelocity * m_Restitution;
-
-	Vector3D acceleration = mp_ContactOne->getAcceleration();
-	if (mp_ContactTwo)
-	{
-		acceleration -= mp_ContactTwo->getAcceleration();
-	}
-
-	realNum velocity = acceleration.dot(m_ContactNormal) * (realNum)deltaTime;
+	realNum velocity = acceleration.dot(mContactNormal) * (realNum)deltaTime;
 	if (velocity < 0)
 	{
 		separatingVelocity -= velocity;
@@ -40,65 +37,60 @@ void Contact::resolveVelocity(realNum deltaTime)
 
 	realNum deltaVelocity = newSeparatingVelocity - separatingVelocity;
 
-	realNum totalInverseMass = (realNum)mp_ContactOne->getInverseMass();
-	if (mp_ContactTwo)
+	realNum totalInverseMass = (realNum)mpContactOne->getInverseMass();
+	if (mpContactTwo)
 	{
-		totalInverseMass += (realNum)mp_ContactTwo->getInverseMass();
+		totalInverseMass += (realNum)mpContactTwo->getInverseMass();
 	}
 
-	if (totalInverseMass <= 0)
-	{
-		return;
-	}
-
+	if (totalInverseMass <= 0) return;
+	
 	realNum impulse = deltaVelocity / totalInverseMass;
-	Vector3D impulsePerIMass = m_ContactNormal * impulse;
+	Vector3D impulseToAdd = mContactNormal * impulse;
 
-	mp_ContactOne->setVelocity(mp_ContactOne->getVelocity() + impulsePerIMass * (realNum)mp_ContactOne->getInverseMass());
-	if (mp_ContactTwo)
+	mpContactOne->setVelocity(mpContactOne->getVelocity() + impulseToAdd * (realNum)mpContactOne->getInverseMass());
+	if (mpContactTwo)
 	{
-		mp_ContactTwo->setVelocity(mp_ContactTwo->getVelocity() + impulsePerIMass * (realNum)- mp_ContactTwo->getInverseMass());
+		mpContactTwo->setVelocity(mpContactTwo->getVelocity() + impulseToAdd * (realNum)-mpContactTwo->getInverseMass());
 	}
 }
 
 void Contact::resolveInterpenetration(realNum deltaTime)
 {
-	if (m_Penetration <= 0)
+	//if its not coliding dont bother
+	if (mPenetration <= 0) return;
+	
+
+	realNum totalInverseMass = (realNum)mpContactOne->getInverseMass();
+	if (mpContactTwo)
 	{
-		return;
+		totalInverseMass += (realNum)mpContactTwo->getInverseMass();
 	}
 
-	realNum totalInverseMass = (realNum)mp_ContactOne->getInverseMass();
-	if (mp_ContactTwo)
-	{
-		totalInverseMass += (realNum)mp_ContactTwo->getInverseMass();
-	}
+	//if the inverse mass is less than zero you probably have a problem
+	if (totalInverseMass <= 0)	return;
 
-	if (totalInverseMass <= 0)
-	{
-		return;
-	}
+	Vector3D movementPerInverseMass = mContactNormal  * (mPenetration / totalInverseMass);
 
-	Vector3D movementPerInverseMass = m_ContactNormal  * (m_Penetration / totalInverseMass);
-
-	Vector3D contactOneMovement = movementPerInverseMass * (realNum)mp_ContactOne->getInverseMass() * deltaTime;
-	mp_ContactOne->setPos(contactOneMovement + mp_ContactOne->getPos());
-	if (mp_ContactTwo)
+	Vector3D contactOneMovement = movementPerInverseMass * (realNum)mpContactOne->getInverseMass() * deltaTime;
+	mpContactOne->setPos(contactOneMovement + mpContactOne->getPos());
+	if (mpContactTwo)
 	{
-		Vector3D contactTwoMovement = movementPerInverseMass * (realNum)-mp_ContactTwo->getInverseMass() * deltaTime;
-		mp_ContactTwo->setPos(contactTwoMovement + mp_ContactTwo->getPos());
+		Vector3D contactTwoMovement = movementPerInverseMass * (realNum)-mpContactTwo->getInverseMass() * deltaTime;
+		mpContactTwo->setPos(contactTwoMovement + mpContactTwo->getPos());
 	}
 }
 
+//nice function for calculating th seperation velocity for readability 
 float Contact::calculateSeparatingVelocity()
 {
-	Vector3D relativeVelocity = mp_ContactOne->getVelocity();
-	if (mp_ContactTwo)
+	Vector3D relativeVelocity = mpContactOne->getVelocity();
+	if (mpContactTwo)
 	{
-		relativeVelocity -= mp_ContactTwo->getVelocity();
+		relativeVelocity -= mpContactTwo->getVelocity();
 	}
 
-	return relativeVelocity.dot(m_ContactNormal);
+	return relativeVelocity.dot(mContactNormal);
 }
 
 void Contact::Resolve(realNum deltaTime)

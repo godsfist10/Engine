@@ -57,14 +57,14 @@ void ContactHandler::addRunTimeContactGenerators()
 	mp_ToAddContactGenerators.clear();
 }
 
-void ContactHandler::Update(double deltaTime)
+void ContactHandler::update(double deltaTime)
 {
 	int checkCount = checkCollisions() * 2 - 1;
 	m_Collisions = m_Contacts.size();
 	resolveContacts((realNum)deltaTime);
 	if (checkCount > m_MaxChecks)
 	{
-		checkCount = m_MaxChecks;
+		checkCount = m_MaxChecks;  //no more checks please thank you
 	}
 
 	for (int index = 0; index < checkCount; index++)
@@ -73,18 +73,14 @@ void ContactHandler::Update(double deltaTime)
 		resolveContacts((realNum)deltaTime);
 	}
 
+	//add the generators that are on standby (if a particle entered the water and gets buoyancy added during runtime)
 	addRunTimeContactGenerators();
 }
 
-void ContactHandler::Reset()
+void ContactHandler::clearContactGenerators()
 {
 	mp_ContactGenerators.clear();
 	mp_ToAddContactGenerators.clear();
-}
-
-void ContactHandler::AddGround(PhysicsObject* groundObject)
-{
-	mp_ContactGenerators.push_back(new GroundContactGen(groundObject->getPos().y));
 }
 
 void ContactHandler::AddCollisionObject(PhysicsObject* physicsObject)

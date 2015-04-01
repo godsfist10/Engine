@@ -107,6 +107,7 @@ protected:
 	PhysicsObject* Earth4;
 	PhysicsObject* Earth5;
 	PhysicsObject* Earth6;
+
 	
 	PhysicsObject* Ground;
 

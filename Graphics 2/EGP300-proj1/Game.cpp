@@ -99,7 +99,7 @@ void Game::UnpausedUpdate(double deltaTime)
 {
 	mpParticleForceManager->updateForces(deltaTime);
 	mpResourceManager->updateObjects(mpCamera->getPos(), (float)deltaTime);	
-	mpContactHandler->Update(deltaTime);
+	mpContactHandler->update(deltaTime);
 	mpShaderManager->update((float)deltaTime);
 
 	WorldUpdate(deltaTime);
@@ -339,15 +339,84 @@ void Game::setUpWorld(int argNum, char* args[])
 			Earth6->setScale(1);
 			Earth6->setMass(1.0f);
 
+			PhysicsObject* Cube1 = mpResourceManager->addNewPhysicsObject("Cube1", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube2 = mpResourceManager->addNewPhysicsObject("Cube2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube3 = mpResourceManager->addNewPhysicsObject("Cube3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube4 = mpResourceManager->addNewPhysicsObject("Cube4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube5 = mpResourceManager->addNewPhysicsObject("Cube5", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube6 = mpResourceManager->addNewPhysicsObject("Cube6", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube7 = mpResourceManager->addNewPhysicsObject("Cube7", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Cube8 = mpResourceManager->addNewPhysicsObject("Cube8", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			
+			Cube1->setScale(.2f);
+			Cube2->setScale(.2f);
+			Cube3->setScale(.2f);
+			Cube4->setScale(.2f);
+			Cube5->setScale(.2f);
+			Cube6->setScale(.2f);
+			Cube7->setScale(.2f);
+			Cube8->setScale(.2f);
 
+			Cube1->init(Vector3D(100.0f, 50.0f, 300));
+			Cube2->init(Vector3D(105.0f, 50.0f, 300));
+			Cube3->init(Vector3D(105.0f, 50.0f, 305));
+			Cube4->init(Vector3D(100.0f, 50.0f, 305));
+			Cube5->init(Vector3D(100.0f, 55.0f, 300));
+			Cube6->init(Vector3D(105.0f, 55.0f, 300));
+			Cube7->init(Vector3D(105.0f, 55.0f, 305));
+			Cube8->init(Vector3D(100.0f, 55.0f, 305));
 
+			Cube1->setMass(1.0f);
+			Cube2->setMass(1.0f);
+			Cube3->setMass(1.0f);
+			Cube4->setMass(1.0f);
+			Cube5->setMass(1.0f);
+			Cube6->setMass(1.0f);
+			Cube7->setMass(1.0f);
+			Cube8->setMass(1.0f);
+			
+			PhysicsObject* Tet1 = mpResourceManager->addNewPhysicsObject("Tet1", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Tet2 = mpResourceManager->addNewPhysicsObject("Tet2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Tet3 = mpResourceManager->addNewPhysicsObject("Tet3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+			PhysicsObject* Tet4 = mpResourceManager->addNewPhysicsObject("Tet4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
+
+			Tet1->setScale(.2f);
+			Tet2->setScale(.2f);
+			Tet3->setScale(.2f);
+			Tet4->setScale(.2f);
+
+			Tet1->setMass(1.0f);
+			Tet2->setMass(1.0f);
+			Tet3->setMass(1.0f);
+			Tet4->setMass(1.0f);
+
+			Tet1->init(Vector3D(95.0f, 45.0f, 355));
+			Tet2->init(Vector3D(95.0f, 55.0f, 345));
+			Tet3->init(Vector3D(105.0f, 45.0f, 345));
+			Tet4->init(Vector3D(105.0f, 55.0f, 355));
+
+			//Add Gravity and ground contact/forces
 			GravityForceGenerator* gravGen = new GravityForceGenerator(Vector3D(0, -9.8f, 0));
+			mpContactHandler->AddRunTimeContactGenerator(new GroundContactGen(Ground->getPos().y));
+
 			mpParticleForceManager->add(Earth, gravGen);
 			mpParticleForceManager->add(Earth2, gravGen);
 			mpParticleForceManager->add(Earth3, gravGen);
 			mpParticleForceManager->add(Earth4, gravGen);
 			mpParticleForceManager->add(Earth5, gravGen);
 			mpParticleForceManager->add(Earth6, gravGen);
+			mpParticleForceManager->add(Cube1, gravGen);
+			mpParticleForceManager->add(Cube2, gravGen);
+			mpParticleForceManager->add(Cube3, gravGen);
+			mpParticleForceManager->add(Cube4, gravGen);
+			mpParticleForceManager->add(Cube5, gravGen);
+			mpParticleForceManager->add(Cube6, gravGen);
+			mpParticleForceManager->add(Cube7, gravGen);
+			mpParticleForceManager->add(Cube8, gravGen);
+			mpParticleForceManager->add(Tet1, gravGen);
+			mpParticleForceManager->add(Tet2, gravGen);
+			mpParticleForceManager->add(Tet3, gravGen);
+			mpParticleForceManager->add(Tet4, gravGen);
 
 			mpParticleForceManager->addForceGeneratorToList(gravGen);
 
@@ -366,15 +435,71 @@ void Game::setUpWorld(int argNum, char* args[])
 			SpringForceGen* springGen2 = new SpringForceGen(Earth3, .3f, 30.0);
 			mpParticleForceManager->add(Earth4, springGen2);
 
+			
+			mpParticleForceManager->add(Cube1, new SpringForceGen(Tet2, .3f, 30.0));
+			mpParticleForceManager->add(Tet2, new SpringForceGen(Cube1, .3f, 30.0));
 		
 			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Earth5, Earth6, 50));
+
+			//Cube rods
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube2, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube3, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube4, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube1, 5));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube5, Cube6, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube6, Cube7, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube7, Cube8, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube8, Cube5, 5));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube5, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube6, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube7, 5));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube8, 5));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube6, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube8, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube7, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube5, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube8, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube6, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube5, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube7, (float)std::sqrt(50)));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube3, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube4, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube5, Cube7, (float)std::sqrt(50)));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube6, Cube8, (float)std::sqrt(50)));
+
+			//Tet rods
+			float length = (2.0f * (float)std::sqrt(2.0))*5.0f;
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet2, length));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet3, length));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet4, length));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet2, Tet3, length));
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet2, Tet4, length));
+
+			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet3, Tet4, length));
+			
 
 			mpContactHandler->AddCollisionObject(Earth2);
 			mpContactHandler->AddCollisionObject(Earth3);
 			mpContactHandler->AddCollisionObject(Earth4);
 			mpContactHandler->AddCollisionObject(Earth5);
 			mpContactHandler->AddCollisionObject(Earth6);
-			mpContactHandler->AddGround(Ground);
+			mpContactHandler->AddCollisionObject(Cube1);
+			mpContactHandler->AddCollisionObject(Cube2);
+			mpContactHandler->AddCollisionObject(Cube3);
+			mpContactHandler->AddCollisionObject(Cube4);
+			mpContactHandler->AddCollisionObject(Cube5);
+			mpContactHandler->AddCollisionObject(Cube6);
+			mpContactHandler->AddCollisionObject(Cube7);
+			mpContactHandler->AddCollisionObject(Cube8);
+			mpContactHandler->AddCollisionObject(Tet1);
+			mpContactHandler->AddCollisionObject(Tet2);
+			mpContactHandler->AddCollisionObject(Tet3);
+			mpContactHandler->AddCollisionObject(Tet4);
 		
 #pragma endregion WaterWorldSetup
 
@@ -610,6 +735,20 @@ void Game::ResetWorld()
 	Earth4->resetObject();
 	Earth5->resetObject();
 	Earth6->resetObject();
+
+	mpResourceManager->getObject("Cube1")->resetObject();
+	mpResourceManager->getObject("Cube2")->resetObject();
+	mpResourceManager->getObject("Cube3")->resetObject();
+	mpResourceManager->getObject("Cube4")->resetObject();
+	mpResourceManager->getObject("Cube5")->resetObject();
+	mpResourceManager->getObject("Cube6")->resetObject();
+	mpResourceManager->getObject("Cube7")->resetObject();
+	mpResourceManager->getObject("Cube8")->resetObject();
+
+	mpResourceManager->getObject("Tet1")->resetObject();
+	mpResourceManager->getObject("Tet2")->resetObject();
+	mpResourceManager->getObject("Tet3")->resetObject();
+	mpResourceManager->getObject("Tet4")->resetObject();
 
 	physhy->setPos(50, 5, 40);
 
