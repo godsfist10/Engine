@@ -69,9 +69,19 @@ void Matrix::Set(int row, int column, float value)
 	mp_Matrix[row * m_NumColumns + column] = value;
 }
 
+void Matrix::Set(int index, float value)
+{
+	mp_Matrix[index] = value;
+}
+
 float Matrix::Get(const int& row, const int& column) const
 {
 	return mp_Matrix[row * m_NumColumns + column];
+}
+
+float Matrix::Get(const int& index) const
+{
+	return mp_Matrix[index];
 }
 
 Matrix Matrix::CombinedMatrix(const Matrix& rhs, bool add) const
@@ -314,6 +324,19 @@ Matrix& Matrix::operator*=(const float& rhs)
 	return (*this = *this * rhs);
 }
 
+Vector3D Matrix::operator*(const Vector3D& rhs) const
+{
+	float* tempArray = new float[3];
+	tempArray[0] = rhs.X;
+	tempArray[1] = rhs.Y;
+	tempArray[2] = rhs.Z;
+
+	Matrix vectorMatrix = Matrix(3, 1, tempArray);
+	vectorMatrix = *this * vectorMatrix;
+
+	return Vector3D(vectorMatrix.Get(0), vectorMatrix.Get(1), vectorMatrix.Get(2));
+}
+
 Matrix& Matrix::operator+=(const Matrix& rhs)
 {
 	return (*this = *this + rhs);
@@ -348,4 +371,21 @@ bool Matrix::operator==(const Matrix& rhs) const
 bool Matrix::operator!=(const Matrix& rhs) const
 {
 	return !(*this == rhs);
+}
+
+Vector3D Matrix::Transform(const Vector3D &vector)
+{
+	return (*this) * vector;
+}
+
+//--------------------------------------------------------------------------------------------
+Vector3D Matrix::TransformInverse(const Vector3D &vector)
+{
+	return Inverse() * vector;
+}
+
+//--------------------------------------------------------------------------------------------
+Vector3D Matrix::GetAxisVector(unsigned int index) const
+{
+	return Vector3D(mp_Matrix[index], mp_Matrix[index + 4], mp_Matrix[index + 8]);
 }

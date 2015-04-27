@@ -38,6 +38,7 @@
     <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="ParticleSystemManager.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RodContactGen.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="ParticleForceRegistry.h" />
     <ClInclude Include="ParticleSystemManager.h" />
     <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Rectangle_3D.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RodContactGen.h" />
