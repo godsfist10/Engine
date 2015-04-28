@@ -1,0 +1,24 @@
+Gravity 0 -9.8 0
+LoadFile Assets/StandardObjects/Cube/cube.obj CubePlease
+LoadFile Assets/Planets/EarthPretty.obj Assets/Planets
+Ground ground CubePlease 100 0 300 50 .05 600
+PhysicsObject Earth Assets/Planets 100.0 50.0 0 1 1 1 1.0 1
+PhysicsObject Earth2 Assets/Planets 100.0 50.0 50 1 1 1 1.0 1
+PhysicsObject Earth3 Assets/Planets 100.0 50.0 100 1 1 1 1.0 1
+PhysicsObject Earth4 Assets/Planets 100.0 50.0 150 1 1 1 1.0 1
+PhysicsObject Earth5 Assets/Planets 100.0 30.0 200 1 1 1 1.0 1
+PhysicsObject Earth6 Assets/Planets 100.0 50.0 250 1 1 1 1.0 1
+WaterDragGen Earth .1
+WaterDragGen Earth2 .1
+WaterDragGen Earth3 .1
+WaterDragGen Earth4 .1
+WaterDragGen Earth5 .1
+WaterDragGen Earth6 .1
+BouyGen Earth 5.0 .012 150.0 
+SpringConnector Earth3 Earth4 .3 30.0
+RodConnector Earth5 Earth6 50
+
+ParticleCube cube Assets/Planets 100.0 50.0 300 .2 1.0 5.0
+ParticleTet tet Assets/Planets 100.0 50.0 350 .2 1.0 5.0
+
+SpringConnector tet2 cube1 .3 30.0

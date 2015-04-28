@@ -1,3 +1,6 @@
+#ifndef PARTICLEFORCEREGISTRY_H
+#define PARTICLEFORCEREGISTRY_H
+
 #include <vector>
 #include "ParticleForceGenerator.h"
 
@@ -66,3 +69,4 @@ public:
 
 };
 
+#endif // PARTICLEFORCEREGISTRY_H

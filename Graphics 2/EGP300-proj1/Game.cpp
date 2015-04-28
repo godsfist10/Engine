@@ -64,7 +64,6 @@ void Game::render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	
 	mat4x4 mView = mpCamera->getViewMatrix();
 	mat4x4 proj = mpCamera->getProjectionMatrix();
 	mat4x4 viewProj = proj * mView;
@@ -130,7 +129,7 @@ void Game::WorldDebug()
 	{
 		mpDebug->addTextToScreen("WSAD+EQ: Movement", vec2(10, height * .5f + 200));
 		mpDebug->addTextToScreen("ESC: Quit", vec2(10, height * .5f + 180));
-		mpDebug->addTextToScreen("R: Reset ", vec2(10, height * .5f + 160));
+		mpDebug->addTextToScreen("r: Reset World / R: Reset Camera ", vec2(10, height * .5f + 160));
 		mpDebug->addTextToScreen("F: Switch Movement Mode (Smooth vs Rigid)", vec2(10, height * .5f + 140));
 		mpDebug->addTextToScreen("P: Toggle Pause", vec2(10, height * .5f + 120));
 		mpDebug->addTextToScreen("L: Release / Lock Mouse", vec2(10, height * .5f + 100));
@@ -141,6 +140,7 @@ void Game::WorldDebug()
 		mpDebug->addTextToScreen("H: Toggle Help Text", vec2(10, height * .5f));
 	}
 }
+
 void Game::WorldUpdate(double deltaTime)
 {
 	mpResourceManager->getObject("fishy")->modifyRotation(.1f, .1f, .1f);
@@ -172,7 +172,7 @@ void Game::WorldFixedUpdate(double deltaTime)
 
 void Game::start(int argNum, char* args[])
 {
-
+	
 	m_CameraMoveSpeed = .5f;
 	m_CameraLookSpeed = .2f;
 	wireframe = false;
@@ -184,12 +184,12 @@ void Game::start(int argNum, char* args[])
 	
 	mpDebug = new Debug();
 	mpCamera = new Camera();
-	mpDebug = new Debug();
 	mpResourceManager = new ResourceManager();
 	mpTerrainManager = new TerrainManager();
 	mpShaderManager = new Shader_Manager();
 	mpParticleForceManager = new ParticleForceRegistry();
 	mpContactHandler = new ContactHandler();
+	mpWorldHandler = new WorldHandler();
 
 	mpDebug->init(mpResourceManager, "Assets/TextMaterials/whiteTextMaterial.mtl");
 	
@@ -199,16 +199,6 @@ void Game::start(int argNum, char* args[])
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	
-	/*GLfloat fogColor[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-	glFogi (GL_FOG_MODE, GL_LINEAR );
-	glFogfv (GL_FOG_COLOR, fogColor);
-	glFogf (GL_FOG_DENSITY, .02f);
-	glHint (GL_FOG_HINT, GL_NICEST);
-	glFogf(GL_FOG_START, 1.0f);             // Fog Start Depth
-	glFogf(GL_FOG_END, 100.0f);
-	*/
-
 	glEnable(GL_BLEND);
 	  
 	width = 800;
@@ -231,22 +221,6 @@ void Game::start(int argNum, char* args[])
 void Game::setUpWorld(int argNum, char* args[])
 {
 
-
-#pragma region standardPrefabSetup
-
-
-		//mpResourceManager->LoadFile("Assets/StandardObjects/Cube/cube.obj", "cubePrefab");
-	    //cube = mpResourceManager->addNewPhysicsObject("cube", mpResourceManager->getObject("cubePrefab")->getModelMap());
-		//mpResourceManager->LoadFile("Assets/StandardObjects/Sphere/Sphere.obj");
-		//mpResourceManager->LoadFile("Assets/StandardObjects/Torus/Torus.obj");
-
-		//Object* cube = mpResourceManager->addNewObject("cube", mpResourceManager->getObject("CubeTest")->getModelMap());
-		//cube->setIsPrefab(true);
-		//Object* sphere = mpResourceManager->addNewObject("sphere", mpResourceManager->getObject("Assets/Sphere/Sphere")->getModelMap());
-		//Object* torus = mpResourceManager->addNewObject("torus", mpResourceManager->getObject("Assets/Torus/Torus")->getModelMap());
-
-#pragma endregion standardPrefabSetup
-
 #pragma region WaterWorldSetup
 	
 			int waterTerrainSize = 8000;
@@ -266,6 +240,14 @@ void Game::setUpWorld(int argNum, char* args[])
 			m_waterMap->setPos(vec3(-waterTerrainSize * .5f, 150, -waterTerrainSize * .5f));
 			mpResourceManager->applyShaderToObject(m_waterMap, "waveShader");
 			
+			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
+			fishy->Translate(50, 5, 50);
+			//mpResourceManager->applyShaderToObject("fishy", "diffuse");
+			//fishy->setIsPrefab(true);
+
+			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
+			physhy->init(Vector3D(50, 5, 40), Vector3D(0, 0, 3));
+
 			/*
 			BillboardedTexture* billboard1 = new BillboardedTexture(mpResourceManager, "Assets/Cloud/cloud.png", true, "cloud2");
 			billboard1->setPos(vec3(-400, 400, -800));
@@ -294,236 +276,10 @@ void Game::setUpWorld(int argNum, char* args[])
 			//PhyshyFriends = new ParticleEffect(mpResourceManager, "FriendsSpawn", vec3(5, 0, 0), 100, 10, vec3(1, 0, 0));
 			//PhyshyFriends->startEffect("Assets/Fish");
 
-			Object* fishy = mpResourceManager->addNewObject("fishy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			fishy->Translate(50, 5, 50);
-			//mpResourceManager->applyShaderToObject("fishy", "diffuse");
-			//fishy->setIsPrefab(true);
-
-			physhy = mpResourceManager->addNewPhysicsObject("physhy", mpResourceManager->getObject("Assets/Fish")->getModelMap());
-			physhy->init(Vector3D(50, 5, 40), Vector3D(0, 0, 3));
-
-			mpResourceManager->LoadFile("Assets/StandardObjects/Cube/cube.obj", "CubePlease");
-			Ground = mpResourceManager->addNewPhysicsObject("ground", mpResourceManager->getObject("CubePlease")->getModelMap());
-			Ground->setPos(100, 0, 300);
-			Ground->setMass(MAXFLOAT);
-			Ground->setScale(50, .05f, 600);
-
-			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-			Earth = mpResourceManager->addNewPhysicsObject("Earth", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth->init(Vector3D(100.0f, 50.0f, 0));
-			Earth->setScale(1);
-			Earth->setMass(1.0f);
-
-			Earth2 = mpResourceManager->addNewPhysicsObject("Earth2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth2->init(Vector3D(100.0f, 50.0f, 50));
-			Earth2->setScale(1);
-			Earth2->setMass(1.0f);
-
-			Earth3 = mpResourceManager->addNewPhysicsObject("Earth3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth3->init(Vector3D(100.0f, 50.0f, 100));
-			Earth3->setScale(1);
-			Earth3->setMass(1.0f);
-
-			Earth4 = mpResourceManager->addNewPhysicsObject("Earth4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth4->init(Vector3D(100.0f, 50.0f, 150));
-			Earth4->setScale(1);
-			Earth4->setMass(1.0f);
-
-			Earth5 = mpResourceManager->addNewPhysicsObject("Earth5", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth5->init(Vector3D(100.0f, 30.0f, 200));
-			Earth5->setScale(1);
-			Earth5->setMass(1.0f);
-
-			Earth6 = mpResourceManager->addNewPhysicsObject("Earth6", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			Earth6->init(Vector3D(100.0f, 50.0f, 250));
-			Earth6->setScale(1);
-			Earth6->setMass(1.0f);
-
-			PhysicsObject* Cube1 = mpResourceManager->addNewPhysicsObject("Cube1", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube2 = mpResourceManager->addNewPhysicsObject("Cube2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube3 = mpResourceManager->addNewPhysicsObject("Cube3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube4 = mpResourceManager->addNewPhysicsObject("Cube4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube5 = mpResourceManager->addNewPhysicsObject("Cube5", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube6 = mpResourceManager->addNewPhysicsObject("Cube6", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube7 = mpResourceManager->addNewPhysicsObject("Cube7", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Cube8 = mpResourceManager->addNewPhysicsObject("Cube8", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			
-			Cube1->setScale(.2f);
-			Cube2->setScale(.2f);
-			Cube3->setScale(.2f);
-			Cube4->setScale(.2f);
-			Cube5->setScale(.2f);
-			Cube6->setScale(.2f);
-			Cube7->setScale(.2f);
-			Cube8->setScale(.2f);
-
-			Cube1->init(Vector3D(100.0f, 50.0f, 300));
-			Cube2->init(Vector3D(105.0f, 50.0f, 300));
-			Cube3->init(Vector3D(105.0f, 50.0f, 305));
-			Cube4->init(Vector3D(100.0f, 50.0f, 305));
-			Cube5->init(Vector3D(100.0f, 55.0f, 300));
-			Cube6->init(Vector3D(105.0f, 55.0f, 300));
-			Cube7->init(Vector3D(105.0f, 55.0f, 305));
-			Cube8->init(Vector3D(100.0f, 55.0f, 305));
-
-			Cube1->setMass(1.0f);
-			Cube2->setMass(1.0f);
-			Cube3->setMass(1.0f);
-			Cube4->setMass(1.0f);
-			Cube5->setMass(1.0f);
-			Cube6->setMass(1.0f);
-			Cube7->setMass(1.0f);
-			Cube8->setMass(1.0f);
-			
-			PhysicsObject* Tet1 = mpResourceManager->addNewPhysicsObject("Tet1", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Tet2 = mpResourceManager->addNewPhysicsObject("Tet2", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Tet3 = mpResourceManager->addNewPhysicsObject("Tet3", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			PhysicsObject* Tet4 = mpResourceManager->addNewPhysicsObject("Tet4", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-
-			Tet1->setScale(.2f);
-			Tet2->setScale(.2f);
-			Tet3->setScale(.2f);
-			Tet4->setScale(.2f);
-
-			Tet1->setMass(1.0f);
-			Tet2->setMass(1.0f);
-			Tet3->setMass(1.0f);
-			Tet4->setMass(1.0f);
-
-			Tet1->init(Vector3D(95.0f, 45.0f, 355));
-			Tet2->init(Vector3D(95.0f, 55.0f, 345));
-			Tet3->init(Vector3D(105.0f, 45.0f, 345));
-			Tet4->init(Vector3D(105.0f, 55.0f, 355));
-
-			//Add Gravity and ground contact/forces
-			GravityForceGenerator* gravGen = new GravityForceGenerator(Vector3D(0, -9.8f, 0));
-			mpContactHandler->AddRunTimeContactGenerator(new GroundContactGen(Ground->getPos().y));
-
-			mpParticleForceManager->add(Earth, gravGen);
-			mpParticleForceManager->add(Earth2, gravGen);
-			mpParticleForceManager->add(Earth3, gravGen);
-			mpParticleForceManager->add(Earth4, gravGen);
-			mpParticleForceManager->add(Earth5, gravGen);
-			mpParticleForceManager->add(Earth6, gravGen);
-			mpParticleForceManager->add(Cube1, gravGen);
-			mpParticleForceManager->add(Cube2, gravGen);
-			mpParticleForceManager->add(Cube3, gravGen);
-			mpParticleForceManager->add(Cube4, gravGen);
-			mpParticleForceManager->add(Cube5, gravGen);
-			mpParticleForceManager->add(Cube6, gravGen);
-			mpParticleForceManager->add(Cube7, gravGen);
-			mpParticleForceManager->add(Cube8, gravGen);
-			mpParticleForceManager->add(Tet1, gravGen);
-			mpParticleForceManager->add(Tet2, gravGen);
-			mpParticleForceManager->add(Tet3, gravGen);
-			mpParticleForceManager->add(Tet4, gravGen);
-
-			mpParticleForceManager->addForceGeneratorToList(gravGen);
-
-			DragForceGenerator* waterDragGen = new DragForceGenerator(.1f);
-			mpParticleForceManager->add(Earth, waterDragGen);
-			mpParticleForceManager->add(Earth2, waterDragGen);
-			mpParticleForceManager->addForceGeneratorToList(waterDragGen);
-			
-			BuoyancyForceGen* bouyGen = new BuoyancyForceGen(5.0f, .012f, 150.0f);
-			mpParticleForceManager->add(Earth, bouyGen);
-			mpParticleForceManager->addForceGeneratorToList(bouyGen);
-
-			SpringForceGen* springGen = new SpringForceGen(Earth4, .3f, 30.0);
-			mpParticleForceManager->add(Earth3, springGen);
-
-			SpringForceGen* springGen2 = new SpringForceGen(Earth3, .3f, 30.0);
-			mpParticleForceManager->add(Earth4, springGen2);
-
-			
-			mpParticleForceManager->add(Cube1, new SpringForceGen(Tet2, .3f, 30.0));
-			mpParticleForceManager->add(Tet2, new SpringForceGen(Cube1, .3f, 30.0));
-		
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Earth5, Earth6, 50));
-
-			//Cube rods
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube2, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube3, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube4, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube1, 5));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube5, Cube6, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube6, Cube7, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube7, Cube8, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube8, Cube5, 5));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube5, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube6, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube7, 5));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube8, 5));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube6, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube8, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube7, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube5, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube8, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube3, Cube6, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube5, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube4, Cube7, (float)std::sqrt(50)));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube1, Cube3, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube2, Cube4, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube5, Cube7, (float)std::sqrt(50)));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Cube6, Cube8, (float)std::sqrt(50)));
-
-			//Tet rods
-			float length = (2.0f * (float)std::sqrt(2.0))*5.0f;
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet2, length));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet3, length));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet1, Tet4, length));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet2, Tet3, length));
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet2, Tet4, length));
-
-			mpContactHandler->AddRunTimeContactGenerator(new RodContactGen(Tet3, Tet4, length));
-			
-
-			mpContactHandler->AddCollisionObject(Earth2);
-			mpContactHandler->AddCollisionObject(Earth3);
-			mpContactHandler->AddCollisionObject(Earth4);
-			mpContactHandler->AddCollisionObject(Earth5);
-			mpContactHandler->AddCollisionObject(Earth6);
-			mpContactHandler->AddCollisionObject(Cube1);
-			mpContactHandler->AddCollisionObject(Cube2);
-			mpContactHandler->AddCollisionObject(Cube3);
-			mpContactHandler->AddCollisionObject(Cube4);
-			mpContactHandler->AddCollisionObject(Cube5);
-			mpContactHandler->AddCollisionObject(Cube6);
-			mpContactHandler->AddCollisionObject(Cube7);
-			mpContactHandler->AddCollisionObject(Cube8);
-			mpContactHandler->AddCollisionObject(Tet1);
-			mpContactHandler->AddCollisionObject(Tet2);
-			mpContactHandler->AddCollisionObject(Tet3);
-			mpContactHandler->AddCollisionObject(Tet4);
-		
 #pragma endregion WaterWorldSetup
 
-#pragma region SpaceWorldSetup 
-		/* //keeping this for reference if I need it
-			//Model scale:  1 : 12,740,000
-		
-			float earthVelocity = 29.8f;
-			float planetSizeScaleDiv = 10.0f;
-			// radius, mass, pos, vel
-			mpResourceManager->LoadFile("Assets/Planets/EarthPretty.obj");
-			Sun = mpResourceManager->addNewPhysicsObject("Sun", mpResourceManager->getObject("Assets/Planets")->getModelMap());
-			mpResourceManager->applyMaterialToObject("Sun", "SunModel", "Planet", "SunMat", "Assets/Planets/Sun.mtl");
-			Sun->Translate(0, 0, 0);
-			Sun->setScale(.25f / planetSizeScaleDiv);
-			Sun->setMass(1.0f);
-			
-			//Skybox* spacebox = new Skybox("Assets/Skybox/milkywayAttempt.jpg", mpResourceManager, 5000, "nebulaBox");
-		
-		*/
-
-#pragma endregion SpaceWorldSetup	
-	
-
+	//LOAD EVERYTHING EVER
+	mpWorldHandler->loadTextFile("Assets/WorldFiles/PhysicsDemo.txt", mpResourceManager, mpContactHandler, mpParticleForceManager);
 
 	ResetCamera();
 }
@@ -626,29 +382,54 @@ H: help
 */
 void Game::hookKey(unsigned char key, int x, int y)
 {
-	if (key == 'w' || key == 'W')
+	int shiftFactor = 4;
+	if (key == 'w')
 	{
 		mpCamera->command(vec3(1, 0, 0));
 	}
-	if (key == 's' || key == 'S')
+	if (key == 'W')
+	{
+		mpCamera->command(vec3(1 * shiftFactor, 0, 0));
+	}
+	if (key == 's')
 	{
 		mpCamera->command(vec3(-1, 0, 0));
 	}
-	if (key == 'e' || key == 'E')
+	if (key == 'S')
+	{
+		mpCamera->command(vec3(-1 * shiftFactor, 0, 0));
+	}
+	if (key == 'e')
 	{
 		mpCamera->command(vec3(0, 1, 0));
 	}
-	if (key == 'q' || key == 'Q')
+	if (key == 'E')
+	{
+		mpCamera->command(vec3(0, 1 * shiftFactor, 0));
+	}
+	if (key == 'q')
 	{
 		mpCamera->command(vec3(0, -1, 0));
 	}
-	if (key == 'a' || key == 'A')
+	if (key == 'Q')
+	{
+		mpCamera->command(vec3(0, -1 * shiftFactor, 0));
+	}
+	if (key == 'a')
 	{
 		mpCamera->command(vec3(0, 0, -1));
 	}
-	if (key == 'd' || key == 'D')
+	if (key == 'A')
+	{
+		mpCamera->command(vec3(0, 0, -1 * shiftFactor));
+	}
+	if (key == 'd')
 	{
 		mpCamera->command(vec3(0, 0, 1));
+	}
+	if (key == 'D')
+	{
+		mpCamera->command(vec3(0, 0, 1 * shiftFactor));
 	}
 	if (key == 27) //escape
 	{
@@ -662,11 +443,16 @@ void Game::hookKey(unsigned char key, int x, int y)
 		else
 			mpDebug->addMessageToScreen("Camera Movement: Rigid");
 	}
-	if (key == 'r' || key == 'R')
+	if (key == 'r')
 	{
 		//mpCamera->hardReset(width, height);
 		mpDebug->addMessageToScreen("Reset World");
 		ResetWorld();
+	}
+	if (key == 'R')
+	{
+		mpDebug->addMessageToScreen("Reset Camera");
+		mpCamera->hardReset(getScreenWidth(), getScreenHeight());
 	}
 	if (key == 'p' || key == 'P')
 	{
@@ -715,6 +501,7 @@ void Game::endGame()
 	delete mpShaderManager;
 	delete mpDebug;
 	delete mpContactHandler;
+	delete mpWorldHandler;
 
 	exit(0);
 }
@@ -725,17 +512,8 @@ void Game::ResetWorld()
 	// radius, mass, pos, vel
 	Paused = true;
 
-	//mpResourceManager->resetAllObjects();
-
-	Earth->setPos(vec3(100.0f, 50.0f, 0));
-	Earth->setVelocity(vec3(0, 0, 0));
-	Earth->setAcceleration(vec3(0, 0, 0));
-	Earth2->resetObject();
-	Earth3->resetObject();
-	Earth4->resetObject();
-	Earth5->resetObject();
-	Earth6->resetObject();
-
+	mpResourceManager->resetAllPhysicsObjects();
+	/*
 	mpResourceManager->getObject("Cube1")->resetObject();
 	mpResourceManager->getObject("Cube2")->resetObject();
 	mpResourceManager->getObject("Cube3")->resetObject();
@@ -751,7 +529,7 @@ void Game::ResetWorld()
 	mpResourceManager->getObject("Tet4")->resetObject();
 
 	physhy->setPos(50, 5, 40);
-
+	*/
 	mpResourceManager->getObject("fishy")->setRotation(glm::vec3(0, 0, 0));
 }
 

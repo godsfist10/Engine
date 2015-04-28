@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="AnchorSpringForceGen.cpp" />
     <ClCompile Include="BillboardedTexture.cpp" />
+    <ClCompile Include="BungeeForceGen.cpp" />
     <ClCompile Include="BuoyancyForceGen.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorBombShader.cpp" />
@@ -50,10 +51,12 @@
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
     <ClCompile Include="WaveShader.cpp" />
+    <ClCompile Include="WorldHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnchorSpringForceGen.h" />
     <ClInclude Include="BillboardedTexture.h" />
+    <ClInclude Include="BungeeForceGen.h" />
     <ClInclude Include="BuoyancyForceGen.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorBombShader.h" />
@@ -91,6 +94,7 @@
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="WaveShader.h" />
+    <ClInclude Include="WorldHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorFragShader.fp" />

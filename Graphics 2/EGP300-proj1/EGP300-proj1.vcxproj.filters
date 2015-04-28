@@ -58,6 +58,9 @@
     <Filter Include="Project\Game\SceneObjects\Forces\ContactGenerators\Reqs">
       <UniqueIdentifier>{c85a02ae-7859-4bff-a3df-39af09af46bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Managers">
+      <UniqueIdentifier>{20dc9181-47c1-4501-a3f8-74aa27314df0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,9 +76,6 @@
       <Filter>Project\Game\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Project\Game\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
       <Filter>Project\Game\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
@@ -102,20 +102,11 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>Project\MathUtils</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainManager.cpp">
-      <Filter>Project\Game\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Project\Game\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="BillboardedTexture.cpp">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsObject.cpp">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystemManager.cpp">
-      <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
@@ -168,14 +159,32 @@
     <ClCompile Include="ContactGenerator.cpp">
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
     </ClCompile>
-    <ClCompile Include="ContactHandler.cpp">
-      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
-    </ClCompile>
     <ClCompile Include="RodContactGen.cpp">
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
     </ClCompile>
+    <ClCompile Include="BungeeForceGen.cpp">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClCompile>
     <ClCompile Include="Quaternion.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Project\MathUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Project\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Project\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainManager.cpp">
+      <Filter>Project\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactHandler.cpp">
+      <Filter>Project\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemManager.cpp">
+      <Filter>Project\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldHandler.cpp">
+      <Filter>Project\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +200,6 @@
     <ClInclude Include="Material.h">
       <Filter>Project\Game\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Project\Game\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Project\Game\Resources</Filter>
     </ClInclude>
@@ -204,9 +210,6 @@
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Project\Game\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle_3D.h">
       <Filter>Project\Game\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ParticleEffect.h">
@@ -221,12 +224,6 @@
     <ClInclude Include="Matrix.h">
       <Filter>Project\MathUtils</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Project\Game\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="TerrainManager.h">
-      <Filter>Project\Game\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="BillboardedTexture.h">
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
@@ -234,9 +231,6 @@
       <Filter>Project\Game\SceneObjects\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
-      <Filter>Project\Game\SceneObjects\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystemManager.h">
       <Filter>Project\Game\SceneObjects\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
@@ -287,14 +281,35 @@
     <ClInclude Include="ContactGenerator.h">
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
     </ClInclude>
-    <ClInclude Include="ContactHandler.h">
-      <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\Reqs</Filter>
-    </ClInclude>
     <ClInclude Include="RodContactGen.h">
       <Filter>Project\Game\SceneObjects\Forces\ContactGenerators\TypesOfContact</Filter>
     </ClInclude>
+    <ClInclude Include="BungeeForceGen.h">
+      <Filter>Project\Game\SceneObjects\Forces\BookForceGenerators</Filter>
+    </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Header Files</Filter>
+      <Filter>Project\MathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Project\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Project\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainManager.h">
+      <Filter>Project\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactHandler.h">
+      <Filter>Project\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemManager.h">
+      <Filter>Project\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle_3D.h">
+      <Filter>Project\MathUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldHandler.h">
+      <Filter>Project\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

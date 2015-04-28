@@ -26,6 +26,7 @@
 #include "ShaderManager.h"
 #include "ParticleForceRegistry.h"
 #include "ContactHandler.h"
+#include "WorldHandler.h"
 
 #include <vector>
 #include <map>
@@ -83,6 +84,7 @@ protected:
 	TerrainManager* mpTerrainManager;
 	ParticleForceRegistry* mpParticleForceManager;
 	ContactHandler* mpContactHandler;
+	WorldHandler* mpWorldHandler;
 
 	mat4x4	mvpMatrix;
 	GLint			width, height;

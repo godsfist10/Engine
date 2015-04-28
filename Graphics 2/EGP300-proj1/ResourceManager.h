@@ -40,6 +40,7 @@ public:
 	void drawObject(const mat4x4& viewPoint, const mat4x4& ProjectionMatrix, const mat4x4& ProjectionViewPrecalced, Shader_Manager* shaderManager, const string& objectName, const string& shaderName);
 	void cleanup();
 	void resetAllObjects();
+	void resetAllPhysicsObjects();
 	void LoadFile(const string& filename);
 	void LoadFile(const string& filename, const string& key);
 	Texture* LoadTexture(string fileName, GLenum minFilter, GLenum magFilter, GLenum wrapMode);

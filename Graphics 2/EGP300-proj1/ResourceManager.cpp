@@ -183,6 +183,14 @@ void ResourceManager::resetAllObjects()
 	}
 }
 
+void ResourceManager::resetAllPhysicsObjects()
+{
+	for (auto it = m_PhysicsObjectMap.itBegin(); it != m_PhysicsObjectMap.itEnd(); ++it)
+	{
+		it->second->resetObject();
+	}
+}
+
 void ResourceManager::LoadFile(const string& filename)
 {
 	// Massive help from Stephen Lane-Walsh

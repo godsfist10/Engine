@@ -57,6 +57,7 @@ public:
 	inline void setScale(vec3 scale) {mScale = scale;}
 	inline void setScale(float scale) { mScale.x = scale; mScale.y = scale; mScale.z = scale; }
 	inline void setScale(float x, float y, float z) { mScale.x = x; mScale.y = y; mScale.z = z; }
+	inline void setScale(Vector3D scale) { mScale.x = scale.X, mScale.y = scale.Y, mScale.z = scale.Z; }
 	inline vec3 getScale() {return mScale;}
 	inline void modifyScale(float x, float y, float z){mScale.x += x; mScale.y += y; mScale.z += z;}
 
