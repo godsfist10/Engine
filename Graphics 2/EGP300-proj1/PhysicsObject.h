@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PHYSICSOBJECT_H
+#define PHYSICSOBJECT_H
+
 #include "Object.h"
 
 using namespace std;
@@ -53,6 +55,7 @@ protected:
 	Vector3D mVelocity;
 	Vector3D mAcceleration;
 	Vector3D mForce;
+
 	realNum mMass;
 	realNum mInverseMass;
 	realNum mDampeningVal;
@@ -63,3 +66,4 @@ protected:
 	Vector3D startAcc;
 };
 
+#endif // PHYSICSOBJECT_H

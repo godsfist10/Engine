@@ -1,4 +1,6 @@
-#pragma once
+#ifndef VECTOR3D_H
+#define VECTOR3D_H
+
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
@@ -44,3 +46,4 @@ public:
 	static float distSquared(const vec3& a, const vec3& b);
 };
 
+#endif //VECTOR3D_H

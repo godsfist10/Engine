@@ -41,6 +41,8 @@
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="RigidSphere.cpp" />
     <ClCompile Include="RodContactGen.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
@@ -84,6 +86,8 @@
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Rectangle_3D.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="RigidSphere.h" />
     <ClInclude Include="RodContactGen.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />

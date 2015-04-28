@@ -61,6 +61,9 @@
     <Filter Include="Project\Managers">
       <UniqueIdentifier>{20dc9181-47c1-4501-a3f8-74aa27314df0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Game\SceneObjects\Objects\RigidBodies">
+      <UniqueIdentifier>{da8a9f5a-2101-4e0f-bb6b-daaa315372ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -186,6 +189,12 @@
     <ClCompile Include="WorldHandler.cpp">
       <Filter>Project\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Project\Game\SceneObjects\Objects\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -310,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="WorldHandler.h">
       <Filter>Project\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Project\Game\SceneObjects\Objects\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidSphere.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
