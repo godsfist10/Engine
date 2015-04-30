@@ -74,7 +74,7 @@ void Matrix::Set(int index, float value)
 	mp_Matrix[index] = value;
 }
 
-void Matrix::Set(Vector3D a, Vector3D b, Vector3D c)
+void Matrix::Set(Vector3D a, Vector3D b, Vector3D c) 
 {
 	delete[] mp_Matrix;
 	mp_Matrix = nullptr;

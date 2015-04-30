@@ -132,7 +132,7 @@ void RigidBody::Initialize(float mass, Vector3D initialPosition, Vector3D initia
 
 	m_LinearDampening = dampening;
 	m_AngularDampening = angularDampening;
-
+	
 	init(initialPosition, initialVelocity, initialAcceleration);
 	setMass(mass);
 	mLastFrameAcceleration = initialAcceleration;

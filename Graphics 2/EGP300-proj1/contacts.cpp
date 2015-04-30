@@ -615,7 +615,7 @@ void ContactResolver::adjustVelocities(Contact *c,
 						// with the second body in a contact.
 						c[i].contactVelocity +=
 							c[i].contactToWorld.Transpose().Transform(deltaVel)
-							* (b ? -1 : 1);
+							* (b ? -1.0f : 1.0f);
 						c[i].calculateDesiredDeltaVelocity(duration);
 					}
 				}

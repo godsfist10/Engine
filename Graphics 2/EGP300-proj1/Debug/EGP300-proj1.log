@@ -1,9 +1,10 @@
-﻿Build started 4/30/2015 1:25:23 PM.
+﻿Build started 4/30/2015 1:27:11 PM.
      1>Project "C:\Users\paul.kubik\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../libs/SDL/include /I../libs/Arc/include /ZI /nologo /W3 /WX- /Od /Oy- /D NOGDI /D WIN32 /D _DEBUG /D _CONSOLE /D _CRT_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt contacts.cpp
          contacts.cpp
      1>c:\users\paul.kubik\desktop\engine\graphics 2\egp300-proj1\contacts.cpp(618): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\EGP300-proj2.exe" /INCREMENTAL /NOLOGO /LIBPATH:../libs/ /LIBPATH:../libs/SDL/lib/ /LIBPATH:../libs/Arc/lib ArcData.lib ArcCore.lib SDL.lib SDL_image.lib freeglut_static.lib gltools.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\EGP300-proj2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\EGP300-proj2.lib" /MACHINE:X86 Debug\AnchorSpringForceGen.obj
          Debug\BillboardedTexture.obj
@@ -50,32 +51,9 @@
          Debug\Vector3D.obj
          Debug\WaveShader.obj
          Debug\WorldHandler.obj
-     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-     1>WaveShader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'WaveShader.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Vector2D.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Vector2D.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Texture.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Texture.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ShaderManager.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ShaderManager.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Shader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Shader.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>RigidSphere.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'RigidSphere.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ParticleSystemManager.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ParticleSystemManager.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Model.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Model.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Material.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Material.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>Diffuse.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'Diffuse.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ContactGenerator.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ContactGenerator.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ColorBombShader.obj : warning LNK4099: PDB 'vc120.pdb' was not found with 'ColorBombShader.obj' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ArcCore.lib(ArcCore.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'ArcCore.lib(ArcCore.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ArcCore.lib(ManagedObject.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'ArcCore.lib(ManagedObject.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ArcCore.lib(MemoryTracker.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'ArcCore.lib(MemoryTracker.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ArcCore.lib(RandomFunctions.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'ArcCore.lib(RandomFunctions.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>ArcCore.lib(StringFunctions.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'ArcCore.lib(StringFunctions.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc120.pdb'; linking object as if no debug info
-     1>gltools.lib(GLBatch.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLBatch.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc90.pdb'; linking object as if no debug info
-     1>gltools.lib(glew.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(glew.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc90.pdb'; linking object as if no debug info
-     1>gltools.lib(GLShaderManager.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLShaderManager.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc90.pdb'; linking object as if no debug info
-     1>gltools.lib(GLTools.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLTools.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc90.pdb'; linking object as if no debug info
-     1>gltools.lib(GLTriangleBatch.obj) : warning LNK4099: PDB 'vc90.pdb' was not found with 'gltools.lib(GLTriangleBatch.obj)' or at 'C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\vc90.pdb'; linking object as if no debug info
          EGP300-proj1.vcxproj -> C:\Users\paul.kubik\Desktop\Engine\Graphics 2\Debug\EGP300-proj2.exe
      1>Done Building Project "C:\Users\paul.kubik\Desktop\Engine\Graphics 2\EGP300-proj1\EGP300-proj1.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.01
+Time Elapsed 00:00:02.81
