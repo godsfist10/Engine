@@ -74,6 +74,23 @@ void Matrix::Set(int index, float value)
 	mp_Matrix[index] = value;
 }
 
+void Matrix::Set(Vector3D a, Vector3D b, Vector3D c)
+{
+	delete[] mp_Matrix;
+	mp_Matrix = nullptr;
+	initalizeMatrix(3, 3);
+
+	mp_Matrix[0] = a.X;
+	mp_Matrix[1] = a.Y;
+	mp_Matrix[2] = a.Z;
+	mp_Matrix[3] = b.X;
+	mp_Matrix[4] = b.Y;
+	mp_Matrix[5] = b.Z;
+	mp_Matrix[6] = c.X;
+	mp_Matrix[7] = c.Y;
+	mp_Matrix[8] = c.Z;
+}
+
 float Matrix::Get(const int& row, const int& column) const
 {
 	return mp_Matrix[row * m_NumColumns + column];

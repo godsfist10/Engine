@@ -16,9 +16,7 @@ RigidBody::~RigidBody()
 void RigidBody::CalculateDerivedData()
 {
 	mOrientation.Normalize();
-
 	calculateTransformMatrix(m_TransformationMatrix, mPos, mOrientation);
-
 	transformInertiaTensor(m_InverseInertiaTensorWorld, mOrientation, m_InverseInertiaTensor, m_TransformationMatrix);
 }
 

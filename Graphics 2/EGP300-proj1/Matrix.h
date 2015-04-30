@@ -15,6 +15,7 @@ public:
 
 	void  Set(int row, int column, float value);
 	void Set(int index, float val);
+	void Set(Vector3D a, Vector3D b, Vector3D c);
 	float Get(const int& row, const int& column) const;
 	float Get(const int& index) const;
 

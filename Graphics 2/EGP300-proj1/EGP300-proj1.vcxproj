@@ -16,10 +16,12 @@
     <ClCompile Include="BungeeForceGen.cpp" />
     <ClCompile Include="BuoyancyForceGen.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="collide_fine.cpp" />
     <ClCompile Include="ColorBombShader.cpp" />
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ContactGenerator.cpp" />
     <ClCompile Include="ContactHandler.cpp" />
+    <ClCompile Include="contacts.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Diffuse.cpp" />
     <ClCompile Include="DragForceGenerator.cpp" />
@@ -61,10 +63,12 @@
     <ClInclude Include="BungeeForceGen.h" />
     <ClInclude Include="BuoyancyForceGen.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="collide_fine.h" />
     <ClInclude Include="ColorBombShader.h" />
     <ClInclude Include="Contact.h" />
     <ClInclude Include="ContactGenerator.h" />
     <ClInclude Include="ContactHandler.h" />
+    <ClInclude Include="contacts.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Diffuse.h" />
     <ClInclude Include="DragForceGenerator.h" />

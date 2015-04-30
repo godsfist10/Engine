@@ -33,6 +33,49 @@ Vector3D::Vector3D(vec3 rhs)
 	Z = rhs.z;
 }
 
+void Vector3D::clear()
+{
+	X = 0;
+	Y = 0;
+	Z = 0;
+}
+
+float Vector3D::getIndex(int index)
+{
+	if (index == 0)
+		return X;
+	if (index == 1)
+		return Y;
+	if (index == 2)
+		return Z;
+}
+
+void Vector3D::setIndex(int index, float val)
+{
+	if (index == 0)
+		X = val;
+	if (index == 1)
+		Y = val;
+	if (index == 2)
+		Z = val;
+
+}
+
+float Vector3D::operator*(const Vector3D& rhs) const
+{
+	return (X * rhs.X + Y * rhs.Y + Z * rhs.Z);
+}
+
+Vector3D Vector3D::VectorMult(const Vector3D& rhs) const
+{
+	return Vector3D(X * rhs.X, Y * rhs.Y, Z * rhs.Z);
+}
+
+Vector3D Vector3D::operator % (const Vector3D& rhs) const
+{
+	return Vector3D(Y * rhs.Z - Z * rhs.Y, Z * rhs.X - X * rhs.Z, X * rhs.Y - Y * rhs.X);
+}
+
 Vector3D Vector3D::operator+(const Vector3D& rhs) const
 {
 	return Vector3D(X + rhs.X, Y + rhs.Y, Z + rhs.Z);

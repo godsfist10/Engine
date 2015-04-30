@@ -195,6 +195,12 @@
     <ClCompile Include="RigidSphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="collide_fine.cpp">
+      <Filter>Project\Game\SceneObjects\Objects\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="contacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -324,6 +330,12 @@
       <Filter>Project\Game\SceneObjects\Objects\RigidBodies</Filter>
     </ClInclude>
     <ClInclude Include="RigidSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collide_fine.h">
+      <Filter>Project\Game\SceneObjects\Objects\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="contacts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

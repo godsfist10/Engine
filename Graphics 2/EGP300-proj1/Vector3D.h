@@ -25,11 +25,15 @@ public:
 	Vector3D operator-(const Vector3D&) const;
 	Vector3D operator-=(const Vector3D&);
 	Vector3D operator*(const float&) const;
+	float operator*(const Vector3D&) const;
+	Vector3D operator%(const Vector3D&) const;
 	Vector3D operator*=(const float&);
 	Vector3D operator/(const float&) const;
 	bool operator==(const Vector3D&) const;
 	bool operator!=(const Vector3D&) const;
 	glm::vec3 toVec3();
+	float getIndex(int index);
+	void setIndex(int index, float val);
 
 	float magnitude();
 	float magnitudeSquared();
@@ -39,6 +43,9 @@ public:
 
 	Vector3D cross(const Vector3D&) const;
 	float dot(const Vector3D&) const;
+	void clear();
+	Vector3D VectorMult(const Vector3D&) const;
+
 
 	static float dist(const Vector3D& a, const Vector3D& b);
 	static float dist(const vec3& a, const vec3& b);
